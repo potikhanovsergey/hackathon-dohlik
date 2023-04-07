@@ -4,6 +4,7 @@ import { useMutation } from "@blitzjs/rpc"
 import { Container, Header as MantineHeader, Text, Group, Button } from "@mantine/core"
 import Link from "next/link"
 import logout from "src/auth/mutations/logout"
+import Navigation from "./Navigation"
 
 const Header = () => {
   const session = useSession({ suspense: false })
@@ -14,7 +15,10 @@ const Header = () => {
     <MantineHeader height={60}>
       <Container size="xl" h="100%">
         <Group position="apart" h="100%">
-          <Text>Template</Text>
+          <Group>
+            <Text>Template</Text>
+            <Navigation />
+          </Group>
           <Group>
             {session.userId ? (
               <Button size="xs" onClick={() => logoutMutation()}>
