@@ -18,7 +18,7 @@ const SignupForm = () => {
   const [signupMutation] = useMutation(signup)
 
   const handleSubmit = form.onSubmit((values) => {
-    signupMutation({ email: values.email, password: values.password })
+    void signupMutation({ email: values.email, password: values.password })
   })
 
   return (

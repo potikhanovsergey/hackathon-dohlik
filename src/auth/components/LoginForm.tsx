@@ -25,7 +25,7 @@ export const LoginForm = (props: LoginFormProps) => {
   const [loginMutation] = useMutation(login)
 
   const handleSubmit = form.onSubmit((values) => {
-    loginMutation({ email: values.email, password: values.password })
+    void loginMutation({ email: values.email, password: values.password })
   })
 
   return (
