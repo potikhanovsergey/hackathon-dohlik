@@ -13,6 +13,9 @@ import {
   TextInput,
   Title,
 } from "@mantine/core"
+import dynamic from "next/dynamic"
+
+const Map = dynamic(() => import("@pbe/react-yandex-maps").then((m) => m.Map), { ssr: false })
 
 const Home: BlitzPage = () => {
   const [uploading, setUploading] = useState(false)
@@ -42,6 +45,7 @@ const Home: BlitzPage = () => {
   return (
     <Layout title="Home">
       <Container mt="xl">
+        <Map defaultState={{ center: [55.75, 37.57], zoom: 15 }} />
         <Button>Кнопка</Button>
         <Text>
           Далеко-далеко за словесными горами в стране гласных и согласных живут рыбные тексты.

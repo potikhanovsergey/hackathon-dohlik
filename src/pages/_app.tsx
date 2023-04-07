@@ -5,6 +5,7 @@ import { withBlitz } from "src/blitz-client"
 import { MantineProvider } from "@mantine/core"
 import theme from "src/theme"
 import RouterTransition from "src/core/layouts/RouterTransition"
+import { YMaps } from "@pbe/react-yandex-maps"
 
 function RootErrorFallback({ error }: ErrorFallbackProps) {
   if (error instanceof AuthenticationError) {
@@ -30,10 +31,12 @@ function MyApp({ Component, pageProps }: AppProps) {
   const getLayout = Component.getLayout || ((page) => page)
   return (
     <ErrorBoundary FallbackComponent={RootErrorFallback}>
-      <MantineProvider withGlobalStyles withNormalizeCSS theme={theme}>
-        <RouterTransition />
-        {getLayout(<Component {...pageProps} />)}
-      </MantineProvider>
+      <YMaps>
+        <MantineProvider withGlobalStyles withNormalizeCSS theme={theme}>
+          <RouterTransition />
+          {getLayout(<Component {...pageProps} />)}
+        </MantineProvider>
+      </YMaps>
     </ErrorBoundary>
   )
 }
