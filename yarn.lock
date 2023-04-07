@@ -1342,6 +1342,13 @@
     react-remove-scroll "^2.5.5"
     react-textarea-autosize "8.3.4"
 
+"@mantine/dates@6.0.6":
+  version "6.0.6"
+  resolved "https://registry.yarnpkg.com/@mantine/dates/-/dates-6.0.6.tgz#b07a965c6083eb27346df95902d5d75b33802ad8"
+  integrity sha512-eIBnvugWZp0ComzAaiIy5tjBXq9G53Q5Fht6SPyFBxXU/NZ/ZQhLq49nlFyLBpuZQOJ2Ex71S8cv/FMwLaAS4A==
+  dependencies:
+    "@mantine/utils" "6.0.6"
+
 "@mantine/form@6.0.6":
   version "6.0.6"
   resolved "https://registry.yarnpkg.com/@mantine/form/-/form-6.0.6.tgz#82e4e71ae6d4810eded8faecea9531bb24e210bf"
