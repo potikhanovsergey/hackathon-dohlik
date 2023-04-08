@@ -24,6 +24,10 @@ const navigationItems = [
     label: "Протоколы",
     route: Routes.ProtocolsPage(),
   },
+  {
+    label: "Повестки",
+    route: Routes.AgendasPage(),
+  },
 ]
 
 const Navigation = () => {
