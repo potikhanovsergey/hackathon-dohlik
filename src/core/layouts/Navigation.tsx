@@ -32,7 +32,7 @@ const Navigation = () => {
           <Link
             key={navItem.label}
             size="sm"
-            active={router.asPath.includes(navItem.route.href)}
+            active={router.asPath === navItem.route.href}
             href={navItem.route}
           >
             {navItem.label}
