@@ -17,7 +17,7 @@ const useStyles = createStyles(
       alignItems: "center",
       textDecoration: "none",
       color: theme.colors[color][5],
-      "&:hover": {
+      "&:hover, &[data-active]": {
         textDecoration: "none",
         backgroundImage: `linear-gradient(${theme.colors[color][5]}, ${theme.colors[color][5]})`,
         backgroundSize: "100% 1px",
@@ -33,15 +33,22 @@ const useStyles = createStyles(
 
 const Link = ({
   className,
+  active,
   ...props
 }: AnchorProps & {
   href: PropsOf<typeof NextLink>["href"]
   target?: PropsOf<typeof NextLink>["target"]
+  active?: boolean
 }) => {
   const theme = useMantineTheme()
   const { classes, cx } = useStyles({ color: props.color })
   return (
-    <Anchor component={NextLink} className={cx(classes.root, className)} {...props}>
+    <Anchor
+      {...(active ? { "data-active": true } : {})}
+      component={NextLink}
+      className={cx(classes.root, className)}
+      {...props}
+    >
       {props.children}
       {props.target === "_blank" && (
         <IconExternalLink
