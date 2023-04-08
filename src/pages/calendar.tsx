@@ -4,10 +4,9 @@ import { Box, Button, Group, Stack, Title } from "@mantine/core"
 import Calendar from "src/calendar/Calendar"
 import Events from "src/calendar/Events"
 import { eventsMock } from "src/calendar/mock"
-import { useComputed, useSelector } from "@legendapp/state/react"
+import { useSelector } from "@legendapp/state/react"
 import dayjs from "dayjs"
 import { datesFilter } from "src/calendar/store"
-import { EventsProps } from "src/calendar/types"
 import { useMemo } from "react"
 
 const CalendarPage: BlitzPage = () => {

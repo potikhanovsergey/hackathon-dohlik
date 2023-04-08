@@ -1,22 +1,100 @@
-import { Box, Group, Menu, Table, TextInput } from "@mantine/core"
+import {
+  Box,
+  Group,
+  HoverCard,
+  Menu,
+  Stack,
+  Table,
+  TextInput,
+  Text,
+  useMantineTheme,
+  BoxProps,
+  packSx,
+} from "@mantine/core"
 import {
   IconChevronDown,
+  IconInfoCircle,
   IconSearch,
   IconSortAscending,
   IconSortDescending,
 } from "@tabler/icons-react"
-import { SolutionsMock } from "./SolutionsMock"
+import { entitiesTableMock } from "./entitiesTableMock"
+import Link from "src/core/Link"
+import { useRouter } from "next/router"
+import { Routes } from "@blitzjs/next"
+
+const FunctionalTh = ({ children, ...props }: BoxProps) => {
+  const theme = useMantineTheme()
+  return (
+    <Box component="th" {...props} p="0 !important">
+      <Menu>
+        <Menu.Target>
+          <Box
+            px="xs"
+            py={4}
+            sx={{
+              cursor: "pointer",
+              "&:hover": { background: theme.colors.gray[0] },
+              borderRadius: theme.radius.sm,
+            }}
+          >
+            {children}
+          </Box>
+        </Menu.Target>
+      </Menu>
+    </Box>
+  )
+}
 
 const EntitiesTable = () => {
-  const rows = SolutionsMock.map((solution) => (
-    <tr key={solution.description}>
+  const theme = useMantineTheme()
+  const router = useRouter()
+
+  const rows = entitiesTableMock.map((solution) => (
+    <Box
+      component="tr"
+      key={solution.id}
+      onClick={() => router.push(Routes.SolutionPage({ id: 0 }))}
+      sx={{ cursor: "pointer", "&:hover": { background: theme.colors.gray[0] } }}
+    >
       <td>{solution.creationDate.toLocaleString()}</td>
       <td>{solution.description}</td>
       <td>{solution.deadline.toLocaleString()}</td>
       <td>{solution.inCharge}</td>
-      <td>{solution.protocol}</td>
-      <td>Подробнее</td>
-    </tr>
+      <td>
+        <Link target="_blank" href="/">
+          Протокол
+        </Link>
+      </td>
+      <td>
+        {solution.additionalInfo ? (
+          <HoverCard position="left" withinPortal withArrow>
+            <HoverCard.Target>
+              <IconInfoCircle size={20} stroke={1.5} color={theme.colors.gray[5]} />
+            </HoverCard.Target>
+            <HoverCard.Dropdown>
+              <>
+                <Text weight="bold" mb="xs" size="sm">
+                  Дополнительные поля
+                </Text>
+                <Stack spacing={4}>
+                  {Object.keys(solution.additionalInfo).map((key) => (
+                    <Group key={key}>
+                      <Text weight="bold" size="xs">
+                        {solution.additionalInfo![key].label}:{" "}
+                      </Text>
+                      <Text size="xs">{solution.additionalInfo![key].value}</Text>
+                    </Group>
+                  ))}
+                </Stack>
+              </>
+            </HoverCard.Dropdown>
+          </HoverCard>
+        ) : (
+          <Text>Нет</Text>
+        )}
+      </td>
+    </Box>
   ))
 
   const titles = [
@@ -33,11 +111,11 @@ const EntitiesTable = () => {
   ]
 
   return (
-    <Table>
+    <Table fontSize="xs">
       <thead>
         <tr>
           {titles.map((title) => (
-            <Box component="th" key={title.label} sx={{ whiteSpace: "nowrap" }}>
+            <FunctionalTh key={title.label} sx={{ whiteSpace: "nowrap" }}>
               <Menu closeOnItemClick={false}>
                 <Menu.Target>
                   <Group noWrap spacing={4} position="apart" sx={{ cursor: "pointer" }}>
@@ -61,15 +139,21 @@ const EntitiesTable = () => {
 
                   {title.type === "searchSort" && (
                     <>
-                      <Menu.Label>Поиск</Menu.Label>
-                      <Menu.Item>
-                        <TextInput placeholder="Поиск..." icon={<IconSearch size={16} />} />
+                      <Menu.Item
+                        sx={(theme) => ({ "&[data-hovered]": { background: theme.white } })}
+                      >
+                        <TextInput
+                          size="xs"
+                          label={<Menu.Label pl={0}>Поиск</Menu.Label>}
+                          placeholder="Поиск..."
+                          icon={<IconSearch size={16} />}
+                        />
                       </Menu.Item>
                     </>
                   )}
                 </Menu.Dropdown>
               </Menu>
-            </Box>
+            </FunctionalTh>
           ))}
           <th>Протокол</th>
           <th>Подробнее</th>
