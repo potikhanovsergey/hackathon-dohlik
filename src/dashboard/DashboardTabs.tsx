@@ -1,6 +1,22 @@
 import { Tabs } from "@mantine/core"
 import { IconArticle, IconHome, IconUsersGroup } from "@tabler/icons-react"
 import DashboardGroups from "./DashboardGroups"
+import Constructor from "./Constructor"
+
+const panels = [
+  {
+    value: "entities",
+    children: <Constructor />,
+  },
+  {
+    value: "solutions",
+    children: <Constructor />,
+  },
+  {
+    value: "groups",
+    children: <DashboardGroups />,
+  },
+]
 
 const DashboardTabs = () => {
   return (
@@ -17,16 +33,9 @@ const DashboardTabs = () => {
         </Tabs.Tab>
       </Tabs.List>
 
-      <Tabs.Panel value="entities" pt="xs">
-        Свойства объектов
-      </Tabs.Panel>
-
-      <Tabs.Panel value="solutions" pt="xs">
-        Свойства решений
-      </Tabs.Panel>
-      <Tabs.Panel value="groups" pt="xs">
-        <DashboardGroups />
-      </Tabs.Panel>
+      {panels.map((panel) => (
+        <Tabs.Panel key={panel.value} pt="xl" {...panel} />
+      ))}
     </Tabs>
   )
 }
