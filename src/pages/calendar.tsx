@@ -8,8 +8,17 @@ import { useSelector } from "@legendapp/state/react"
 import dayjs from "dayjs"
 import { datesFilter } from "src/calendar/store"
 import { useMemo } from "react"
+import { openModal } from "@mantine/modals"
+import EventForm from "src/calendar/EventForm"
 
 const CalendarPage: BlitzPage = () => {
+  const openAddEventModal = () =>
+    openModal({
+      title: "Добавить событие",
+      children: <EventForm />,
+      centered: true,
+    })
+
   const filteredDates = useSelector(datesFilter)
   const events = useMemo(() => {
     if (!filteredDates.length) return eventsMock
@@ -18,6 +27,7 @@ const CalendarPage: BlitzPage = () => {
       return inFilteredDates
     })
   }, [filteredDates])
+
   return (
     <Layout title="Календарь">
       <Title mb="xl">Ближайшие события</Title>
@@ -27,7 +37,7 @@ const CalendarPage: BlitzPage = () => {
         </Box>
         <Stack w="fit-content">
           <Calendar events={eventsMock} />
-          <Button>Добавить событие</Button>
+          <Button onClick={openAddEventModal}>Добавить событие</Button>
         </Stack>
       </Group>
     </Layout>

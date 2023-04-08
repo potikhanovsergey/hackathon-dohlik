@@ -7,7 +7,7 @@ const ProfilePage: BlitzPage = () => {
   return (
     <Layout title="Профиль">
       <Container size="xl">
-        <Title>Профиль</Title>
+        <Title mb="md">Профиль</Title>
         <ProfileTabs />
       </Container>
     </Layout>

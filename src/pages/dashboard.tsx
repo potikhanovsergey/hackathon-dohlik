@@ -7,7 +7,7 @@ const DashboardPage: BlitzPage = () => {
   return (
     <Layout title="Настройка форм">
       <Container size="xl">
-        <Title>Настройка форм</Title>
+        <Title mb="md">Настройка форм</Title>
         <DashboardTabs />
       </Container>
     </Layout>
