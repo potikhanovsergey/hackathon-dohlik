@@ -1330,6 +1330,13 @@
     "@jridgewell/resolve-uri" "3.1.0"
     "@jridgewell/sourcemap-codec" "1.4.14"
 
+"@legendapp/state@^1.0.0-rc.13":
+  version "1.0.0-rc.25"
+  resolved "https://registry.yarnpkg.com/@legendapp/state/-/state-1.0.0-rc.25.tgz#310bea529faf0e8ac15b37556df79e0916ff0d2f"
+  integrity sha512-QMtMHzMEJjwnQxCOmE99b8He/S/LAlfZMh4I8BnUhVlkYSe0Uu60NQ4ojtI68PqBzW516xWSQFb+UKwafRyxEw==
+  dependencies:
+    use-sync-external-store "^1.2.0"
+
 "@mantine/core@6.0.6":
   version "6.0.6"
   resolved "https://registry.yarnpkg.com/@mantine/core/-/core-6.0.6.tgz#e09086c798ee546f02e2da07ad617d8249791029"
