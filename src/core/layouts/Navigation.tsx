@@ -1,17 +1,7 @@
 import { Routes } from "@blitzjs/next"
-import { createStyles, Group, Text } from "@mantine/core"
-import Link from "next/link"
-
-const useStyles = createStyles((theme) => ({
-  link: {
-    color: theme.colors[theme.primaryColor][5],
-    borderBottom: "1px solid transparent",
-    transition: "all 0.2s ease",
-    ":hover": {
-      borderBottom: `1px solid ${theme.colors[theme.primaryColor][5]}`,
-    },
-  },
-}))
+import { Group } from "@mantine/core"
+import Link from "../Link"
+import { useRouter } from "next/router"
 
 const navigationItems = [
   {
@@ -33,21 +23,20 @@ const navigationItems = [
 ]
 
 const Navigation = () => {
-  const { classes } = useStyles()
+  const router = useRouter()
 
   return (
     <nav>
       <Group spacing="xl">
         {navigationItems.map((navItem) => (
-          <Text
+          <Link
             key={navItem.label}
             size="sm"
-            component={Link}
+            active={router.asPath === navItem.route.href}
             href={navItem.route}
-            className={classes.link}
           >
             {navItem.label}
-          </Text>
+          </Link>
         ))}
       </Group>
     </nav>

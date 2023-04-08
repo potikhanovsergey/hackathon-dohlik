@@ -1,7 +1,10 @@
-import { Tabs } from "@mantine/core"
+import { Center, Group, Stack, Tabs, Text } from "@mantine/core"
 import { IconBuildingCommunity, IconBulbFilled, IconMap2 } from "@tabler/icons-react"
 import EntitiesTable from "./EntitiesTable"
 import EntityInfo from "./EntitiyInfo"
+import dynamic from "next/dynamic"
+import { Placemark } from "@pbe/react-yandex-maps"
+const Map = dynamic(() => import("@pbe/react-yandex-maps").then((m) => m.Map), { ssr: false })
 
 const EntityTabs = () => {
   return (
@@ -27,7 +30,15 @@ const EntityTabs = () => {
       </Tabs.Panel>
 
       <Tabs.Panel value="map" pt="xs">
-        Settings tab content
+        <Stack py="xl" w="fit-content">
+          <Group sx={{ alignSelf: "flex-start" }}>
+            <Text weight="bold">Адрес:</Text>
+            <Text>Район Соколиная гора, улица Малая Семеновская, д.12</Text>
+          </Group>
+          <Map width={800} height={400} defaultState={{ center: [55.75, 37.57], zoom: 15 }}>
+            <Placemark defaultGeometry={[55.75, 37.57]} />
+          </Map>
+        </Stack>
       </Tabs.Panel>
     </Tabs>
   )
