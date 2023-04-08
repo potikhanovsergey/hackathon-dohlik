@@ -206,13 +206,6 @@ const theme: MantineThemeOverride = {
         },
       },
     },
-    HoverCard: {
-      styles: (theme) => ({
-        dropdown: {
-          borderColor: theme.black,
-        },
-      }),
-    },
     Calendar: {
       defaultProps: {
         locale: "ru",
