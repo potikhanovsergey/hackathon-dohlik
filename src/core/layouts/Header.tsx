@@ -24,7 +24,7 @@ const Header = () => {
     <MantineHeader height={60}>
       <Container size="xl" h="100%">
         <Group position="apart" h="100%">
-          <Text weight="bold" size={28} component={Link} href={Routes.Home()}>
+          <Text weight="bold" size={28} component={Link} href={Routes.EntitiesPage()}>
             ГИН
           </Text>
           <Navigation />
