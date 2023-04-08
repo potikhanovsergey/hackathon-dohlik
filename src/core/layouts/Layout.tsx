@@ -1,5 +1,5 @@
 import Head from "next/head"
-import React, { FC, Suspense } from "react"
+import React from "react"
 import { BlitzLayout } from "@blitzjs/next"
 import { AppShell } from "@mantine/core"
 import { nunitoFont } from "src/theme"
@@ -15,7 +15,7 @@ const Layout: BlitzLayout<{ title?: string; children?: React.ReactNode }> = ({
         <title>{title || "fs-template"}</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <AppShell className={nunitoFont.variable} header={<Header />}>
+      <AppShell pt={40} className={nunitoFont.variable} header={<Header />}>
         {children}
       </AppShell>
     </>
