@@ -5,6 +5,7 @@ interface SolutionProps {
   deadline: Date
   inCharge: string
   protocol: string
+  status: string
   additionalInfo?: {
     [key: string]: {
       label: string
@@ -22,6 +23,7 @@ export const solutionsTableMock: SolutionProps[] = [
     deadline: new Date(),
     inCharge: "Аркадий Аркадьевич Аркадьев",
     protocol: "Протокол",
+    status: "Начат",
     additionalInfo: {
       latitude: {
         label: "Широта",
@@ -41,6 +43,7 @@ export const solutionsTableMock: SolutionProps[] = [
     deadline: new Date(),
     inCharge: "Аркадий Аркадьевич Аркадьев",
     protocol: "Протокол",
+    status: "В работе",
   },
   {
     id: 2,
@@ -50,6 +53,7 @@ export const solutionsTableMock: SolutionProps[] = [
     deadline: new Date(),
     inCharge: "Аркадий Аркадьевич Аркадьев",
     protocol: "Протокол",
+    status: "Начат",
   },
   {
     id: 3,
@@ -59,6 +63,8 @@ export const solutionsTableMock: SolutionProps[] = [
     deadline: new Date(),
     inCharge: "Аркадий Аркадьевич Аркадьев",
     protocol: "Протокол",
+    status: "Просрочен",
+
     additionalInfo: {
       latitude: {
         label: "Широта",
@@ -78,6 +84,7 @@ export const solutionsTableMock: SolutionProps[] = [
     deadline: new Date(),
     inCharge: "Аркадий Аркадьевич Аркадьев",
     protocol: "Протокол",
+    status: "Завершен",
   },
   {
     id: 5,
@@ -87,6 +94,7 @@ export const solutionsTableMock: SolutionProps[] = [
     deadline: new Date(),
     inCharge: "Аркадий Аркадьевич Аркадьев",
     protocol: "Протокол",
+    status: "Начат",
   },
   {
     id: 6,
@@ -96,6 +104,8 @@ export const solutionsTableMock: SolutionProps[] = [
     deadline: new Date(),
     inCharge: "Аркадий Аркадьевич Аркадьев",
     protocol: "Протокол",
+    status: "Начат",
+
     additionalInfo: {
       latitude: {
         label: "Широта",
@@ -115,6 +125,7 @@ export const solutionsTableMock: SolutionProps[] = [
     deadline: new Date(),
     inCharge: "Аркадий Аркадьевич Аркадьев",
     protocol: "Протокол",
+    status: "В работе",
   },
   {
     id: 8,
@@ -124,5 +135,6 @@ export const solutionsTableMock: SolutionProps[] = [
     deadline: new Date(),
     inCharge: "Аркадий Аркадьевич Аркадьев",
     protocol: "Протокол",
+    status: "Начат",
   },
 ]

@@ -20,6 +20,10 @@ const navigationItems = [
     label: "Настройки",
     route: Routes.DashboardPage(),
   },
+  {
+    label: "Протоколы",
+    route: Routes.ProtocolsPage(),
+  },
 ]
 
 const Navigation = () => {

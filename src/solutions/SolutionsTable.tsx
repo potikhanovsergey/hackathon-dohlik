@@ -27,6 +27,7 @@ const SolutionsTable = () => {
           Протокол
         </Link>
       </td>
+      <td>{solution.status}</td>
       <td>
         {solution.additionalInfo ? (
           <HoverCard position="left" withinPortal withArrow>
@@ -114,6 +115,7 @@ const SolutionsTable = () => {
             </ThMenu>
           ))}
           <th>Протокол</th>
+          <th>Статус</th>
           <th>Подробнее</th>
         </tr>
       </thead>

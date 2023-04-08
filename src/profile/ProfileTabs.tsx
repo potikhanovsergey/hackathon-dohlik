@@ -22,7 +22,7 @@ const ProfileTabs = () => {
       </Tabs.List>
 
       <Tabs.Panel value="info" pt="xs">
-        <PersonalInfo />{" "}
+        <PersonalInfo />
       </Tabs.Panel>
 
       <Tabs.Panel value="groups" pt="xs">
