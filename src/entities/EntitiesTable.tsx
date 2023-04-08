@@ -1,7 +1,6 @@
 import { Box, Group, HoverCard, Stack, Table, Text, useMantineTheme } from "@mantine/core"
 import { IconChevronDown, IconInfoCircle } from "@tabler/icons-react"
 import { entitiesTableMock } from "./entitiesTableMock"
-import Link from "src/core/Link"
 import { useRouter } from "next/router"
 import { Routes } from "@blitzjs/next"
 import ThMenu from "src/core/NavigationTable/ThMenu"
@@ -14,7 +13,7 @@ const EntitiesTable = () => {
     <Box
       component="tr"
       key={entity.id}
-      onClick={() => router.push(Routes.EntitiesPage({ id: entity.id }))}
+      onClick={() => router.push(Routes.EntityPage({ id: entity.id }))}
       sx={{ cursor: "pointer", "&:hover": { background: theme.colors.gray[0] } }}
     >
       <td>{`${entity.district} ${entity.region} ${entity.address}`}</td>
