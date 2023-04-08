@@ -1,6 +1,7 @@
 import { Tabs } from "@mantine/core"
 import { IconBuildingCommunity, IconBulbFilled, IconMap2 } from "@tabler/icons-react"
 import EntitiesTable from "./EntitiesTable"
+import EntityInfo from "./EntitiyInfo"
 
 const EntityTabs = () => {
   return (
@@ -18,7 +19,7 @@ const EntityTabs = () => {
       </Tabs.List>
 
       <Tabs.Panel value="entity" pt="xs">
-        Объект хахаха
+        <EntityInfo />
       </Tabs.Panel>
 
       <Tabs.Panel value="solutions" pt="xs">
