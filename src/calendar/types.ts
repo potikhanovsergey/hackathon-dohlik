@@ -3,6 +3,7 @@ export interface EventProps {
   avatar: string
   date: Date
   entityId: number
+  groupId: number
 }
 
 export type EventsProps = EventProps[]
