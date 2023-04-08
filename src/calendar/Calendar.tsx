@@ -1,11 +1,10 @@
-import { Anchor, Button, Chip, Group, Indicator, Stack, useMantineTheme } from "@mantine/core"
+import { Button, Chip, Group, Indicator, Stack } from "@mantine/core"
 import { DayProps, Calendar as MantineCalendar } from "@mantine/dates"
 import dayjs from "dayjs"
 import { EventsProps } from "./types"
-import { useObservable, useObserve, useSelector } from "@legendapp/state/react"
+import { useObservable, useSelector } from "@legendapp/state/react"
 import { datesFilter } from "./store"
 import { useEffect, useMemo } from "react"
-import Link from "src/core/Link"
 
 interface CalendarProps {
   events: EventsProps

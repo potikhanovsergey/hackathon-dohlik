@@ -63,6 +63,7 @@ const Event = ({ avatar, name, date, entityId }: EventProps) => {
           variant="outline"
           leftIcon={<IconEdit size={16} />}
           onClick={openEditModal}
+          compact
         >
           Редактировать
         </Button>
@@ -71,6 +72,7 @@ const Event = ({ avatar, name, date, entityId }: EventProps) => {
           size="xs"
           leftIcon={<IconTrash size={16} />}
           onClick={openConfirmDeleteModal}
+          compact
         >
           Удалить встречу
         </Button>

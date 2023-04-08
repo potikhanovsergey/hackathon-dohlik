@@ -5,6 +5,7 @@ import Link from "src/core/Link"
 import { useRouter } from "next/router"
 import { Routes } from "@blitzjs/next"
 import ThMenu from "src/core/NavigationTable/ThMenu"
+import { useForm } from "@mantine/form"
 
 const SolutionsTable = () => {
   const theme = useMantineTheme()
@@ -57,36 +58,57 @@ const SolutionsTable = () => {
     </Box>
   ))
 
-  const titles = [
-    { label: "Дата создания решения", type: ["sort"] },
-    { label: "Формулировка", type: ["sort", "search"] },
+  const columns = [
+    { label: "Дата создания решения", value: "creationDate", type: ["sort"] },
+    { label: "Формулировка", value: "description", type: ["sort", "search"] },
     {
       label: "Срок исполнения",
+      value: "deadline",
       type: ["sort"],
     },
     {
       label: "Ответственный",
+      value: "personInCharge",
       type: ["sort", "search"],
     },
   ]
+
+  const form = useForm({
+    initialValues: {
+      search: {
+        description: "",
+        personInCharge: "",
+      },
+      sort: {
+        creationDate: null,
+        deadline: null,
+        description: null,
+        personInCharge: null,
+      },
+    },
+  })
 
   return (
     <Table fontSize="xs">
       <thead>
         <tr>
-          {titles.map((title) => (
+          {columns.map((column) => (
             <ThMenu
-              key={title.label}
+              key={column.label}
               sx={{ whiteSpace: "nowrap" }}
               sort={
-                title.type.includes("sort") ? { value: "asc", onChange: (value) => 1 } : undefined
+                column.type.includes("sort")
+                  ? { ...form.getInputProps(`sort.${column.value}`) }
+                  : undefined
               }
               search={
-                title.type.includes("search") ? { value: "", onChange: (value) => 1 } : undefined
+                column.type.includes("search")
+                  ? { ...form.getInputProps(`search.${column.value}`) }
+                  : undefined
               }
             >
               <Group noWrap spacing={4} position="apart" sx={{ cursor: "pointer" }}>
-                {title.label}
+                {column.label}
                 <IconChevronDown size={16} />
               </Group>
             </ThMenu>

@@ -4,7 +4,18 @@ import login from "src/auth/mutations/login"
 import { useMutation } from "@blitzjs/rpc"
 import { Routes } from "@blitzjs/next"
 import { Form, useForm } from "@mantine/form"
-import { Button, Container, PasswordInput, TextInput } from "@mantine/core"
+import {
+  Anchor,
+  Button,
+  Checkbox,
+  Container,
+  Group,
+  Paper,
+  PasswordInput,
+  TextInput,
+  Title,
+  Text,
+} from "@mantine/core"
 
 type LoginFormProps = {
   onSuccess?: (user: PromiseReturnType<typeof login>) => void
@@ -30,18 +41,26 @@ export const LoginForm = (props: LoginFormProps) => {
 
   return (
     <div>
-      <Container>
-        <h1>Login</h1>
+      <Container size={420} mt={40}>
+        <Title
+          align="center"
+          sx={(theme) => ({ fontFamily: `Greycliff CF, ${theme.fontFamily}`, fontWeight: 900 })}
+        >
+          Добро пожаловать!
+        </Title>
+        <Text color="dimmed" size="sm" align="center" mt={5}>
+          Еще нет аккаунта? <Link href={Routes.SignupPage()}>Создать</Link>
+        </Text>
+
         <form onSubmit={handleSubmit}>
-          <TextInput label="Почта" {...form.getInputProps("email")} />
-          <PasswordInput label="Пароль" {...form.getInputProps("password")} />
-          <Button mt="md" type="submit">
-            Войти в аккаунт
-          </Button>
+          <Paper withBorder shadow="md" p={30} mt={30} radius="md">
+            <TextInput label="Почта" {...form.getInputProps("email")} required />
+            <PasswordInput label="Пароль" {...form.getInputProps("password")} required />
+            <Button fullWidth mt="xl" type="submit">
+              Войти в аккаунт
+            </Button>
+          </Paper>
         </form>
-        <div style={{ marginTop: "1rem" }}>
-          Or <Link href={Routes.SignupPage()}>Sign Up</Link>
-        </div>
       </Container>
     </div>
   )
