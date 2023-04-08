@@ -1,11 +1,15 @@
 import { BlitzPage } from "@blitzjs/next"
 import Layout from "src/core/layouts/Layout"
-import { Title } from "@mantine/core"
+import { Container, Title } from "@mantine/core"
+import DashboardTabs from "src/dashboard/DashboardTabs"
 
 const DashboardPage: BlitzPage = () => {
   return (
     <Layout title="Настройка форм">
-      <Title>Настройка форм</Title>
+      <Container size="xl">
+        <Title>Настройка форм</Title>
+        <DashboardTabs />
+      </Container>
     </Layout>
   )
 }

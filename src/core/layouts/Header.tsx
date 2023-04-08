@@ -1,7 +1,16 @@
 import { useSession } from "@blitzjs/auth"
 import { Routes } from "@blitzjs/next"
 import { useMutation } from "@blitzjs/rpc"
-import { Container, Header as MantineHeader, Text, Group, Button, Avatar } from "@mantine/core"
+import {
+  Container,
+  Header as MantineHeader,
+  Text,
+  Group,
+  Button,
+  Avatar,
+  Menu,
+  Stack,
+} from "@mantine/core"
 import Link from "next/link"
 import logout from "src/auth/mutations/logout"
 import { useCurrentUser } from "src/users/hooks/useCurrentUser"
@@ -23,10 +32,28 @@ const Header = () => {
           <Group>
             {session.userId ? (
               <>
-                <Button size="xs" onClick={() => logoutMutation()}>
-                  Выйти
-                </Button>
-                <Avatar component={Link} href={Routes.ProfilePage()} />
+                <Menu>
+                  <Menu.Target>
+                    <Avatar sx={{ cursor: "pointer" }} />
+                  </Menu.Target>
+
+                  <Menu.Dropdown>
+                    <Stack spacing={0} px="sm">
+                      <Text size="sm">Аркадий А.А.</Text>
+                      <Text size="sm" color="dimmed">
+                        arcadyi@mail.ru
+                      </Text>
+                    </Stack>
+                    <Menu.Divider />
+
+                    <Menu.Item component={Link} href={Routes.ProfilePage()}>
+                      Перейти в профиль
+                    </Menu.Item>
+                    <Menu.Item color="red" onClick={() => logoutMutation()}>
+                      Выйти
+                    </Menu.Item>
+                  </Menu.Dropdown>
+                </Menu>
               </>
             ) : (
               <>

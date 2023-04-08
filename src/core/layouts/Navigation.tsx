@@ -27,7 +27,7 @@ const navigationItems = [
     route: Routes.SolutionsPage(),
   },
   {
-    label: "Дашборд",
+    label: "Настройки",
     route: Routes.DashboardPage(),
   },
 ]
