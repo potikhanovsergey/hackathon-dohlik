@@ -14,7 +14,7 @@ const SolutionsTable = () => {
     <Box
       component="tr"
       key={solution.id}
-      onClick={() => router.push(Routes.SolutionsPage({ id: solution.id }))}
+      onClick={() => router.push(Routes.SolutionPage({ id: solution.id }))}
       sx={{ cursor: "pointer", "&:hover": { background: theme.colors.gray[0] } }}
     >
       <td>{solution.creationDate.toLocaleString()}</td>
