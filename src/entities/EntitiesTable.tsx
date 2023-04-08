@@ -4,6 +4,7 @@ import { entitiesTableMock } from "./entitiesTableMock"
 import { useRouter } from "next/router"
 import { Routes } from "@blitzjs/next"
 import ThMenu from "src/core/NavigationTable/ThMenu"
+import { useForm } from "@mantine/form"
 
 const EntitiesTable = () => {
   const theme = useMantineTheme()
@@ -53,44 +54,70 @@ const EntitiesTable = () => {
     </Box>
   ))
 
-  const titles = [
-    { label: "Полный адрес", type: ["search"] },
-    { label: "Тип объекта", type: ["sort", "search"] },
+  const columns = [
+    { label: "Полный адрес", value: "address", type: ["search"] },
+    { label: "Тип объекта", value: "type", type: ["sort", "search"] },
     {
       label: "Площадь объекта",
+      value: "area",
       type: ["sort"],
     },
     {
       label: "Состояние объекта",
-      type: ["sort", "search"],
+      value: "state",
+      type: ["search"],
     },
     {
       label: "Собственник",
+      value: "owner",
       type: ["sort", "search"],
     },
     {
       label: "Фактический пользователь",
+      value: "actualUser",
       type: ["sort", "search"],
     },
   ]
+
+  const form = useForm({
+    initialValues: {
+      search: {
+        address: "",
+        type: "",
+        state: "",
+        owner: "",
+        actualUser: "",
+      },
+      sort: {
+        type: null,
+        area: null,
+        owner: null,
+        actualUser: null,
+      },
+    },
+  })
 
   return (
     <Table fontSize="xs">
       <thead>
         <tr>
-          {titles.map((title) => (
+          {columns.map((column) => (
             <ThMenu
-              key={title.label}
+              key={column.label}
               sx={{ whiteSpace: "nowrap" }}
               sort={
-                title.type.includes("sort") ? { value: "asc", onChange: (value) => 1 } : undefined
+                column.type.includes("sort")
+                  ? { ...form.getInputProps(`sort.${column.value}`) }
+                  : undefined
               }
               search={
-                title.type.includes("search") ? { value: "", onChange: (value) => 1 } : undefined
+                column.type.includes("search")
+                  ? { ...form.getInputProps(`search.${column.value}`) }
+                  : undefined
               }
             >
               <Group noWrap spacing={4} position="apart" sx={{ cursor: "pointer" }}>
-                {title.label}
+                {column.label}
                 <IconChevronDown size={16} />
               </Group>
             </ThMenu>

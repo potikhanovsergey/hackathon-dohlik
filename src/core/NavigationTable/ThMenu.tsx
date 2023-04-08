@@ -1,11 +1,11 @@
-import { Box, BoxProps, Menu, TextInput, useMantineTheme } from "@mantine/core"
+import { Autocomplete, Box, BoxProps, Menu, MenuItemProps, useMantineTheme } from "@mantine/core"
 import { IconSearch, IconSortAscending, IconSortDescending } from "@tabler/icons-react"
-import { ChangeEventHandler, ReactNode } from "react"
+import SortItem from "./SortItem"
 
 interface ThMenuProps extends BoxProps {
   sort?: {
-    value: "asc" | "desc"
-    onChange: (value: "asc" | "desc") => void
+    value: "asc" | "desc" | null
+    onChange: (value: "asc" | "desc" | null) => void
   }
   search?: {
     value: string
@@ -15,11 +15,8 @@ interface ThMenuProps extends BoxProps {
 
 const ThMenu = ({ children, sort, search, ...props }: ThMenuProps) => {
   const theme = useMantineTheme()
-  const handleSortAscending = () => sort?.onChange?.("asc")
-  const handleSortDescending = () => sort?.onChange?.("desc")
-  const handleSearchChange: ChangeEventHandler<HTMLInputElement> = (e) =>
-    search?.onChange?.(e.currentTarget.value)
-
+  const handleSortAscending = () => sort?.onChange?.(sort.value == "asc" ? null : "asc")
+  const handleSortDescending = () => sort?.onChange?.(sort.value === "desc" ? null : "desc")
   return (
     <Box component="th" {...props} p="0 !important">
       <Menu closeOnItemClick={false}>
@@ -40,22 +37,31 @@ const ThMenu = ({ children, sort, search, ...props }: ThMenuProps) => {
           {sort && (
             <>
               <Menu.Label>Сортировка</Menu.Label>
-              <Menu.Item onClick={handleSortAscending} icon={<IconSortAscending size={16} />}>
+              <SortItem
+                active={sort.value === "asc"}
+                onClick={handleSortAscending}
+                icon={<IconSortAscending size={16} />}
+              >
                 Сортировка по возрастанию
-              </Menu.Item>
-              <Menu.Item onClick={handleSortDescending} icon={<IconSortDescending size={16} />}>
+              </SortItem>
+              <SortItem
+                active={sort.value === "desc"}
+                onClick={handleSortDescending}
+                icon={<IconSortDescending size={16} />}
+              >
                 Сортировка по убыванию
-              </Menu.Item>
+              </SortItem>
             </>
           )}
 
           {search && (
             <>
               <Menu.Item sx={(theme) => ({ "&[data-hovered]": { background: theme.white } })}>
-                <TextInput
+                <Autocomplete
                   value={search.value}
-                  onChange={handleSearchChange}
+                  onChange={search.onChange}
                   size="xs"
+                  data={[]}
                   label={<Menu.Label pl={0}>Поиск</Menu.Label>}
                   placeholder="Поиск..."
                   icon={<IconSearch size={16} />}

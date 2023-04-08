@@ -217,39 +217,6 @@ const theme: MantineThemeOverride = {
         locale: "ru",
       },
     },
-    ScrollArea: {
-      defaultProps: {
-        type: "never",
-      },
-      styles: {
-        scrollbar: {
-          zIndex: 101,
-        },
-      },
-    },
-    Accordion: {
-      defaultProps: {
-        radius: "lg",
-      },
-      styles: (theme) => ({
-        content: {
-          paddingTop: 0,
-        },
-        item: {
-          border: 0,
-        },
-        label: {
-          fontWeight: 500,
-          color: theme.colors.gray[9],
-        },
-        control: {
-          marginBottom: rem(4),
-          "&:hover": {
-            backgroundColor: theme.colors.gray[0],
-          },
-        },
-      }),
-    },
     Input: {
       styles: (theme) => ({
         input: {
