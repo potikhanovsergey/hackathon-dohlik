@@ -3,8 +3,32 @@ import { IconCalendar, IconEdit, IconLink, IconSettings, IconTrash } from "@tabl
 import { EventProps } from "./types"
 import dayjs from "dayjs"
 import Link from "src/core/Link"
+import { openConfirmModal, openModal } from "@mantine/modals"
+import EditEventForm from "./EditEventForm"
 
 const Event = ({ avatar, name, date, entityId }: EventProps) => {
+  const openConfirmDeleteModal = () =>
+    openConfirmModal({
+      title: "Пожалуйста, подтвердите свое действие",
+      children: (
+        <Text size="sm">
+          Пожалуйста, подвтердите, что вы хотите удалить встречу. Это действия необратимо.
+        </Text>
+      ),
+      centered: true,
+      confirmProps: { color: "red" },
+      labels: { confirm: "Удалить", cancel: "Отмена" },
+      onCancel: () => console.log("Cancel"),
+      onConfirm: () => console.log("Confirmed"),
+    })
+
+  const openEditModal = () =>
+    openModal({
+      title: "Редактировать событие",
+      children: <EditEventForm />,
+      centered: true,
+    })
+
   return (
     <Group
       position="apart"
@@ -31,10 +55,20 @@ const Event = ({ avatar, name, date, entityId }: EventProps) => {
         </div>
       </Group>
       <Stack spacing="xs">
-        <Button size="xs" variant="outline" leftIcon={<IconEdit size={16} />}>
+        <Button
+          size="xs"
+          variant="outline"
+          leftIcon={<IconEdit size={16} />}
+          onClick={openEditModal}
+        >
           Редактировать
         </Button>
-        <Button color="red" size="xs" leftIcon={<IconTrash size={16} />}>
+        <Button
+          color="red"
+          size="xs"
+          leftIcon={<IconTrash size={16} />}
+          onClick={openConfirmDeleteModal}
+        >
           Удалить встречу
         </Button>
       </Stack>
