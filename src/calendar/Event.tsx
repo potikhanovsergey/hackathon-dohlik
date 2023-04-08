@@ -1,7 +1,10 @@
-import { Group, Avatar, Stack, Text, ActionIcon } from "@mantine/core"
-import { IconCalendar, IconSettings } from "@tabler/icons-react"
+import { Group, Avatar, Text, ActionIcon, Menu, Anchor, Button, Stack } from "@mantine/core"
+import { IconCalendar, IconEdit, IconLink, IconSettings, IconTrash } from "@tabler/icons-react"
+import { EventProps } from "./types"
+import dayjs from "dayjs"
+import Link from "src/core/Link"
 
-const Event = () => {
+const Event = ({ avatar, name, date, entityId }: EventProps) => {
   return (
     <Group
       position="apart"
@@ -9,26 +12,32 @@ const Event = () => {
       sx={(theme) => ({ borderBottom: `1px solid ${theme.colors.gray[1]}` })}
     >
       <Group align="flex-start">
-        <Avatar
-          size={64}
-          alt=""
-          src="https://www.nzherald.co.nz/resizer/gqSffRvTC-to97K2uhI3xXRfupw=/576x613/smart/filters:quality(70)/cloudfront-ap-southeast-2.images.arcpublishing.com/nzme/3YWLMALNWFAKJD6C7ILGH7GZ3E.jpg"
-        />
-        <Stack>
-          <Text weight="bold">Leslie Alexander</Text>
+        <Avatar size={64} alt="" src={avatar} />
+        <div>
+          <Text weight="bold" mb={4}>
+            {name}
+          </Text>
           <Group spacing="xs">
             <Text size="sm" color="dimmed">
               <Group spacing="xs">
                 <IconCalendar size={20} />
-                January 10th, 2022 at 5:00 PM
+                {dayjs(date).format("DD MMMM YYYY")}
               </Group>
             </Text>
+            <Link target="_blank" href={`/entities/${entityId}`}>
+              Объект
+            </Link>
           </Group>
-        </Stack>
+        </div>
       </Group>
-      <ActionIcon color="gray" variant="transparent">
-        <IconSettings />
-      </ActionIcon>
+      <Stack spacing="xs">
+        <Button size="xs" variant="outline" leftIcon={<IconEdit size={16} />}>
+          Редактировать
+        </Button>
+        <Button color="red" size="xs" leftIcon={<IconTrash size={16} />}>
+          Удалить встречу
+        </Button>
+      </Stack>
     </Group>
   )
 }

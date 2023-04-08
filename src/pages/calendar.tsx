@@ -1,6 +1,6 @@
 import { BlitzPage } from "@blitzjs/next"
 import Layout from "src/core/layouts/Layout"
-import { Grid, Title } from "@mantine/core"
+import { Box, Button, Group, Stack, Title } from "@mantine/core"
 import Calendar from "src/calendar/Calendar"
 import Events from "src/calendar/Events"
 
@@ -8,14 +8,15 @@ const CalendarPage: BlitzPage = () => {
   return (
     <Layout title="Календарь">
       <Title mb="xl">Ближайшие события</Title>
-      <Grid gutter={64}>
-        <Grid.Col span={8}>
+      <Group noWrap spacing={64} align="flex-start">
+        <Box sx={{ flex: 1 }}>
           <Events />
-        </Grid.Col>
-        <Grid.Col span={4}>
+        </Box>
+        <Stack w="fit-content">
           <Calendar />
-        </Grid.Col>
-      </Grid>
+          <Button>Добавить событие</Button>
+        </Stack>
+      </Group>
     </Layout>
   )
 }
