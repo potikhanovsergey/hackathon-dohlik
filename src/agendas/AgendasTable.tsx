@@ -1,16 +1,11 @@
-import { Box, Group, HoverCard, Button, Table, Text, useMantineTheme } from "@mantine/core"
-import { IconChevronDown, IconInfoCircle } from "@tabler/icons-react"
+import { Box, Group, Button, Table } from "@mantine/core"
+import { IconChevronDown } from "@tabler/icons-react"
 import Link from "src/core/Link"
-import { useRouter } from "next/router"
-import { Routes } from "@blitzjs/next"
 import ThMenu from "src/core/NavigationTable/ThMenu"
 import { useForm } from "@mantine/form"
-import { agendasTableMock } from "./AgendasTableMock"
+import { agendasTableMock } from "./agendasTableMock"
 
 const AgendasTable = () => {
-  const theme = useMantineTheme()
-  const router = useRouter()
-
   const rows = agendasTableMock.map((agenda) => (
     <Box component="tr" key={agenda.id}>
       <td>{agenda.date.toLocaleString()}</td>
