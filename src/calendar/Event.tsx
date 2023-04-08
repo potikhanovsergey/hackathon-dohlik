@@ -48,10 +48,13 @@ const Event = ({ avatar, name, date, entityId }: EventProps) => {
                 {dayjs(date).format("DD MMMM YYYY")}
               </Group>
             </Text>
-            <Link target="_blank" href={`/entities/${entityId}`}>
-              Объект
+            <Link target="_blank" href="/">
+              Ссылка на встречу
             </Link>
           </Group>
+          <Link target="_blank" href={`/entities/${entityId}`}>
+            Объект
+          </Link>
         </div>
       </Group>
       <Stack spacing="xs">
