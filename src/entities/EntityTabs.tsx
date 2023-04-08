@@ -4,6 +4,7 @@ import EntitiesTable from "./EntitiesTable"
 import EntityInfo from "./EntitiyInfo"
 import dynamic from "next/dynamic"
 import { Placemark } from "@pbe/react-yandex-maps"
+import SolutionsTable from "src/solutions/SolutionsTable"
 const Map = dynamic(() => import("@pbe/react-yandex-maps").then((m) => m.Map), { ssr: false })
 
 const EntityTabs = () => {
@@ -26,7 +27,7 @@ const EntityTabs = () => {
       </Tabs.Panel>
 
       <Tabs.Panel value="solutions" pt="xs">
-        <EntitiesTable />
+        <SolutionsTable />
       </Tabs.Panel>
 
       <Tabs.Panel value="map" pt="xs">

@@ -1,10 +1,13 @@
-interface SolutionProps {
+interface EntityProps {
   id: number
-  creationDate: Date
-  description: string
-  deadline: Date
-  inCharge: string
-  protocol: string
+  district: string //  округ
+  region: string // район
+  address: string
+  type: string // тип объекта (признак будет участвовать в определении необходимой рабочей группы)
+  area: number // площадь объекта
+  state: string // состояние объекта
+  owner: string // собственник
+  actualUser: string // фактический пользователь
   additionalInfo?: {
     [key: string]: {
       label: string
@@ -13,15 +16,27 @@ interface SolutionProps {
   }
 }
 
-export const entitiesTableMock: SolutionProps[] = [
+// округ
+// район
+// адрес
+// тип объекта (признак будет участвовать в определении необходимой рабочей группы)
+// состояние объекта
+// площадь объекта
+// собственник
+// фактический пользователь
+// фото/видеоматериалы
+
+export const entitiesTableMock: EntityProps[] = [
   {
     id: 0,
-    creationDate: new Date(),
-    description:
-      "First ipsum dolor sit amet, consectetur adipisicing elit. Veniam, exercitationem.",
-    deadline: new Date(),
-    inCharge: "Аркадий Аркадьевич Аркадьев",
-    protocol: "Протокол",
+    district: "Восточный административный",
+    region: "Соколиная гора",
+    address: "Малая Семеновская 12",
+    type: "Общежитие",
+    area: 400,
+    state: "В использовании",
+    owner: "Московский Политех",
+    actualUser: "Московский Политех",
     additionalInfo: {
       latitude: {
         label: "Широта",
@@ -35,30 +50,56 @@ export const entitiesTableMock: SolutionProps[] = [
   },
   {
     id: 1,
-    creationDate: new Date(),
-    description:
-      "Second ipsum dolor sit amet, consectetur adipisicing elit. Veniam, exercitationem.",
-    deadline: new Date(),
-    inCharge: "Аркадий Аркадьевич Аркадьев",
-    protocol: "Протокол",
+    district: "Восточный административный",
+    region: "Соколиная гора",
+    address: "Малая Семеновская 12",
+    type: "Общежитие",
+    area: 400,
+    state: "В использовании",
+    owner: "Московский Политех",
+    actualUser: "Московский Политех",
+    additionalInfo: {
+      latitude: {
+        label: "Широта",
+        value: 40,
+      },
+      longitude: {
+        label: "Долгота",
+        value: 60,
+      },
+    },
   },
   {
     id: 2,
-    creationDate: new Date(),
-    description:
-      "Third ipsum dolor sit amet, consectetur adipisicing elit. Veniam, exercitationem.",
-    deadline: new Date(),
-    inCharge: "Аркадий Аркадьевич Аркадьев",
-    protocol: "Протокол",
+    district: "Восточный административный",
+    region: "Соколиная гора",
+    address: "Малая Семеновская 12",
+    type: "Общежитие",
+    area: 400,
+    state: "В использовании",
+    owner: "Московский Политех",
+    actualUser: "Московский Политех",
+    additionalInfo: {
+      latitude: {
+        label: "Широта",
+        value: 40,
+      },
+      longitude: {
+        label: "Долгота",
+        value: 60,
+      },
+    },
   },
   {
     id: 3,
-    creationDate: new Date(),
-    description:
-      "First ipsum dolor sit amet, consectetur adipisicing elit. Veniam, exercitationem.",
-    deadline: new Date(),
-    inCharge: "Аркадий Аркадьевич Аркадьев",
-    protocol: "Протокол",
+    district: "Восточный административный",
+    region: "Соколиная гора",
+    address: "Малая Семеновская 12",
+    type: "Общежитие",
+    area: 400,
+    state: "В использовании",
+    owner: "Московский Политех",
+    actualUser: "Московский Политех",
     additionalInfo: {
       latitude: {
         label: "Широта",
@@ -72,30 +113,14 @@ export const entitiesTableMock: SolutionProps[] = [
   },
   {
     id: 4,
-    creationDate: new Date(),
-    description:
-      "Second ipsum dolor sit amet, consectetur adipisicing elit. Veniam, exercitationem.",
-    deadline: new Date(),
-    inCharge: "Аркадий Аркадьевич Аркадьев",
-    protocol: "Протокол",
-  },
-  {
-    id: 5,
-    creationDate: new Date(),
-    description:
-      "Third ipsum dolor sit amet, consectetur adipisicing elit. Veniam, exercitationem.",
-    deadline: new Date(),
-    inCharge: "Аркадий Аркадьевич Аркадьев",
-    protocol: "Протокол",
-  },
-  {
-    id: 6,
-    creationDate: new Date(),
-    description:
-      "First ipsum dolor sit amet, consectetur adipisicing elit. Veniam, exercitationem.",
-    deadline: new Date(),
-    inCharge: "Аркадий Аркадьевич Аркадьев",
-    protocol: "Протокол",
+    district: "Восточный административный",
+    region: "Соколиная гора",
+    address: "Малая Семеновская 12",
+    type: "Общежитие",
+    area: 400,
+    state: "В использовании",
+    owner: "Московский Политех",
+    actualUser: "Московский Политех",
     additionalInfo: {
       latitude: {
         label: "Широта",
@@ -106,23 +131,5 @@ export const entitiesTableMock: SolutionProps[] = [
         value: 60,
       },
     },
-  },
-  {
-    id: 7,
-    creationDate: new Date(),
-    description:
-      "Second ipsum dolor sit amet, consectetur adipisicing elit. Veniam, exercitationem.",
-    deadline: new Date(),
-    inCharge: "Аркадий Аркадьевич Аркадьев",
-    protocol: "Протокол",
-  },
-  {
-    id: 8,
-    creationDate: new Date(),
-    description:
-      "Third ipsum dolor sit amet, consectetur adipisicing elit. Veniam, exercitationem.",
-    deadline: new Date(),
-    inCharge: "Аркадий Аркадьевич Аркадьев",
-    protocol: "Протокол",
   },
 ]

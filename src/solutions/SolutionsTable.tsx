@@ -1,30 +1,33 @@
 import { Box, Group, HoverCard, Stack, Table, Text, useMantineTheme } from "@mantine/core"
 import { IconChevronDown, IconInfoCircle } from "@tabler/icons-react"
-import { entitiesTableMock } from "./entitiesTableMock"
+import { solutionsTableMock } from "./solutionsTableMock"
 import Link from "src/core/Link"
 import { useRouter } from "next/router"
 import { Routes } from "@blitzjs/next"
 import ThMenu from "src/core/NavigationTable/ThMenu"
 
-const EntitiesTable = () => {
+const SolutionsTable = () => {
   const theme = useMantineTheme()
   const router = useRouter()
 
-  const rows = entitiesTableMock.map((entity) => (
+  const rows = solutionsTableMock.map((solution) => (
     <Box
       component="tr"
-      key={entity.id}
-      onClick={() => router.push(Routes.EntitiesPage({ id: entity.id }))}
+      key={solution.id}
+      onClick={() => router.push(Routes.SolutionsPage({ id: solution.id }))}
       sx={{ cursor: "pointer", "&:hover": { background: theme.colors.gray[0] } }}
     >
-      <td>{`${entity.district} ${entity.region} ${entity.address}`}</td>
-      <td>{entity.type}</td>
-      <td>{entity.area}</td>
-      <td>{entity.state}</td>
-      <td>{entity.owner}</td>
-      <td>{entity.actualUser}</td>
+      <td>{solution.creationDate.toLocaleString()}</td>
+      <td>{solution.description}</td>
+      <td>{solution.deadline.toLocaleString()}</td>
+      <td>{solution.inCharge}</td>
       <td>
-        {entity.additionalInfo ? (
+        <Link target="_blank" href="/">
+          Протокол
+        </Link>
+      </td>
+      <td>
+        {solution.additionalInfo ? (
           <HoverCard position="left" withinPortal withArrow>
             <HoverCard.Target>
               <IconInfoCircle size={20} stroke={1.5} color={theme.colors.gray[5]} />
@@ -35,12 +38,12 @@ const EntitiesTable = () => {
                   Дополнительные поля
                 </Text>
                 <Stack spacing={4}>
-                  {Object.keys(entity.additionalInfo).map((key) => (
+                  {Object.keys(solution.additionalInfo).map((key) => (
                     <Group key={key}>
                       <Text weight="bold" size="xs">
-                        {entity.additionalInfo![key].label}:{" "}
+                        {solution.additionalInfo![key].label}:{" "}
                       </Text>
-                      <Text size="xs">{entity.additionalInfo![key].value}</Text>
+                      <Text size="xs">{solution.additionalInfo![key].value}</Text>
                     </Group>
                   ))}
                 </Stack>
@@ -55,22 +58,14 @@ const EntitiesTable = () => {
   ))
 
   const titles = [
-    { label: "Полный адрес", type: ["search"] },
-    { label: "Тип объекта", type: ["sort", "search"] },
+    { label: "Дата создания решения", type: ["sort"] },
+    { label: "Формулировка", type: ["sort", "search"] },
     {
-      label: "Площадь объекта",
+      label: "Срок исполнения",
       type: ["sort"],
     },
     {
-      label: "Состояние объекта",
-      type: ["sort", "search"],
-    },
-    {
-      label: "Собственник",
-      type: ["sort", "search"],
-    },
-    {
-      label: "Фактический пользователь",
+      label: "Ответственный",
       type: ["sort", "search"],
     },
   ]
@@ -96,6 +91,7 @@ const EntitiesTable = () => {
               </Group>
             </ThMenu>
           ))}
+          <th>Протокол</th>
           <th>Подробнее</th>
         </tr>
       </thead>
@@ -104,4 +100,4 @@ const EntitiesTable = () => {
   )
 }
 
-export default EntitiesTable
+export default SolutionsTable
