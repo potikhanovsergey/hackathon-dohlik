@@ -13,7 +13,6 @@ import {
 } from "@mantine/core"
 import Link from "next/link"
 import logout from "src/auth/mutations/logout"
-import { useCurrentUser } from "src/users/hooks/useCurrentUser"
 import Navigation from "./Navigation"
 
 const Header = () => {
@@ -25,8 +24,8 @@ const Header = () => {
     <MantineHeader height={60}>
       <Container size="xl" h="100%">
         <Group position="apart" h="100%">
-          <Text component={Link} href={Routes.Home()}>
-            Template
+          <Text weight="bold" size={28} component={Link} href={Routes.Home()}>
+            ГИН
           </Text>
           <Navigation />
           <Group>
