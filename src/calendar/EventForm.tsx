@@ -3,11 +3,12 @@ import { DatePickerInput } from "@mantine/dates"
 import { useForm } from "@mantine/form"
 import { closeAllModals } from "@mantine/modals"
 
-const EditEventForm = () => {
+const EventForm = () => {
   const form = useForm({
     initialValues: {
       name: "",
       date: null,
+      meeting: "",
       entity: "",
     },
   })
@@ -19,6 +20,11 @@ const EditEventForm = () => {
           label="Название события"
           placeholder="Проверить дом..."
           {...form.getInputProps("name")}
+        />
+        <TextInput
+          label="Ссылка на встречу"
+          placeholder="https://sldkfdfj..."
+          {...form.getInputProps("meeting")}
         />
         <DatePickerInput
           label="Дата события"
@@ -41,4 +47,4 @@ const EditEventForm = () => {
   )
 }
 
-export default EditEventForm
+export default EventForm

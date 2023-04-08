@@ -1,10 +1,10 @@
-import { Group, Avatar, Text, ActionIcon, Menu, Anchor, Button, Stack } from "@mantine/core"
-import { IconCalendar, IconEdit, IconLink, IconSettings, IconTrash } from "@tabler/icons-react"
+import { Group, Avatar, Text, Button, Stack } from "@mantine/core"
+import { IconCalendar, IconEdit, IconTrash } from "@tabler/icons-react"
 import { EventProps } from "./types"
 import dayjs from "dayjs"
 import Link from "src/core/Link"
 import { openConfirmModal, openModal } from "@mantine/modals"
-import EditEventForm from "./EditEventForm"
+import EventForm from "./EventForm"
 
 const Event = ({ avatar, name, date, entityId }: EventProps) => {
   const openConfirmDeleteModal = () =>
@@ -25,7 +25,7 @@ const Event = ({ avatar, name, date, entityId }: EventProps) => {
   const openEditModal = () =>
     openModal({
       title: "Редактировать событие",
-      children: <EditEventForm />,
+      children: <EventForm />,
       centered: true,
     })
 

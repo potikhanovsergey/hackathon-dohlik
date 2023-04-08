@@ -72,6 +72,7 @@ const theme: MantineThemeOverride = {
       defaultProps: {
         loaderPosition: "center",
         variant: "primary",
+        size: "xs",
       },
       variants: {
         primary: (theme, params: ButtonStylesParams) => ({
