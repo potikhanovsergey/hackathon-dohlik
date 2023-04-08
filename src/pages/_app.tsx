@@ -4,8 +4,12 @@ import React from "react"
 import { withBlitz } from "src/blitz-client"
 import { MantineProvider } from "@mantine/core"
 import theme from "src/theme"
+import { ModalsProvider } from "@mantine/modals"
 import RouterTransition from "src/core/layouts/RouterTransition"
 import { YMaps } from "@pbe/react-yandex-maps"
+import "dayjs/locale/ru"
+import dayjs from "dayjs"
+dayjs.locale("ru")
 
 function RootErrorFallback({ error }: ErrorFallbackProps) {
   if (error instanceof AuthenticationError) {
@@ -33,8 +37,10 @@ function MyApp({ Component, pageProps }: AppProps) {
     <ErrorBoundary FallbackComponent={RootErrorFallback}>
       <YMaps>
         <MantineProvider withGlobalStyles withNormalizeCSS theme={theme}>
-          <RouterTransition />
-          {getLayout(<Component {...pageProps} />)}
+          <ModalsProvider>
+            <RouterTransition />
+            {getLayout(<Component {...pageProps} />)}
+          </ModalsProvider>
         </MantineProvider>
       </YMaps>
     </ErrorBoundary>

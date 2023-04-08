@@ -21,6 +21,7 @@ const theme: MantineThemeOverride = {
   primaryColor: "blue",
   defaultRadius: "md",
   primaryShade: 5,
+  datesLocale: "ru",
   fontFamily: `var(--nunito-font), ${defaultFonts}`,
   headings: {
     fontFamily: `var(--nunito-font), ${defaultFonts}`,
@@ -193,24 +194,6 @@ const theme: MantineThemeOverride = {
             marginBottom: rem(4),
           },
         },
-        // dropdown: {
-        //   border: 0,
-        //   borderRadius: 0,
-        //   boxShadow: theme.shadows.md,
-        // },
-        // itemsWrapper: {
-        //   padding: 0,
-        // },
-        // item: {
-        //   borderRadius: 0,
-        //   "&[data-selected]": {
-        //     backgroundColor: theme.white,
-        //     color: theme.black,
-        //     "&:hover": {
-        //       backgroundColor: theme.colors.gray[0],
-        //     },
-        //   },
-        // },
       }),
     },
     Popover: {
@@ -229,6 +212,11 @@ const theme: MantineThemeOverride = {
           borderColor: theme.black,
         },
       }),
+    },
+    Calendar: {
+      defaultProps: {
+        locale: "ru",
+      },
     },
     ScrollArea: {
       defaultProps: {
@@ -330,14 +318,6 @@ const theme: MantineThemeOverride = {
         color: theme.primaryColor,
       }),
     },
-    Prism: {
-      styles: (theme) => ({
-        copy: {
-          background: "transparent !important",
-          color: theme.colorScheme === "dark" ? theme.white : theme.black,
-        },
-      }),
-    },
     Card: {
       defaultProps: {
         withBorder: true,
@@ -348,6 +328,7 @@ const theme: MantineThemeOverride = {
   globalStyles: (theme) => ({
     body: {
       WebkitFontSmoothing: "antialiased",
+      overflowX: "hidden",
     },
   }),
 }

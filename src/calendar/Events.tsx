@@ -1,11 +1,12 @@
 import { Stack } from "@mantine/core"
 import Event from "./Event"
+import { eventsMock } from "./mock"
 
 const Events = () => {
   return (
     <Stack>
-      {[0, 1, 2, 3, 4].map((event) => (
-        <Event key={event} />
+      {eventsMock.map((event) => (
+        <Event key={event.name + event.date.toString()} {...event} />
       ))}
     </Stack>
   )
