@@ -3,7 +3,7 @@ import { openConfirmModal } from "@mantine/modals"
 import { IconTrash } from "@tabler/icons-react"
 import { useState } from "react"
 import ProfileCard from "./ProfileCard"
-import { ExtendedWorkgroup } from "./PersonalGroups"
+import { ExtendedWorkgroup } from "./Workgroups"
 
 const WorkGroup = ({
   withButtons = false,

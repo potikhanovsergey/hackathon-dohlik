@@ -1,12 +1,10 @@
-import { Group, Button } from "@mantine/core"
-import { IconCopy, IconEyeOff, IconArrowUp, IconArrowDown, IconTrash } from "@tabler/icons-react"
+import { Group, Button, Menu, Text } from "@mantine/core"
+import { IconCopy, IconEyeOff } from "@tabler/icons-react"
+import { useState } from "react"
 
-interface AttributeControlsProps {
-  isFirst: boolean
-  isLast: boolean
-}
+const AttributeControls = ({ onDelete }: { onDelete: () => void }) => {
+  const [menuOpened, setMenuOpened] = useState(false)
 
-const AttributeControls = ({ isFirst, isLast }: AttributeControlsProps) => {
   return (
     <Group spacing="xs">
       <Button variant="subtle" rightIcon={<IconCopy size={16} />} compact>
@@ -15,19 +13,32 @@ const AttributeControls = ({ isFirst, isLast }: AttributeControlsProps) => {
       <Button variant="subtle" rightIcon={<IconEyeOff size={16} />} compact>
         Выключить
       </Button>
-      {!isFirst && (
-        <Button variant="subtle" rightIcon={<IconArrowUp size={16} />} compact>
-          Выше
-        </Button>
-      )}
-      {!isLast && (
-        <Button variant="subtle" rightIcon={<IconArrowDown size={16} />} compact>
-          Ниже
-        </Button>
-      )}
-      <Button rightIcon={<IconTrash size={16} />} compact color="red">
-        Удалить
-      </Button>
+
+      <Menu width={300} opened={menuOpened} onChange={setMenuOpened}>
+        <Menu.Target>
+          <Button color="red" onClick={() => setMenuOpened(false)}>
+            Удалить
+          </Button>
+        </Menu.Target>
+
+        <Menu.Dropdown p="sm">
+          <Text align="right" size="sm" mb="xs">
+            Вы уверены, что хотите удалить это свойство для всех объектов?
+          </Text>
+          <Group position="right" spacing={4}>
+            <Button onClick={() => setMenuOpened(false)}>Отмена</Button>
+            <Button
+              color="red"
+              onClick={() => {
+                onDelete()
+                setMenuOpened(false)
+              }}
+            >
+              Удалить
+            </Button>
+          </Group>
+        </Menu.Dropdown>
+      </Menu>
     </Group>
   )
 }

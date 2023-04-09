@@ -40,8 +40,8 @@ const AttributeDefaultValue = ({ type, value, data, onChange }: AttributeDefault
         checkbox: () => (
           <Checkbox.Group value={value} onChange={onChange} size="xs" label={LABEL}>
             <Group spacing="lg" pt={4}>
-              {data?.map((checkbox) => (
-                <Checkbox key={checkbox.value} value={checkbox.value} label={checkbox.label} />
+              {data?.map((checkbox, i) => (
+                <Checkbox key={i} value={checkbox} label={checkbox} />
               ))}
             </Group>
           </Checkbox.Group>
@@ -49,8 +49,8 @@ const AttributeDefaultValue = ({ type, value, data, onChange }: AttributeDefault
         radio: () => (
           <Radio.Group value={value} onChange={onChange} size="xs" label={LABEL}>
             <Group spacing="lg" pt={4}>
-              {data?.map((checkbox) => (
-                <Radio key={checkbox.value} value={checkbox.value} label={checkbox.label} />
+              {data?.map((radio, i) => (
+                <Radio key={i} value={radio} label={radio} />
               ))}
             </Group>
           </Radio.Group>
