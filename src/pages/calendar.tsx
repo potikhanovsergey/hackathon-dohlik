@@ -13,12 +13,12 @@ import { IconSearch } from "@tabler/icons-react"
 import { useDebouncedValue } from "@mantine/hooks"
 import getEvents from "src/calendar/queries/getEvents"
 import { useQuery } from "@blitzjs/rpc"
-import { Agenda, Assignment, Solution, Event } from "db"
+import { Assignment, Solution, Event, Entity } from "db"
 
 export interface ExtendedEvent extends Event {
-  agendas: (Agenda & {
-    assignment: Assignment & {
-      solution: Solution
+  assignments: (Assignment & {
+    solution: Solution & {
+      entity: Entity
     }
   })[]
 }
@@ -41,11 +41,11 @@ const CalendarPage: BlitzPage = () => {
     getEvents,
     {
       include: {
-        agendas: {
+        assignments: {
           include: {
-            assignment: {
+            solution: {
               include: {
-                solution: true,
+                entity: true,
               },
             },
           },
@@ -67,12 +67,12 @@ const CalendarPage: BlitzPage = () => {
     // Фильтр событий по выбранной рабочей группе
     if (groupValue) {
       result = result.filter((d) =>
-        d.agendas.some((agenda) => agenda.assignment.solution.workgroupId === +groupValue)
+        d.assignments.some((assignment) => assignment.solution.workgroupId === +groupValue)
       )
     }
     if (entityValue) {
       result = result.filter((d) =>
-        d.agendas.some((agenda) => agenda.assignment.solution.entityId === +entityValue)
+        d.assignments.some((assignment) => assignment.solution.entityId === +entityValue)
       )
     }
     if (!filteredEvents.length) return result
@@ -80,7 +80,7 @@ const CalendarPage: BlitzPage = () => {
       const inFilteredDates = filteredEvents.some((date) => dayjs(date).isSame(d.date, "day"))
       return inFilteredDates
     })
-  }, [debouncedSearchValue, entityValue, filteredEvents, groupValue])
+  }, [debouncedSearchValue, entityValue, eventsFromDB, filteredEvents, groupValue])
 
   return (
     <Layout title="Календарь">
@@ -138,10 +138,10 @@ const CalendarPage: BlitzPage = () => {
         </Group>
         <Group noWrap spacing={64} align="flex-start">
           <Box sx={{ flex: 1 }}>
-            <Events events={events} />
+            <Events events={events as ExtendedEvent[]} />
           </Box>
           <Stack w="fit-content">
-            <Calendar events={eventsFromDB} />
+            <Calendar events={eventsFromDB as ExtendedEvent[]} />
             <Button onClick={openAddEventModal}>Добавить событие</Button>
           </Stack>
         </Group>

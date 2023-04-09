@@ -1,8 +1,8 @@
 import { Stack } from "@mantine/core"
 import Event from "./Event"
-import { EventsProps } from "./types"
+import { ExtendedEvent } from "src/pages/calendar"
 
-const Events = ({ events }: { events: EventsProps }) => {
+const Events = ({ events }: { events: ExtendedEvent[] }) => {
   return (
     <Stack>
       {events.map((event) => (

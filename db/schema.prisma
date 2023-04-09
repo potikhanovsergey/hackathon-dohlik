@@ -19,6 +19,7 @@ model User {
   name           String   @default("Новый пользователь")
   email          String   @unique
   hashedPassword String?
+  avatar         String?
   role           Role     @default(USER)
 
   tokens     Token[]
@@ -212,6 +213,7 @@ enum AssignmentStatus {
   new
   inProgress
   done
+  doneAndVerified
 }
 
 // Совещание/встреча

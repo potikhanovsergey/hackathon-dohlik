@@ -3,14 +3,12 @@ import { Button, MultiSelect, Select, Stack, TextInput } from "@mantine/core"
 import { DatePickerInput } from "@mantine/dates"
 import { useForm } from "@mantine/form"
 import { closeAllModals } from "@mantine/modals"
-import { Agenda, Assignment } from "@prisma/client"
-import getAgendas from "src/agendas/queries/getAgendas"
+import { Assignment } from "@prisma/client"
 import createEvent from "./mutations/createEvent"
 import getEvents from "./queries/getEvents"
-
-export interface ExtendedAgenda extends Agenda {
-  assignment: Assignment
-}
+import getAssignments from "src/assigments/queries/getAssignments"
+import { notifications } from "@mantine/notifications"
+import dayjs from "dayjs"
 
 const EventForm = () => {
   const form = useForm({
@@ -18,24 +16,56 @@ const EventForm = () => {
       name: "",
       date: new Date(),
       meetingUrl: "",
-      agendas: [],
+      assignments: [],
     },
   })
 
-  const [agendas] = useQuery(
-    getAgendas,
-    { include: { assignment: true } },
-    { refetchOnReconnect: false, refetchOnWindowFocus: false }
-  )
+  const [assignments] = useQuery(getAssignments, {
+    where: {
+      status: {
+        in: ["done", "new"],
+      },
+      eventId: {
+        equals: null,
+      },
+    },
+  })
 
-  console.log(agendas)
   const [createEventMutation] = useMutation(createEvent)
 
   return (
     <form
       onSubmit={form.onSubmit(async (values) => {
-        const response = await createEventMutation({ data: values })
-        void invalidateQuery(getEvents)
+        try {
+          const response = await createEventMutation({
+            data: {
+              date: values.date,
+              meetingUrl: values.meetingUrl,
+              name: values.name,
+              assignments: {
+                connect: values.assignments.map((assignmentId) => ({ id: +assignmentId })),
+              },
+            },
+          })
+
+          notifications.show({
+            withCloseButton: true,
+            autoClose: 5000,
+            title: "Событие запланировано!",
+            message: `${response.name} на дату ${dayjs(response.date).format("D MMMM")}`,
+            color: "green",
+          })
+
+          void invalidateQuery(getEvents)
+        } catch (e) {
+          notifications.show({
+            withCloseButton: true,
+            autoClose: 5000,
+            title: "Ошибка при создании события",
+            message: e?.toString(),
+            color: "red",
+          })
+        }
       })}
     >
       <Stack>
@@ -57,13 +87,13 @@ const EventForm = () => {
         <MultiSelect
           label="Повестки"
           placeholder="Снос дома"
-          {...form.getInputProps("agendas")}
+          {...form.getInputProps("assignments")}
           data={
-            agendas
-              ? agendas.length > 0
-                ? agendas.map((agenda: ExtendedAgenda) => ({
-                    label: agenda.assignment.name || "Повестка без имени",
-                    value: agenda.id.toString(),
+            assignments
+              ? assignments.length > 0
+                ? assignments.map((assignment: Assignment) => ({
+                    label: assignment.name || "Повестка без имени",
+                    value: assignment.id.toString(),
                   }))
                 : []
               : []

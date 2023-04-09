@@ -1,12 +1,12 @@
-import { Group, Avatar, Text, Button, Stack } from "@mantine/core"
-import { IconCalendar, IconEdit, IconTrash } from "@tabler/icons-react"
-import { EventProps } from "./types"
+import { Group, Text, Button, Stack, Paper, Box } from "@mantine/core"
+import { IconCalendar, IconEdit, IconPlus, IconTrash } from "@tabler/icons-react"
 import dayjs from "dayjs"
 import Link from "src/core/Link"
 import { openConfirmModal, openModal } from "@mantine/modals"
 import EventForm from "./EventForm"
+import { ExtendedEvent } from "src/pages/calendar"
 
-const Event = ({ avatar, name, date, entityId }: EventProps) => {
+const Event = ({ name, date, meetingUrl, assignments }: ExtendedEvent) => {
   const openConfirmDeleteModal = () =>
     openConfirmModal({
       title: "Пожалуйста, подтвердите свое действие",
@@ -30,53 +30,71 @@ const Event = ({ avatar, name, date, entityId }: EventProps) => {
     })
 
   return (
-    <Group
-      position="apart"
-      pb="sm"
-      sx={(theme) => ({ borderBottom: `1px solid ${theme.colors.gray[1]}` })}
-    >
-      <Group align="flex-start">
-        <div>
-          <Text weight="bold" mb={4}>
-            {name}
-          </Text>
-          <Group spacing="xs">
-            <Text size="sm" color="dimmed">
-              <Group spacing="xs">
-                <IconCalendar size={20} />
-                {dayjs(date).format("DD MMMM YYYY")}
-              </Group>
+    <Paper withBorder>
+      <Group position="apart" align="flex-start" noWrap pb="sm">
+        <Group align="flex-start">
+          <div>
+            <Text weight="bold" mb={4}>
+              {name}
             </Text>
-            <Link target="_blank" href="/">
-              Ссылка на встречу
-            </Link>
-          </Group>
-          <Link target="_blank" href={"/"}>
-            Группа
-          </Link>
-        </div>
+            <Group spacing="xs">
+              <Text size="sm" color="dimmed">
+                <Group spacing="xs">
+                  <IconCalendar size={20} />
+                  {dayjs(date).format("DD MMMM YYYY")}
+                </Group>
+              </Text>
+            </Group>
+            <Group>
+              <Link target="_blank" href={"/"}>
+                Рабочая группа
+              </Link>
+              <Link target="_blank" href={meetingUrl}>
+                Ссылка на встречу
+              </Link>
+            </Group>
+            <Box mt="xs">
+              <Text weight="bold">Обсуждаемые поручения: </Text>
+              <Group>
+                <Text>
+                  {assignments.map((assignment, i) => (
+                    <>
+                      {assignment.name}
+                      {i < assignments.length - 1 && ", "}
+                    </>
+                  ))}
+                </Text>
+              </Group>
+            </Box>
+          </div>
+        </Group>
+        <Stack spacing="xs">
+          {dayjs(date).isBefore(new Date()) && (
+            <Button size="xs" leftIcon={<IconPlus size={16} />} compact>
+              Создать протокол
+            </Button>
+          )}
+          <Button
+            size="xs"
+            variant="outline"
+            leftIcon={<IconEdit size={16} />}
+            onClick={openEditModal}
+            compact
+          >
+            Редактировать
+          </Button>
+          <Button
+            color="red"
+            size="xs"
+            leftIcon={<IconTrash size={16} />}
+            onClick={openConfirmDeleteModal}
+            compact
+          >
+            Удалить встречу
+          </Button>
+        </Stack>
       </Group>
-      <Stack spacing="xs">
-        <Button
-          size="xs"
-          variant="outline"
-          leftIcon={<IconEdit size={16} />}
-          onClick={openEditModal}
-          compact
-        >
-          Редактировать
-        </Button>
-        <Button
-          color="red"
-          size="xs"
-          leftIcon={<IconTrash size={16} />}
-          onClick={openConfirmDeleteModal}
-          compact
-        >
-          Удалить встречу
-        </Button>
-      </Stack>
-    </Group>
+    </Paper>
   )
 }
 
