@@ -15,34 +15,6 @@ const AssignmentsTable = () => {
       <td>{solution.deadline.toLocaleString()}</td>
       <td>{solution.inCharge}</td>
       <td>{solution.status}</td>
-      <td>
-        {solution.additionalInfo ? (
-          <HoverCard position="left" withinPortal withArrow>
-            <HoverCard.Target>
-              <IconInfoCircle size={20} stroke={1.5} color={theme.colors.gray[5]} />
-            </HoverCard.Target>
-            <HoverCard.Dropdown>
-              <>
-                <Text weight="bold" mb="xs" size="sm">
-                  Дополнительные поля
-                </Text>
-                <Stack spacing={4}>
-                  {Object.keys(solution.additionalInfo).map((key) => (
-                    <Group key={key}>
-                      <Text weight="bold" size="xs">
-                        {solution.additionalInfo![key].label}:{" "}
-                      </Text>
-                      <Text size="xs">{solution.additionalInfo![key].value}</Text>
-                    </Group>
-                  ))}
-                </Stack>
-              </>
-            </HoverCard.Dropdown>
-          </HoverCard>
-        ) : (
-          <Text>Нет</Text>
-        )}
-      </td>
     </Box>
   ))
 
@@ -102,7 +74,6 @@ const AssignmentsTable = () => {
             </ThMenu>
           ))}
           <th>Статус</th>
-          <th>Подробнее</th>
         </tr>
       </thead>
       <tbody>{rows}</tbody>

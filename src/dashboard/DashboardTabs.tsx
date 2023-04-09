@@ -8,10 +8,10 @@ const panels = [
     value: "entities",
     children: <Constructor />,
   },
-  {
-    value: "solutions",
-    children: <Constructor />,
-  },
+  // {
+  //   value: "solutions",
+  //   children: <Constructor />,
+  // },
   {
     value: "groups",
     children: <DashboardGroups />,
@@ -25,9 +25,9 @@ const DashboardTabs = () => {
         <Tabs.Tab value="entities" icon={<IconHome size="0.8rem" />}>
           Свойства объектов
         </Tabs.Tab>
-        <Tabs.Tab value="solutions" icon={<IconArticle size="0.8rem" />}>
+        {/* <Tabs.Tab value="solutions" icon={<IconArticle size="0.8rem" />}>
           Свойства решений
-        </Tabs.Tab>
+        </Tabs.Tab> */}
         <Tabs.Tab value="groups" icon={<IconUsersGroup size="0.8rem" />}>
           Состав рабочих групп
         </Tabs.Tab>

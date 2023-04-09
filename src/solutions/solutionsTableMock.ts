@@ -23,7 +23,7 @@ export const solutionsTableMock: SolutionProps[] = [
     deadline: new Date(),
     groupId: 1,
     protocol: "Протокол",
-    status: "Начат",
+    status: "0/5",
     additionalInfo: {
       latitude: {
         label: "Широта",
@@ -43,7 +43,7 @@ export const solutionsTableMock: SolutionProps[] = [
     deadline: new Date(),
     groupId: 1,
     protocol: "Протокол",
-    status: "В работе",
+    status: "0/5",
   },
   {
     id: 2,
@@ -53,7 +53,7 @@ export const solutionsTableMock: SolutionProps[] = [
     deadline: new Date(),
     groupId: 1,
     protocol: "Протокол",
-    status: "Начат",
+    status: "0/5",
   },
   {
     id: 3,
@@ -63,7 +63,7 @@ export const solutionsTableMock: SolutionProps[] = [
     deadline: new Date(),
     groupId: 2,
     protocol: "Протокол",
-    status: "Просрочен",
+    status: "0/5",
 
     additionalInfo: {
       latitude: {
@@ -84,7 +84,7 @@ export const solutionsTableMock: SolutionProps[] = [
     deadline: new Date(),
     groupId: 2,
     protocol: "Протокол",
-    status: "Завершен",
+    status: "0/5",
   },
   {
     id: 5,
@@ -94,7 +94,7 @@ export const solutionsTableMock: SolutionProps[] = [
     deadline: new Date(),
     groupId: 1,
     protocol: "Протокол",
-    status: "Начат",
+    status: "0/5",
   },
   {
     id: 6,
@@ -104,7 +104,7 @@ export const solutionsTableMock: SolutionProps[] = [
     deadline: new Date(),
     groupId: 2,
     protocol: "Протокол",
-    status: "Начат",
+    status: "0/5",
 
     additionalInfo: {
       latitude: {
@@ -125,7 +125,7 @@ export const solutionsTableMock: SolutionProps[] = [
     deadline: new Date(),
     groupId: 1,
     protocol: "Протокол",
-    status: "В работе",
+    status: "0/5",
   },
   {
     id: 8,
@@ -135,6 +135,6 @@ export const solutionsTableMock: SolutionProps[] = [
     deadline: new Date(),
     groupId: 1,
     protocol: "Протокол",
-    status: "Начат",
+    status: "0/5",
   },
 ]

@@ -1,4 +1,4 @@
-import { Box, Group, HoverCard, Stack, Table, Text, useMantineTheme } from "@mantine/core"
+import { Badge, Box, Group, HoverCard, Stack, Table, Text, useMantineTheme } from "@mantine/core"
 import { IconChevronDown, IconInfoCircle } from "@tabler/icons-react"
 import { solutionsTableMock } from "./solutionsTableMock"
 import Link from "src/core/Link"
@@ -31,34 +31,8 @@ const SolutionsTable = () => {
           Протокол
         </Link>
       </td>
-      <td>{solution.status}</td>
       <td>
-        {solution.additionalInfo ? (
-          <HoverCard position="left" withinPortal withArrow>
-            <HoverCard.Target>
-              <IconInfoCircle size={20} stroke={1.5} color={theme.colors.gray[5]} />
-            </HoverCard.Target>
-            <HoverCard.Dropdown>
-              <>
-                <Text weight="bold" mb="xs" size="sm">
-                  Дополнительные поля
-                </Text>
-                <Stack spacing={4}>
-                  {Object.keys(solution.additionalInfo).map((key) => (
-                    <Group key={key}>
-                      <Text weight="bold" size="xs">
-                        {solution.additionalInfo![key].label}:{" "}
-                      </Text>
-                      <Text size="xs">{solution.additionalInfo![key].value}</Text>
-                    </Group>
-                  ))}
-                </Stack>
-              </>
-            </HoverCard.Dropdown>
-          </HoverCard>
-        ) : (
-          <Text>Нет</Text>
-        )}
+        <Badge color="yellow">{solution.status}</Badge>
       </td>
     </Box>
   ))
@@ -116,7 +90,6 @@ const SolutionsTable = () => {
           <th>Группа</th>
           <th>Протокол</th>
           <th>Статус</th>
-          <th>Подробнее</th>
         </tr>
       </thead>
       <tbody>{rows}</tbody>
