@@ -7,7 +7,7 @@ import EntityForm from "src/entities/EntityForm"
 import { openModal } from "@mantine/modals"
 import { invalidateQuery, useMutation, useQuery } from "@blitzjs/rpc"
 import getEntities from "src/entities/queries/getEntities"
-import { Entity, EntityAttribute } from "@prisma/client"
+import { Attribute, Entity, EntityAttribute, EntityFile, Solution } from "@prisma/client"
 import { useEffect, useState } from "react"
 import { xmlToJson } from "src/helpers/xmlToJson"
 import createEntities from "src/entities/mutations/createEntities"
@@ -28,7 +28,9 @@ export const AdditionFiltersMock = () => {
 }
 
 export interface ExtendedEntity extends Entity {
-  attributes: EntityAttribute[]
+  attributes: (EntityAttribute & { attribute: Attribute })[]
+  files: EntityFile[]
+  solutions: Solution[]
 }
 
 const EntitiesPage: BlitzPage = () => {

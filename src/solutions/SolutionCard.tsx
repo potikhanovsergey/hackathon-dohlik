@@ -1,8 +1,11 @@
+import { Routes } from "@blitzjs/next"
 import { Grid, Paper, Stack, Text, Group, Button, Badge } from "@mantine/core"
 import { openConfirmModal } from "@mantine/modals"
+import dayjs from "dayjs"
 import Link from "src/core/Link"
+import { ExtendedSolution } from "src/pages/solutions/[id]"
 
-const SolutionCard = () => {
+const SolutionCard = ({ solution }: { solution: ExtendedSolution }) => {
   const openConfirmDeleteModal = () =>
     openConfirmModal({
       title: "Пожалуйста, подтвердите свое действие",
@@ -21,39 +24,20 @@ const SolutionCard = () => {
   return (
     <>
       <Group position="apart" align="center" mb="md">
-        <Text>Дата создания решения: 18.22.3234</Text>
+        <Text>Дата создания решения: {dayjs(solution.createdAt).format("D MMMM YYYY")}</Text>
         <Button color="red" onClick={openConfirmDeleteModal}>
           Удалить решение
         </Button>
       </Group>
       <Paper withBorder>
-        <Grid columns={12} gutter="xl">
-          <Grid.Col span={9}>
-            <Stack spacing={0}>
-              <Text size="md" weight="bold">
-                Формулировка
-              </Text>
-              <Text mb="md">
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quas vel odio dolorum
-                repudiandae iste explicabo corporis architecto optio incidunt autem?
-              </Text>
-              <Text size="md" weight="bold">
-                Добавленное поле
-              </Text>
-              <Text mb="md">
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quas vel odio dolorum
-                repudiandae iste explicabo corporis architecto optio incidunt autem?
-              </Text>
-              <Text size="md" weight="bold">
-                Добавленное поле
-              </Text>
-              <Text mb="md">
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quas vel odio dolorum
-                repudiandae iste explicabo corporis architecto optio incidunt autem?
-              </Text>
-            </Stack>
-          </Grid.Col>
-          <Grid.Col span={2}>
+        <Group position="apart" align="flex-start">
+          <div>
+            <Text size="md" weight="bold">
+              Формулировка
+            </Text>
+            <Text mb="md">{solution.name}</Text>
+          </div>
+          <div>
             <Stack spacing={0}>
               <Text size="md" weight="bold">
                 Срок исполнения
@@ -62,20 +46,30 @@ const SolutionCard = () => {
               <Link href="lkdsjflsk" w="fit-content" target="_blank">
                 Группа
               </Link>
-              <Link href="lkdsjflsk" w="fit-content" target="_blank">
+              <Link
+                href={Routes.EntityPage({ id: solution.entityId })}
+                w="fit-content"
+                target="_blank"
+              >
                 Объект
               </Link>
-              <Link href="lkdsjflsk" w="fit-content" target="_blank">
-                Протокол
-              </Link>
+              {solution.protocolId && (
+                <Link
+                  href={Routes.ProtocolPage({ id: solution.protocolId })}
+                  w="fit-content"
+                  target="_blank"
+                >
+                  Протокол
+                </Link>
+              )}
             </Stack>
-          </Grid.Col>
-          <Grid.Col span={1}>
-            <Badge color="yellow" size="xl">
-              2/6
+          </div>
+          <div>
+            <Badge color="orange" size="xl">
+              2/6 поручений завершено
             </Badge>
-          </Grid.Col>
-        </Grid>
+          </div>
+        </Group>
       </Paper>
     </>
   )

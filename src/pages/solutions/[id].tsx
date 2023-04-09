@@ -17,7 +17,7 @@ const SolutionPage: BlitzPage = ({ solution }: { solution: ExtendedSolution }) =
     <Layout title="Решение">
       <Container size="xl">
         <Title mb="md">Решение №{solution.id}</Title>
-        <SolutionCard />
+        <SolutionCard solution={solution} />
         <Text size="xl" weight="bold" my="md">
           Поручения по решению
         </Text>
@@ -31,16 +31,19 @@ export default SolutionPage
 
 export const getServerSideProps: GetServerSideProps = gSSP(async ({ params }) => {
   const id = params?.id as string
-  const solution = await db.solution.findFirst({
-    where: {
-      id: +id,
-    },
-    include: {
-      assignments: true,
-    },
-  })
 
-  console.log("SOLUTION", solution)
+  let solution: ExtendedSolution | null = null
+
+  if (!isNaN(+id)) {
+    solution = await db.solution.findFirst({
+      where: {
+        id: +id,
+      },
+      include: {
+        assignments: true,
+      },
+    })
+  }
 
   if (!solution) {
     return {

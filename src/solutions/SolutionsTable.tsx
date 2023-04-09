@@ -5,18 +5,13 @@ import { useRouter } from "next/router"
 import { Routes } from "@blitzjs/next"
 import ThMenu from "src/core/NavigationTable/ThMenu"
 import { useForm } from "@mantine/form"
-import getSolutions from "./queries/getSolutions"
-import { useQuery } from "@blitzjs/rpc"
+import { Solution } from "@prisma/client"
 
-const SolutionsTable = () => {
+const SolutionsTable = ({ solutions }: { solutions: Solution[] }) => {
   const theme = useMantineTheme()
   const router = useRouter()
 
-  const [solutions] = useQuery(
-    getSolutions,
-    {},
-    { refetchOnReconnect: false, refetchOnWindowFocus: false }
-  )
+  console.log("SOLUTIONS", solutions)
 
   const rows = solutions?.map((solution) => (
     <Box
