@@ -5,6 +5,9 @@ import EntitiesTable from "src/entities/EntitiesTable"
 import FilterAddButtons from "src/core/FilterAddButtons"
 import EntityForm from "src/entities/EntityForm"
 import { openModal } from "@mantine/modals"
+import { useQuery } from "@blitzjs/rpc"
+import getEntities from "src/entities/queries/getEntities"
+import { Entity, EntityAttribute } from "@prisma/client"
 
 export const AdditionFiltersMock = () => {
   return (
@@ -20,7 +23,21 @@ export const AdditionFiltersMock = () => {
   )
 }
 
+export interface ExtendedEntity extends Entity {
+  attributes: EntityAttribute[]
+}
+
 const EntitiesPage: BlitzPage = () => {
+  const [entities] = useQuery(
+    getEntities,
+    {
+      include: {
+        attributes: true,
+      },
+    },
+    { refetchOnReconnect: false, refetchOnWindowFocus: false }
+  )
+
   const openEditModal = () =>
     openModal({
       title: "Добавить объект",
@@ -35,7 +52,7 @@ const EntitiesPage: BlitzPage = () => {
         <FilterAddButtons onAddButtonClick={openEditModal} withAddButton={true}>
           {AdditionFiltersMock()}
         </FilterAddButtons>
-        <EntitiesTable />
+        <EntitiesTable entities={entities as ExtendedEntity[]} />
       </Container>
     </Layout>
   )

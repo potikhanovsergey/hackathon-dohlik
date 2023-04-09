@@ -5,12 +5,13 @@ import { useRouter } from "next/router"
 import { Routes } from "@blitzjs/next"
 import ThMenu from "src/core/NavigationTable/ThMenu"
 import { useForm } from "@mantine/form"
+import { ExtendedEntity } from "src/pages"
 
-const EntitiesTable = () => {
+const EntitiesTable = ({ entities }: { entities: ExtendedEntity[] }) => {
   const theme = useMantineTheme()
   const router = useRouter()
 
-  const rows = entitiesTableMock.map((entity) => (
+  const rows = entities.map((entity) => (
     <Box
       component="tr"
       key={entity.id}
@@ -24,7 +25,7 @@ const EntitiesTable = () => {
       <td>{entity.owner}</td>
       <td>{entity.actualUser}</td>
       <td>
-        {entity.additionalInfo ? (
+        {entity.attributes ? (
           <HoverCard position="left" withinPortal withArrow>
             <HoverCard.Target>
               <IconInfoCircle size={20} stroke={1.5} color={theme.colors.gray[5]} />
@@ -35,12 +36,12 @@ const EntitiesTable = () => {
                   Дополнительные поля
                 </Text>
                 <Stack spacing={4}>
-                  {Object.keys(entity.additionalInfo).map((key) => (
+                  {Object.keys(entity.attributes).map((key) => (
                     <Group key={key}>
                       <Text weight="bold" size="xs">
-                        {entity.additionalInfo![key].label}:{" "}
+                        {entity.attributes![key].label}:{" "}
                       </Text>
-                      <Text size="xs">{entity.additionalInfo![key].value}</Text>
+                      <Text size="xs">{entity.attributes![key].value}</Text>
                     </Group>
                   ))}
                 </Stack>
