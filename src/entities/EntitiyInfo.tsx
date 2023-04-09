@@ -1,8 +1,8 @@
 import { Group, Image, SimpleGrid, Stack, Text, TextInput } from "@mantine/core"
 import Link from "next/link"
-import { ExtendedEntityFull } from "src/pages/entities/[id]"
+import { ExtendedEntity } from "src/pages"
 
-const EntityInfo = ({ entity }: { entity: ExtendedEntityFull }) => {
+const EntityInfo = ({ entity }: { entity: ExtendedEntity }) => {
   return (
     <Stack>
       <Text weight="bold" size="lg">
@@ -14,7 +14,7 @@ const EntityInfo = ({ entity }: { entity: ExtendedEntityFull }) => {
             <Text key={a.attribute.id}>
               {a.attribute.name}:{" "}
               {a.attribute.defaultValue.map(
-                (value, i) => value + (i < a.attribute.length ? ", " : "")
+                (value, i) => value + (i < entity.attributes.length ? ", " : "")
               )}
             </Text>
           ))

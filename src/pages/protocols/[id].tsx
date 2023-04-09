@@ -11,7 +11,7 @@ const ProtocolPage: BlitzPage = () => {
           <Title>Протокол №2987</Title>
           <Button>Экспортировать протокол</Button>
         </Group>
-        <SolutionsTable />
+        <SolutionsTable solutions={[]} />
       </Container>
     </Layout>
   )
