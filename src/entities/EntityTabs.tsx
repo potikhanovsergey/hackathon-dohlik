@@ -5,9 +5,10 @@ import EntityInfo from "./EntitiyInfo"
 import dynamic from "next/dynamic"
 import { Placemark } from "@pbe/react-yandex-maps"
 import SolutionsTable from "src/solutions/SolutionsTable"
+import { ExtendedEntityFull } from "src/pages/entities/[id]"
 const Map = dynamic(() => import("@pbe/react-yandex-maps").then((m) => m.Map), { ssr: false })
 
-const EntityTabs = () => {
+const EntityTabs = ({ entity }: { entity: ExtendedEntityFull }) => {
   return (
     <Tabs defaultValue="entity">
       <Tabs.List>
@@ -23,7 +24,7 @@ const EntityTabs = () => {
       </Tabs.List>
 
       <Tabs.Panel value="entity" pt="xs">
-        <EntityInfo />
+        <EntityInfo entity={entity as ExtendedEntityFull} />
       </Tabs.Panel>
 
       <Tabs.Panel value="solutions" pt="xs">

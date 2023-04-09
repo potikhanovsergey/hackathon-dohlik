@@ -1,6 +1,7 @@
 import { Grid, Image, Title, Text } from "@mantine/core"
+import { Entity } from "@prisma/client"
 
-const EntityHeader = () => {
+const EntityHeader = ({ entity }: { entity: Entity }) => {
   return (
     <Grid gutter={64}>
       <Grid.Col span={4}>
@@ -11,9 +12,13 @@ const EntityHeader = () => {
       </Grid.Col>
       <Grid.Col span={8}>
         <Title order={1} mb="xs">
-          Адрес || ...
+          {entity.district + " округ, " + entity.region + " р-н, " + entity.address}
         </Title>
-        <Text>Описание аттрибуты лалалала</Text>
+        <Text>Тип: {entity.type}</Text>
+        <Text>Состояние: {entity.state}</Text>
+        <Text>Площадь: {entity.area}</Text>
+        <Text>Собственник: {entity.owner}</Text>
+        <Text>Фактический пользователь: {entity.actualUser}</Text>
       </Grid.Col>
     </Grid>
   )

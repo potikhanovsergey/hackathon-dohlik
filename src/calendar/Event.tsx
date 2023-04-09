@@ -36,7 +36,6 @@ const Event = ({ avatar, name, date, entityId }: EventProps) => {
       sx={(theme) => ({ borderBottom: `1px solid ${theme.colors.gray[1]}` })}
     >
       <Group align="flex-start">
-        <Avatar size={64} alt="" src={avatar} />
         <div>
           <Text weight="bold" mb={4}>
             {name}

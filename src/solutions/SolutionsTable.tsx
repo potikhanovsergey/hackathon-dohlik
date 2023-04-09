@@ -1,26 +1,33 @@
-import { Badge, Box, Group, HoverCard, Stack, Table, Text, useMantineTheme } from "@mantine/core"
-import { IconChevronDown, IconInfoCircle } from "@tabler/icons-react"
-import { solutionsTableMock } from "./solutionsTableMock"
+import { Badge, Box, Group, Table, useMantineTheme } from "@mantine/core"
+import { IconChevronDown } from "@tabler/icons-react"
 import Link from "src/core/Link"
 import { useRouter } from "next/router"
 import { Routes } from "@blitzjs/next"
 import ThMenu from "src/core/NavigationTable/ThMenu"
 import { useForm } from "@mantine/form"
+import getSolutions from "./queries/getSolutions"
+import { useQuery } from "@blitzjs/rpc"
 
 const SolutionsTable = () => {
   const theme = useMantineTheme()
   const router = useRouter()
 
-  const rows = solutionsTableMock.map((solution) => (
+  const [solutions] = useQuery(
+    getSolutions,
+    {},
+    { refetchOnReconnect: false, refetchOnWindowFocus: false }
+  )
+
+  const rows = solutions?.map((solution) => (
     <Box
       component="tr"
       key={solution.id}
       onClick={() => router.push(Routes.SolutionPage({ id: solution.id }))}
       sx={{ cursor: "pointer", "&:hover": { background: theme.colors.gray[0] } }}
     >
-      <td>{solution.creationDate.toLocaleString()}</td>
-      <td>{solution.description}</td>
-      <td>{solution.deadline.toLocaleString()}</td>
+      <td>{solution.createdAt.toLocaleString()}</td>
+      <td>{solution.name}</td>
+      <td>{solution.createdAt.toLocaleString()}</td>
       <td>
         <Link target="_blank" href="/">
           Группа
@@ -32,7 +39,7 @@ const SolutionsTable = () => {
         </Link>
       </td>
       <td>
-        <Badge color="yellow">{solution.status}</Badge>
+        <Badge color="yellow">4/6</Badge>
       </td>
     </Box>
   ))

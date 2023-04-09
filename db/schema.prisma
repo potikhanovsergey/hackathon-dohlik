@@ -171,11 +171,11 @@ model Solution {
 
   workgroupId Int
   entityId    Int
-  protocolId  Int
+  protocolId  Int?
 
   workgroup   Workgroup    @relation(fields: [workgroupId], references: [id]) // Решение принимает одна рабочая группа
   entity      Entity       @relation(fields: [entityId], references: [id]) // Решение принимается по одному объекту
-  protocol    Protocol     @relation(fields: [protocolId], references: [id]) // Решение относится к одному протоколу
+  protocol    Protocol?    @relation(fields: [protocolId], references: [id]) // Решение относится к одному протоколу
   assignments Assignment[] // У одного решения может быть много поручений (Пример: Решение - снести дом; Поручениями будет список действий по сносу дома)
 }
 
