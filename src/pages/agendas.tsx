@@ -7,10 +7,7 @@ const AgendasPage: BlitzPage = () => {
   return (
     <Layout title="Повестки">
       <Container size="xl">
-        <Group position="apart" mb="md" noWrap align="center">
-          <Title>Повестки</Title>
-          <Button>Добавить повестку</Button>
-        </Group>
+        <Title mb="md">Повестки</Title>
         <AgendasTable />
       </Container>
     </Layout>

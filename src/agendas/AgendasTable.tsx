@@ -1,4 +1,4 @@
-import { Box, Group, Button, Table } from "@mantine/core"
+import { Box, Group, Button, Table, Text, Badge } from "@mantine/core"
 import { IconChevronDown } from "@tabler/icons-react"
 import Link from "src/core/Link"
 import ThMenu from "src/core/NavigationTable/ThMenu"
@@ -10,14 +10,24 @@ const AgendasTable = () => {
     <Box component="tr" key={agenda.id}>
       <td>{agenda.date.toLocaleString()}</td>
       <td>
-        <Link target="_blank" href="/">
-          Решение/Поручение
-        </Link>
+        <Badge size="xs" color={agenda.status === "Истекшее" ? "red" : "green"}>
+          {agenda.status}
+        </Badge>
       </td>
       <td>
         <Link target="_blank" href="/">
-          34534
+          Решение
         </Link>
+      </td>
+      <td>Снести дом</td>
+      <td>
+        {agenda.oldProtocolId ? (
+          <Link target="_blank" href="/">
+            34534
+          </Link>
+        ) : (
+          <Text>-</Text>
+        )}
       </td>
       <td>
         <Link target="_blank" href="/">
@@ -35,12 +45,18 @@ const AgendasTable = () => {
     </Box>
   ))
 
-  const columns = [{ label: "Дата", value: "creationDate", type: ["sort"] }]
+  const columns = [
+    { label: "Дата", value: "creationDate", type: ["sort"] },
+    { label: "Статус", value: "status", type: ["search"] },
+  ]
 
   const form = useForm({
     initialValues: {
       sort: {
         date: null,
+      },
+      search: {
+        status: "",
       },
     },
   })
@@ -70,8 +86,9 @@ const AgendasTable = () => {
               </Group>
             </ThMenu>
           ))}
-          <th>Истекшиее решение/поручение</th>
-          <th>Протокол истекшего решения/поручения</th>
+          <th>Решение</th>
+          <th>Поручение</th>
+          <th>Протокол</th>
           <th>Объект</th>
           <th>Рабочая группа</th>
           <th>Планирование встречи рабочей группы</th>

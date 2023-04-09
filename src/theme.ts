@@ -222,6 +222,11 @@ const theme: MantineThemeOverride = {
         locale: "ru",
       },
     },
+    TextInput: {
+      defaultProps: {
+        size: "xs",
+      },
+    },
     Input: {
       styles: (theme) => ({
         input: {

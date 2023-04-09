@@ -1,10 +1,10 @@
-interface SolutionProps {
+interface AssignmentProps {
   id: number
   creationDate: Date
   description: string
   deadline: Date
-  groupId: number
-  protocol: string
+  inCharge: string
+  solutionId: number
   status: string
   additionalInfo?: {
     [key: string]: {
@@ -14,16 +14,16 @@ interface SolutionProps {
   }
 }
 
-export const solutionsTableMock: SolutionProps[] = [
+export const assignmentsTableMock: AssignmentProps[] = [
   {
     id: 0,
     creationDate: new Date(),
     description:
       "First ipsum dolor sit amet, consectetur adipisicing elit. Veniam, exercitationem.",
     deadline: new Date(),
-    groupId: 1,
-    protocol: "Протокол",
-    status: "0/5",
+    inCharge: "Аркадий Аркадьевич Аркадьев",
+    solutionId: 1,
+    status: "Начат",
     additionalInfo: {
       latitude: {
         label: "Широта",
@@ -41,9 +41,9 @@ export const solutionsTableMock: SolutionProps[] = [
     description:
       "Second ipsum dolor sit amet, consectetur adipisicing elit. Veniam, exercitationem.",
     deadline: new Date(),
-    groupId: 1,
-    protocol: "Протокол",
-    status: "0/5",
+    inCharge: "Аркадий Аркадьевич Аркадьев",
+    solutionId: 2,
+    status: "В работе",
   },
   {
     id: 2,
@@ -51,9 +51,9 @@ export const solutionsTableMock: SolutionProps[] = [
     description:
       "Third ipsum dolor sit amet, consectetur adipisicing elit. Veniam, exercitationem.",
     deadline: new Date(),
-    groupId: 1,
-    protocol: "Протокол",
-    status: "0/5",
+    inCharge: "Аркадий Аркадьевич Аркадьев",
+    solutionId: 1,
+    status: "Начат",
   },
   {
     id: 3,
@@ -61,9 +61,9 @@ export const solutionsTableMock: SolutionProps[] = [
     description:
       "First ipsum dolor sit amet, consectetur adipisicing elit. Veniam, exercitationem.",
     deadline: new Date(),
-    groupId: 2,
-    protocol: "Протокол",
-    status: "0/5",
+    inCharge: "Аркадий Аркадьевич Аркадьев",
+    solutionId: 1,
+    status: "Просрочен",
 
     additionalInfo: {
       latitude: {
@@ -82,9 +82,9 @@ export const solutionsTableMock: SolutionProps[] = [
     description:
       "Second ipsum dolor sit amet, consectetur adipisicing elit. Veniam, exercitationem.",
     deadline: new Date(),
-    groupId: 2,
-    protocol: "Протокол",
-    status: "0/5",
+    inCharge: "Аркадий Аркадьевич Аркадьев",
+    solutionId: 3,
+    status: "Завершен",
   },
   {
     id: 5,
@@ -92,9 +92,9 @@ export const solutionsTableMock: SolutionProps[] = [
     description:
       "Third ipsum dolor sit amet, consectetur adipisicing elit. Veniam, exercitationem.",
     deadline: new Date(),
-    groupId: 1,
-    protocol: "Протокол",
-    status: "0/5",
+    inCharge: "Аркадий Аркадьевич Аркадьев",
+    solutionId: 2,
+    status: "Начат",
   },
   {
     id: 6,
@@ -102,9 +102,9 @@ export const solutionsTableMock: SolutionProps[] = [
     description:
       "First ipsum dolor sit amet, consectetur adipisicing elit. Veniam, exercitationem.",
     deadline: new Date(),
-    groupId: 2,
-    protocol: "Протокол",
-    status: "0/5",
+    inCharge: "Аркадий Аркадьевич Аркадьев",
+    solutionId: 3,
+    status: "Начат",
 
     additionalInfo: {
       latitude: {
@@ -123,9 +123,9 @@ export const solutionsTableMock: SolutionProps[] = [
     description:
       "Second ipsum dolor sit amet, consectetur adipisicing elit. Veniam, exercitationem.",
     deadline: new Date(),
-    groupId: 1,
-    protocol: "Протокол",
-    status: "0/5",
+    inCharge: "Аркадий Аркадьевич Аркадьев",
+    solutionId: 2,
+    status: "В работе",
   },
   {
     id: 8,
@@ -133,8 +133,8 @@ export const solutionsTableMock: SolutionProps[] = [
     description:
       "Third ipsum dolor sit amet, consectetur adipisicing elit. Veniam, exercitationem.",
     deadline: new Date(),
-    groupId: 1,
-    protocol: "Протокол",
-    status: "0/5",
+    inCharge: "Аркадий Аркадьевич Аркадьев",
+    solutionId: 1,
+    status: "Начат",
   },
 ]
