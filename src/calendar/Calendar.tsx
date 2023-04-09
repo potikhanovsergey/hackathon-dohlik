@@ -1,13 +1,13 @@
 import { Button, Chip, Group, Indicator, Stack } from "@mantine/core"
 import { DayProps, Calendar as MantineCalendar } from "@mantine/dates"
 import dayjs from "dayjs"
-import { EventsProps } from "./types"
 import { useObservable, useSelector } from "@legendapp/state/react"
 import { datesFilter } from "./store"
 import { useEffect, useMemo } from "react"
+import { ExtendedEvent } from "src/pages/calendar"
 
 interface CalendarProps {
-  events: EventsProps
+  events: ExtendedEvent[]
 }
 
 const startOfWeek = dayjs().startOf("week")
@@ -105,7 +105,7 @@ const Calendar = ({ events }: CalendarProps) => {
         renderDay={(date) => {
           const day = date.getDate()
 
-          if (events.find((e) => dayjs(e.date).isSame(date, "day"))) {
+          if (events && events.find((e) => dayjs(e.date).isSame(date, "day"))) {
             return (
               <Indicator size={6} color="green" offset={-2}>
                 <div>{day}</div>
