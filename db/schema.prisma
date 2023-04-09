@@ -129,8 +129,10 @@ model EntityAttribute {
   entityId    Int
   attributeId Int
 
+  value String[]
+
   entity    Entity    @relation(fields: [entityId], references: [id])
-  attribute Attribute @relation(fields: [attributeId], references: [id])
+  attribute Attribute @relation(fields: [attributeId], references: [id], onDelete: Cascade)
 }
 
 // Аттрибут объекта/решения (администратор сможет добавлять новые поля к сущностям)
@@ -140,6 +142,7 @@ model Attribute {
   placeholder  String? // Подсказка к полю (для текста и даты)
   defaultValue String[] // Значение аттрибута по умолчанию (если значение должно быть одиночным, оно будет в нулевом индексе, в остальных случаях значение по умолчанию это массив из значений, например у чекбоксов)
   autoFill     Boolean  @default(false) // Заполнять это свойство в существующих и будущих объектах значением по умолчанию, если это свойство у них не заполнено
+  data         String[] // Некоторые аттрибуты могут хранить массив данных (checkbox, radio, select)
 
   parent        AttributeParent // В будущем кроме Entity аттрибуты могут добавляться для любых других сущностей
   attributeType EntityAttributeType // В будущем аттрибуту можно добавлять новые типы полей (например выпадающий список — select)

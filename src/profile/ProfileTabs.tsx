@@ -1,6 +1,6 @@
 import { Tabs } from "@mantine/core"
 import { IconInfoCircle, IconUsersGroup } from "@tabler/icons-react"
-import PersonalGroups from "./PersonalGroups"
+import Workgroups from "./Workgroups"
 import PersonalInfo from "./Personalnfo"
 
 const ProfileTabs = () => {
@@ -20,7 +20,7 @@ const ProfileTabs = () => {
       </Tabs.Panel>
 
       <Tabs.Panel value="groups" pt="xs">
-        <PersonalGroups />
+        <Workgroups />
       </Tabs.Panel>
     </Tabs>
   )

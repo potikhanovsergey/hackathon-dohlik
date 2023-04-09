@@ -12,27 +12,19 @@ import {
   ActionIcon,
   Box,
 } from "@mantine/core"
-import {
-  IconArrowDown,
-  IconArrowUp,
-  IconCopy,
-  IconEyeOff,
-  IconPlus,
-  IconTrash,
-} from "@tabler/icons-react"
+import { IconPlus, IconTrash } from "@tabler/icons-react"
 import AttributeControls from "./AttributeControls"
 import { useForm } from "@mantine/form"
 import AttributeDefaultValue from "./AttributeDefaultValue"
 import { useEffect } from "react"
 import { useMutation } from "@blitzjs/rpc"
-import createAttribute from "src/attributes/mutations/createAttribute"
-
-const useStyles = createStyles((theme) => ({}))
+import upsertAttribute from "src/attributes/mutations/upsertAttribute"
+import { ConstructorAttribute } from "."
 
 export interface AttributeProps {
-  isFirst: boolean
-  isLast: boolean
   index: number
+  attribute: ConstructorAttribute
+  onDelete: () => void
 }
 
 const attributeTypes: SelectProps["data"] = [
@@ -65,23 +57,23 @@ const attributeTypes: SelectProps["data"] = [
 const typesWithPlaceholder = ["text", "date"]
 
 export interface AttributeFormProps {
-  type: "text" | "checkbox" | "radio" | "switch" | "file" | "date" | null
-  name: string
-  placeholder: string
-  defaultValue: any
-  autoFill: boolean
-  data: null | { value: string; label: string }[]
+  type: ConstructorAttribute["attributeType"] | null
+  name: ConstructorAttribute["name"]
+  placeholder: ConstructorAttribute["placeholder"]
+  defaultValue: ConstructorAttribute["defaultValue"]
+  autoFill: ConstructorAttribute["autoFill"]
+  data: ConstructorAttribute["data"]
 }
 
-const Attribute = ({ isFirst, isLast, index }: AttributeProps) => {
+const Attribute = ({ index, attribute, onDelete }: AttributeProps) => {
   const form = useForm<AttributeFormProps>({
     initialValues: {
-      type: null,
-      name: "",
-      placeholder: "",
-      defaultValue: "",
-      data: null,
-      autoFill: false,
+      type: attribute.attributeType,
+      name: attribute.name,
+      placeholder: attribute.placeholder || "",
+      defaultValue: attribute.defaultValue || "",
+      data: attribute.data,
+      autoFill: attribute.autoFill,
     },
   })
 
@@ -89,20 +81,17 @@ const Attribute = ({ isFirst, isLast, index }: AttributeProps) => {
     switch (form.values.type) {
       case "radio":
       case "checkbox":
-        form.setFieldValue("data", [{ label: "Значение 1", value: new Date().getTime() + "" }])
+        form.setFieldValue("data", ["Значение 1"])
         break
       default:
-        form.setFieldValue("data", null)
+        form.setFieldValue("data", [])
     }
-    form.setFieldValue("defaultValue", "")
+    form.setFieldValue("defaultValue", [""])
   }, [form.values.type])
 
   const addValue = () => {
     const data = form.values.data
-    const newItem = {
-      value: new Date().getTime() + "",
-      label: `Значение ${data ? data.length + 1 : 1}`,
-    }
+    const newItem = `Значение ${data ? data.length + 1 : 1}`
     form.setFieldValue("data", data ? [...data, newItem] : [newItem])
   }
 
@@ -113,19 +102,23 @@ const Attribute = ({ isFirst, isLast, index }: AttributeProps) => {
       form.setFieldValue("data", data)
     }
   }
-
-  const [createAttributeMutation, { isLoading: isCreatingAttribute }] = useMutation(createAttribute)
+  const [upsertAttributeMutation, { isLoading: isCreatingAttribute }] = useMutation(upsertAttribute)
 
   const onFormSubmit = form.onSubmit(async (values) => {
-    await createAttributeMutation({
-      data: {
-        attributeType: values.type!,
-        autoFill: values.autoFill,
-        defaultValue: values.defaultValue,
-        name: values.name,
-        placeholder: values.placeholder,
-        parent: "entity",
+    const data = {
+      attributeType: values.type!,
+      autoFill: values.autoFill,
+      defaultValue: values.defaultValue[0]?.length > 0 ? values.defaultValue : [],
+      name: values.name,
+      placeholder: values.placeholder,
+      parent: "entity" as "entity",
+    }
+    await upsertAttributeMutation({
+      where: {
+        id: attribute.id || Math.floor(Math.random() * 10000),
       },
+      update: data,
+      create: data,
     })
   })
 
@@ -133,8 +126,8 @@ const Attribute = ({ isFirst, isLast, index }: AttributeProps) => {
     <Box component="form" onSubmit={onFormSubmit}>
       <Paper withBorder>
         <Group position="apart" mb="md">
-          <Text>Свойство {index + 1}</Text>
-          <AttributeControls isFirst={isFirst} isLast={isLast} />
+          <Text>Свойство {attribute.id || index + 1}</Text>
+          <AttributeControls onDelete={onDelete} />
         </Group>
         <Stack maw="50%">
           <Select
@@ -162,12 +155,12 @@ const Attribute = ({ isFirst, isLast, index }: AttributeProps) => {
               <Stack mb="xs">
                 {form.values.data &&
                   form.values.data.map((item, i) => (
-                    <Group key={item.value} spacing="xs" w="100%">
+                    <Group key={i} spacing="xs" w="100%">
                       <TextInput
                         miw={300}
                         maxLength={20}
                         size="xs"
-                        {...form.getInputProps(`data.${i}.label`)}
+                        {...form.getInputProps(`data.${i}`)}
                       />
                       <ActionIcon
                         onClick={() => deleteValue(i)}
@@ -210,6 +203,7 @@ const Attribute = ({ isFirst, isLast, index }: AttributeProps) => {
               Автозаполнение
             </Text>
             <Checkbox
+              {...form.getInputProps("autoFill")}
               size="xs"
               label="Заполнить это свойство в существующих объектах значением по умолчанию, если это свойство не заполнено"
             />

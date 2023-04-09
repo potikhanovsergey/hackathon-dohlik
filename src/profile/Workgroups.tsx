@@ -11,7 +11,7 @@ export interface ExtendedWorkgroup extends Workgroup {
   })[]
 }
 
-const PersonalGroups = () => {
+const Workgroups = () => {
   const session = useSession()
 
   const [workgroups] = useQuery(getWorkgroups, {
@@ -37,4 +37,4 @@ const PersonalGroups = () => {
   )
 }
 
-export default PersonalGroups
+export default Workgroups
