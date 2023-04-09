@@ -4,6 +4,7 @@ import { useForm } from "@mantine/form"
 import { closeAllModals } from "@mantine/modals"
 import createEntity from "./mutations/createEntity"
 import getEntities from "./queries/getEntities"
+import { notifications } from "@mantine/notifications"
 
 const EntityForm = () => {
   const form = useForm({
@@ -24,8 +25,26 @@ const EntityForm = () => {
   return (
     <form
       onSubmit={form.onSubmit(async (values) => {
-        const response = await createEntityMutation({ data: values })
-        void invalidateQuery(getEntities)
+        try {
+          await createEntityMutation({
+            data: { ...values, area: !isNaN(+values.area) ? +values.area : null },
+          })
+          notifications.show({
+            withCloseButton: true,
+            autoClose: 5000,
+            message: "Объект успешно добавлен в базу данных",
+            color: "green",
+          })
+          void invalidateQuery(getEntities)
+        } catch (e) {
+          notifications.show({
+            withCloseButton: true,
+            autoClose: 5000,
+            title: "Ошибка при добавлении объекта",
+            message: e?.toString(),
+            color: "red",
+          })
+        }
       })}
     >
       <Stack spacing={0}>
