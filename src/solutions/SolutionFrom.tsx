@@ -12,7 +12,7 @@ const SolutionForm = () => {
     initialValues: {
       entityId: 0,
       name: "",
-      workGroupId: 0,
+      workgroupId: 0,
       protocolId: null,
     },
   })
@@ -69,7 +69,7 @@ const SolutionForm = () => {
         <Select
           label="Рабочая группа"
           placeholder="93823"
-          {...form.getInputProps("groupId")}
+          {...form.getInputProps("workgroupId")}
           data={
             workgroups
               ? workgroups.length > 0

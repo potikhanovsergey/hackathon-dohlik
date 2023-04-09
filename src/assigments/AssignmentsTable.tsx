@@ -1,20 +1,18 @@
-import { Box, Group, HoverCard, Stack, Table, Text, useMantineTheme } from "@mantine/core"
-import { IconChevronDown, IconInfoCircle } from "@tabler/icons-react"
-import { useRouter } from "next/router"
+import { Box, Group, Table } from "@mantine/core"
+import { IconChevronDown } from "@tabler/icons-react"
 import ThMenu from "src/core/NavigationTable/ThMenu"
 import { useForm } from "@mantine/form"
-import { assignmentsTableMock } from "./assignmentsTableMock"
+import { ExtendedSolution } from "src/pages/solutions/[id]"
+import dayjs from "dayjs"
 
-const AssignmentsTable = () => {
-  const theme = useMantineTheme()
-
-  const rows = assignmentsTableMock.map((solution) => (
-    <Box component="tr" key={solution.id}>
-      <td>{solution.creationDate.toLocaleString()}</td>
-      <td>{solution.description}</td>
-      <td>{solution.deadline.toLocaleString()}</td>
-      <td>{solution.inCharge}</td>
-      <td>{solution.status}</td>
+const AssignmentsTable = ({ solution }: { solution: ExtendedSolution }) => {
+  const rows = solution.assignments.map((assignment) => (
+    <Box component="tr" key={assignment.id}>
+      <td>{dayjs(assignment.createdAt).format("D MMMM YYYY")}</td>
+      <td>{assignment.name}</td>
+      <td>{dayjs(assignment.deadline).format("D MMMM YYYY")}</td>
+      <td>{assignment.responsible}</td>
+      <td>{assignment.status}</td>
     </Box>
   ))
 

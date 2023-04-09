@@ -20,16 +20,38 @@ const EventForm = () => {
     },
   })
 
-  const [assignments] = useQuery(getAssignments, {
-    where: {
-      status: {
-        in: ["done", "new"],
-      },
-      eventId: {
-        equals: null,
+  const [assignments] = useQuery(
+    getAssignments,
+    {
+      where: {
+        // OR: [
+        //   {
+        //     status: {
+        //       in: ["done", "new"],
+        //     },
+        //     eventId: {
+        //       equals: null,
+        //     },
+        //   },
+        //   {
+        //     status: {
+        //       in: ["inProgress", "new"],
+        //     },
+        //     deadline: {
+        //       lt: new Date(),
+        //     },
+        //   },
+        // ],
+        status: {
+          in: ["done", "new"],
+        },
+        eventId: {
+          equals: null,
+        },
       },
     },
-  })
+    { refetchOnMount: false, refetchOnReconnect: false, refetchOnWindowFocus: false, retry: false }
+  )
 
   const [createEventMutation] = useMutation(createEvent)
 
@@ -57,6 +79,7 @@ const EventForm = () => {
           })
 
           void invalidateQuery(getEvents)
+          void invalidateQuery(getAssignments)
         } catch (e) {
           notifications.show({
             withCloseButton: true,
@@ -72,20 +95,25 @@ const EventForm = () => {
         <TextInput
           label="Название события"
           placeholder="Проверить дом..."
+          required
           {...form.getInputProps("name")}
         />
         <TextInput
           label="Ссылка на встречу"
+          required
           placeholder="https://sldkfdfj..."
           {...form.getInputProps("meetingUrl")}
         />
         <DatePickerInput
           label="Дата события"
+          required
           {...form.getInputProps("date")}
           popoverProps={{ withinPortal: true }}
         />
         <MultiSelect
           label="Повестки"
+          required
+          disabled={assignments?.length === 0}
           placeholder="Снос дома"
           {...form.getInputProps("assignments")}
           data={
@@ -98,7 +126,6 @@ const EventForm = () => {
                 : []
               : []
           }
-          required
           withinPortal
         />
         <Button type="submit" onClick={() => closeAllModals()}>

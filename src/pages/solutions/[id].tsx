@@ -3,20 +3,56 @@ import Layout from "src/core/layouts/Layout"
 import { Container, Title, Text } from "@mantine/core"
 import SolutionCard from "src/solutions/SolutionCard"
 import AssignmentsTable from "src/assigments/AssignmentsTable"
+import db, { Assignment, Solution } from "db"
+import { GetServerSideProps } from "next"
+import { gSSP } from "src/blitz-server"
+import { dehydrate } from "@blitzjs/rpc"
 
-const SolutionPage: BlitzPage = () => {
+export interface ExtendedSolution extends Solution {
+  assignments: Assignment[]
+}
+
+const SolutionPage: BlitzPage = ({ solution }: { solution: ExtendedSolution }) => {
   return (
     <Layout title="Решение">
       <Container size="xl">
-        <Title mb="md">Решение </Title>
+        <Title mb="md">Решение №{solution.id}</Title>
         <SolutionCard />
         <Text size="xl" weight="bold" my="md">
           Поручения по решению
         </Text>
-        <AssignmentsTable />
+        <AssignmentsTable solution={solution} />
       </Container>
     </Layout>
   )
 }
 
 export default SolutionPage
+
+export const getServerSideProps: GetServerSideProps = gSSP(async ({ params }) => {
+  const id = params?.id as string
+  const solution = await db.solution.findFirst({
+    where: {
+      id: +id,
+    },
+    include: {
+      assignments: true,
+    },
+  })
+
+  console.log("SOLUTION", solution)
+
+  if (!solution) {
+    return {
+      notFound: true,
+      props: {} as { [key: string]: any },
+    }
+  }
+
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClient),
+      solution,
+    },
+  }
+})

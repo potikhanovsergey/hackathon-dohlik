@@ -1,11 +1,5 @@
 import { Tabs } from "@mantine/core"
-import {
-  IconBuildingCommunity,
-  IconBulbFilled,
-  IconInfoCircle,
-  IconMap2,
-  IconUsersGroup,
-} from "@tabler/icons-react"
+import { IconInfoCircle, IconUsersGroup } from "@tabler/icons-react"
 import PersonalGroups from "./PersonalGroups"
 import PersonalInfo from "./Personalnfo"
 

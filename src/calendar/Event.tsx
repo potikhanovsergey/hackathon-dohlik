@@ -5,6 +5,7 @@ import Link from "src/core/Link"
 import { openConfirmModal, openModal } from "@mantine/modals"
 import EventForm from "./EventForm"
 import { ExtendedEvent } from "src/pages/calendar"
+import { Routes } from "@blitzjs/next"
 
 const Event = ({ name, date, meetingUrl, assignments }: ExtendedEvent) => {
   const openConfirmDeleteModal = () =>
@@ -41,7 +42,7 @@ const Event = ({ name, date, meetingUrl, assignments }: ExtendedEvent) => {
               <Text size="sm" color="dimmed">
                 <Group spacing="xs">
                   <IconCalendar size={20} />
-                  {dayjs(date).format("DD MMMM YYYY")}
+                  {dayjs(date).format("D MMMM YYYY")}
                 </Group>
               </Text>
             </Group>
@@ -53,6 +54,7 @@ const Event = ({ name, date, meetingUrl, assignments }: ExtendedEvent) => {
                 Ссылка на встречу
               </Link>
             </Group>
+
             <Box mt="xs">
               <Text weight="bold">Обсуждаемые поручения: </Text>
               <Group>
@@ -64,6 +66,20 @@ const Event = ({ name, date, meetingUrl, assignments }: ExtendedEvent) => {
                     </>
                   ))}
                 </Text>
+              </Group>
+            </Box>
+            <Box mt="xs">
+              <Text weight="bold">По объектам соответственно: </Text>
+              <Group>
+                {assignments.map((assignment, i) => (
+                  <Link
+                    key={assignment.solution.entityId}
+                    href={Routes.EntityPage({ id: assignment.solution.entityId })}
+                  >
+                    №{assignment.solution.entityId}
+                    {i < assignments.length - 1 && ", "}
+                  </Link>
+                ))}
               </Group>
             </Box>
           </div>

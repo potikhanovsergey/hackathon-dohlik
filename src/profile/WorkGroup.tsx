@@ -3,13 +3,16 @@ import { openConfirmModal } from "@mantine/modals"
 import { IconTrash } from "@tabler/icons-react"
 import { useState } from "react"
 import ProfileCard from "./ProfileCard"
+import { ExtendedWorkgroup } from "./PersonalGroups"
 
 const WorkGroup = ({
   withButtons = false,
   withUserDelete = false,
+  workgroup,
 }: {
   withButtons?: boolean
   withUserDelete?: boolean
+  workgroup: ExtendedWorkgroup
 }) => {
   const [menuOpened, setMenuOpened] = useState(false)
 
@@ -33,7 +36,7 @@ const WorkGroup = ({
       <Group position="apart" align="center">
         <Group spacing={0} align="center">
           <Text weight="bold" size="lg">
-            Группа №9485
+            Группа №{workgroup.id}
           </Text>
           {withButtons && (
             <ActionIcon color="red" variant="transparent" onClick={openConfirmDeleteModal}>
@@ -88,8 +91,12 @@ const WorkGroup = ({
         )}
       </Group>
       <Group>
-        {[1, 2, 3, 4, 5].map((i) => (
-          <ProfileCard key={i} withDelete={withUserDelete} />
+        {workgroup.participations.map((participation) => (
+          <ProfileCard
+            user={participation.user}
+            key={participation.id}
+            withDelete={withUserDelete}
+          />
         ))}
       </Group>
     </>

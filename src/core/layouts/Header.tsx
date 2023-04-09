@@ -15,22 +15,23 @@ import Link from "next/link"
 import logout from "src/auth/mutations/logout"
 import Navigation from "./Navigation"
 import { Suspense } from "react"
+import { useCurrentUser } from "src/users/hooks/useCurrentUser"
 
 const HeaderProfile = () => {
-  const session = useSession()
+  const user = useCurrentUser()
   const [logoutMutation] = useMutation(logout)
 
-  return session.userId ? (
+  return user ? (
     <Menu>
       <Menu.Target>
-        <Avatar sx={{ cursor: "pointer" }} />
+        <Avatar src={user.avatar} alt="Avatar" sx={{ cursor: "pointer" }} />
       </Menu.Target>
 
       <Menu.Dropdown>
         <Stack spacing={0} px="sm">
-          <Text size="sm">Аркадий А.А.</Text>
+          <Text size="sm">{user.name}</Text>
           <Text size="sm" color="dimmed">
-            arcadyi@mail.ru
+            {user.email}
           </Text>
         </Stack>
         <Menu.Divider />

@@ -1,17 +1,18 @@
 import { Paper, Group, Avatar, Stack, Text, ActionIcon, Menu, Button } from "@mantine/core"
+import { User } from "@prisma/client"
 import { IconTrash } from "@tabler/icons-react"
 import { useState } from "react"
 
-const ProfileCard = ({ withDelete = false }: { withDelete?: boolean }) => {
+const ProfileCard = ({ withDelete = false, user }: { withDelete?: boolean; user: User }) => {
   const [menuOpened, setMenuOpened] = useState(false)
 
   return (
     <Paper withBorder>
       <Group noWrap>
-        <Avatar size="lg" />
+        <Avatar alt="" src={user.avatar} size="lg" />
         <Stack spacing={0}>
-          <Text>Аркадий А.А.</Text>
-          <Text>arcadyi@mail.ru</Text>
+          <Text>{user.name}</Text>
+          <Text>{user.email}</Text>
         </Stack>
         {withDelete && (
           <Menu width={200} opened={menuOpened} onChange={setMenuOpened}>

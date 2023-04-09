@@ -8,25 +8,24 @@ import {
   Button,
   FileButton,
 } from "@mantine/core"
-import { IconCheck, IconCross, IconEdit, IconX } from "@tabler/icons-react"
+import { IconCheck, IconEdit, IconX } from "@tabler/icons-react"
 import { useState } from "react"
+import { useCurrentUser } from "src/users/hooks/useCurrentUser"
 
 const PersonalInfo = () => {
   const [changeName, setChangeName] = useState(false)
   const [changeEmail, setChangeEmail] = useState(false)
   const [file, setFile] = useState<File | null>(null)
 
-  return (
+  const user = useCurrentUser()
+
+  return user ? (
     <Stack spacing={0} align="flex-start">
       <Text weight="bold" size="lg">
         ФИО
       </Text>
       <Group mb="md" spacing={0}>
-        {changeName ? (
-          <TextInput placeholder="Аркадий Аркадьевич Аркадьев" />
-        ) : (
-          <Text>Аркадий Аркадьевич Аркадьев</Text>
-        )}
+        {changeName ? <TextInput placeholder={user.name} /> : <Text>{user.name}</Text>}
         {changeName ? (
           <Group spacing={0}>
             <ActionIcon
@@ -65,7 +64,7 @@ const PersonalInfo = () => {
         Электронная почта
       </Text>
       <Group mb="sm" spacing={0}>
-        {changeEmail ? <TextInput placeholder="arcadiy@mail.ru" /> : <Text>arcadiy@mail.ru</Text>}
+        {changeEmail ? <TextInput placeholder={user.email} /> : <Text>{user.email}</Text>}
         {changeEmail ? (
           <Group spacing={0}>
             <ActionIcon
@@ -103,11 +102,7 @@ const PersonalInfo = () => {
       <Text weight="bold" size="lg">
         Аватар
       </Text>
-      <Avatar
-        src="https://ucarecdn.com/68af31a6-8891-4116-8cf9-5ee125913524/noroot.png"
-        size={200}
-        alt="profile picture"
-      />
+      <Avatar radius={200} my="xs" src={user.avatar} size={200} alt="Profile picture" />
       <FileButton onChange={setFile} accept="image/png,image/jpeg">
         {(props) => <Button {...props}>Загрузить новое фото профиля</Button>}
       </FileButton>
@@ -117,6 +112,8 @@ const PersonalInfo = () => {
         </Text>
       )}
     </Stack>
+  ) : (
+    <></>
   )
 }
 
