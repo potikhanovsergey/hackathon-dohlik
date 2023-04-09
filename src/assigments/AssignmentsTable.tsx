@@ -1,36 +1,19 @@
 import { Box, Group, HoverCard, Stack, Table, Text, useMantineTheme } from "@mantine/core"
 import { IconChevronDown, IconInfoCircle } from "@tabler/icons-react"
-import { solutionsTableMock } from "./solutionsTableMock"
-import Link from "src/core/Link"
 import { useRouter } from "next/router"
-import { Routes } from "@blitzjs/next"
 import ThMenu from "src/core/NavigationTable/ThMenu"
 import { useForm } from "@mantine/form"
+import { assignmentsTableMock } from "./assignmentsTableMock"
 
-const SolutionsTable = () => {
+const AssignmentsTable = () => {
   const theme = useMantineTheme()
-  const router = useRouter()
 
-  const rows = solutionsTableMock.map((solution) => (
-    <Box
-      component="tr"
-      key={solution.id}
-      onClick={() => router.push(Routes.SolutionPage({ id: solution.id }))}
-      sx={{ cursor: "pointer", "&:hover": { background: theme.colors.gray[0] } }}
-    >
+  const rows = assignmentsTableMock.map((solution) => (
+    <Box component="tr" key={solution.id}>
       <td>{solution.creationDate.toLocaleString()}</td>
       <td>{solution.description}</td>
       <td>{solution.deadline.toLocaleString()}</td>
-      <td>
-        <Link target="_blank" href="/">
-          Группа
-        </Link>
-      </td>
-      <td>
-        <Link target="_blank" href="/">
-          Протокол
-        </Link>
-      </td>
+      <td>{solution.inCharge}</td>
       <td>{solution.status}</td>
       <td>
         {solution.additionalInfo ? (
@@ -70,6 +53,11 @@ const SolutionsTable = () => {
       label: "Срок исполнения",
       value: "deadline",
       type: ["sort"],
+    },
+    {
+      label: "Ответственный",
+      value: "personInCharge",
+      type: ["sort", "search"],
     },
   ]
 
@@ -113,8 +101,6 @@ const SolutionsTable = () => {
               </Group>
             </ThMenu>
           ))}
-          <th>Группа</th>
-          <th>Протокол</th>
           <th>Статус</th>
           <th>Подробнее</th>
         </tr>
@@ -124,4 +110,4 @@ const SolutionsTable = () => {
   )
 }
 
-export default SolutionsTable
+export default AssignmentsTable

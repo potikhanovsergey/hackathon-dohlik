@@ -50,7 +50,9 @@ const WorkGroup = ({
             onChange={setMenuOpened}
           >
             <Menu.Target>
-              <Button size="xs">Добавить пользователей</Button>
+              <Button size="xs" variant="outline">
+                Добавить пользователей
+              </Button>
             </Menu.Target>
 
             <Menu.Dropdown>

@@ -1,4 +1,4 @@
-import { Grid, Paper, Stack, Text, Group, Button } from "@mantine/core"
+import { Grid, Paper, Stack, Text, Group, Button, Badge } from "@mantine/core"
 import { openConfirmModal } from "@mantine/modals"
 import Link from "src/core/Link"
 
@@ -27,8 +27,8 @@ const SolutionCard = () => {
         </Button>
       </Group>
       <Paper withBorder>
-        <Grid columns={15}>
-          <Grid.Col span={7}>
+        <Grid columns={12} gutter="xl">
+          <Grid.Col span={9}>
             <Stack spacing={0}>
               <Text size="md" weight="bold">
                 Формулировка
@@ -53,27 +53,27 @@ const SolutionCard = () => {
               </Text>
             </Stack>
           </Grid.Col>
-          <Grid.Col span={5}>
+          <Grid.Col span={2}>
             <Stack spacing={0}>
-              <Text size="md" weight="bold">
-                Ответственный
-              </Text>
-              <Text mb="md">Аркадий Аркадьев Аркадьевич</Text>
               <Text size="md" weight="bold">
                 Срок исполнения
               </Text>
               <Text mb="md">23.32.2342</Text>
-            </Stack>
-          </Grid.Col>
-          <Grid.Col span={3}>
-            <Stack spacing={0}>
-              <Link href="lkdsjflsk" w="fit-content">
+              <Link href="lkdsjflsk" w="fit-content" target="_blank">
+                Группа
+              </Link>
+              <Link href="lkdsjflsk" w="fit-content" target="_blank">
                 Объект
               </Link>
-              <Link href="lkdsjflsk" w="fit-content">
+              <Link href="lkdsjflsk" w="fit-content" target="_blank">
                 Протокол
               </Link>
             </Stack>
+          </Grid.Col>
+          <Grid.Col span={1}>
+            <Badge color="yellow" size="xl">
+              2/6
+            </Badge>
           </Grid.Col>
         </Grid>
       </Paper>

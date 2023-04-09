@@ -7,31 +7,14 @@ import FilterAddButtons from "src/core/FilterAddButtons"
 import { AdditionFiltersMock } from ".."
 
 const SolutionsPage: BlitzPage = () => {
-  const [page, setPage] = useState<"решения" | "поручения">("решения")
-
   return (
     <Layout title="Решения">
       <Container size="xl">
-        <Group noWrap>
-          <Title
-            mb="md"
-            onClick={() => setPage("решения")}
-            color={page === "поручения" ? "dimmed" : undefined}
-            sx={{ cursor: "pointer" }}
-          >
-            Решения
-          </Title>
-          <Title
-            mb="md"
-            onClick={() => setPage("поручения")}
-            color={page === "решения" ? "dimmed" : undefined}
-            sx={{ cursor: "pointer" }}
-          >
-            Поручения
-          </Title>
-        </Group>
+        <Title mb="md" sx={{ cursor: "pointer" }}>
+          Решения
+        </Title>
         <FilterAddButtons>{AdditionFiltersMock()}</FilterAddButtons>
-        {page === "решения" ? <SolutionsTable /> : <SolutionsTable />}
+        <SolutionsTable />
       </Container>
     </Layout>
   )

@@ -2,9 +2,10 @@ interface AgendaProps {
   id: number
   date: Date
   oldSolutionId: number
-  oldProtocolId: number
+  oldProtocolId: number | null
   entityId: number
   groupId: number
+  status: string
 }
 
 export const agendasTableMock: AgendaProps[] = [
@@ -15,6 +16,7 @@ export const agendasTableMock: AgendaProps[] = [
     oldProtocolId: 1,
     entityId: 1,
     groupId: 1,
+    status: "Истекшее",
   },
   {
     id: 2,
@@ -23,14 +25,16 @@ export const agendasTableMock: AgendaProps[] = [
     oldProtocolId: 3,
     entityId: 2,
     groupId: 2,
+    status: "Истекшее",
   },
   {
     id: 3,
     date: new Date(),
     oldSolutionId: 2,
-    oldProtocolId: 1,
+    oldProtocolId: null,
     entityId: 3,
     groupId: 2,
+    status: "Новое",
   },
   {
     id: 4,
@@ -39,5 +43,6 @@ export const agendasTableMock: AgendaProps[] = [
     oldProtocolId: 3,
     entityId: 3,
     groupId: 1,
+    status: "Истекшее",
   },
 ]
