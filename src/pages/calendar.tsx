@@ -3,7 +3,6 @@ import Layout from "src/core/layouts/Layout"
 import { Box, Button, Group, Stack, Title, Container, TextInput, Select } from "@mantine/core"
 import Calendar from "src/calendar/Calendar"
 import Events from "src/calendar/Events"
-import { eventsMock } from "src/calendar/mock"
 import { useSelector } from "@legendapp/state/react"
 import dayjs from "dayjs"
 import { datesFilter } from "src/calendar/store"
@@ -12,6 +11,17 @@ import { openModal } from "@mantine/modals"
 import EventForm from "src/calendar/EventForm"
 import { IconSearch } from "@tabler/icons-react"
 import { useDebouncedValue } from "@mantine/hooks"
+import getEvents from "src/calendar/queries/getEvents"
+import { useQuery } from "@blitzjs/rpc"
+import { Agenda, Assignment, Solution, Event } from "db"
+
+export interface ExtendedEvent extends Event {
+  agendas: (Agenda & {
+    assignment: Assignment & {
+      solution: Solution
+    }
+  })[]
+}
 
 const CalendarPage: BlitzPage = () => {
   const openAddEventModal = () =>
@@ -27,19 +37,43 @@ const CalendarPage: BlitzPage = () => {
   const [groupValue, setGroupValue] = useState<string | null>(null)
   const [entityValue, setEntityValue] = useState<string | null>(null)
 
+  const [eventsFromDB] = useQuery(
+    getEvents,
+    {
+      include: {
+        agendas: {
+          include: {
+            assignment: {
+              include: {
+                solution: true,
+              },
+            },
+          },
+        },
+      },
+    },
+    { refetchOnReconnect: false, refetchOnWindowFocus: false }
+  )
+
   const filteredEvents = useSelector(datesFilter)
   const events = useMemo(() => {
-    let result = eventsMock
+    if (!eventsFromDB) return []
+    let result = eventsFromDB as ExtendedEvent[]
     if (debouncedSearchValue.length > 0) {
       result = result.filter((d) =>
         d.name.toLocaleLowerCase().includes(debouncedSearchValue.toLowerCase())
       )
     }
+    // Фильтр событий по выбранной рабочей группе
     if (groupValue) {
-      result = result.filter((d) => d.groupId === +groupValue)
+      result = result.filter((d) =>
+        d.agendas.some((agenda) => agenda.assignment.solution.workgroupId === +groupValue)
+      )
     }
     if (entityValue) {
-      result = result.filter((d) => d.entityId === +entityValue)
+      result = result.filter((d) =>
+        d.agendas.some((agenda) => agenda.assignment.solution.entityId === +entityValue)
+      )
     }
     if (!filteredEvents.length) return result
     return result.filter((d) => {
@@ -107,7 +141,7 @@ const CalendarPage: BlitzPage = () => {
             <Events events={events} />
           </Box>
           <Stack w="fit-content">
-            <Calendar events={eventsMock} />
+            <Calendar events={eventsFromDB} />
             <Button onClick={openAddEventModal}>Добавить событие</Button>
           </Stack>
         </Group>

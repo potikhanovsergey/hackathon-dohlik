@@ -1,20 +1,43 @@
-import { Button, Select, Stack, TextInput } from "@mantine/core"
+import { invalidateQuery, useMutation, useQuery } from "@blitzjs/rpc"
+import { Button, MultiSelect, Select, Stack, TextInput } from "@mantine/core"
 import { DatePickerInput } from "@mantine/dates"
 import { useForm } from "@mantine/form"
 import { closeAllModals } from "@mantine/modals"
+import { Agenda, Assignment } from "@prisma/client"
+import getAgendas from "src/agendas/queries/getAgendas"
+import createEvent from "./mutations/createEvent"
+import getEvents from "./queries/getEvents"
+
+export interface ExtendedAgenda extends Agenda {
+  assignment: Assignment
+}
 
 const EventForm = () => {
   const form = useForm({
     initialValues: {
       name: "",
-      date: null,
-      meeting: "",
-      entity: "",
+      date: new Date(),
+      meetingUrl: "",
+      agendas: [],
     },
   })
 
+  const [agendas] = useQuery(
+    getAgendas,
+    { include: { assignment: true } },
+    { refetchOnReconnect: false, refetchOnWindowFocus: false }
+  )
+
+  console.log(agendas)
+  const [createEventMutation] = useMutation(createEvent)
+
   return (
-    <form onSubmit={form.onSubmit((values) => console.log(values))}>
+    <form
+      onSubmit={form.onSubmit(async (values) => {
+        const response = await createEventMutation({ data: values })
+        void invalidateQuery(getEvents)
+      })}
+    >
       <Stack>
         <TextInput
           label="Название события"
@@ -24,20 +47,29 @@ const EventForm = () => {
         <TextInput
           label="Ссылка на встречу"
           placeholder="https://sldkfdfj..."
-          {...form.getInputProps("meeting")}
+          {...form.getInputProps("meetingUrl")}
         />
         <DatePickerInput
           label="Дата события"
           {...form.getInputProps("date")}
           popoverProps={{ withinPortal: true }}
         />
-        <Select
-          label="Объект"
-          placeholder="Дом..."
-          data={[
-            { label: "Малая Семеновская, Измайлово, 37", value: "8283489" },
-            { label: "Большая Семеновская, Измайлово, 19", value: "423428" },
-          ]}
+        <MultiSelect
+          label="Повестки"
+          placeholder="Снос дома"
+          {...form.getInputProps("agendas")}
+          data={
+            agendas
+              ? agendas.length > 0
+                ? agendas.map((agenda: ExtendedAgenda) => ({
+                    label: agenda.assignment.name || "Повестка без имени",
+                    value: agenda.id.toString(),
+                  }))
+                : []
+              : []
+          }
+          required
+          withinPortal
         />
         <Button type="submit" onClick={() => closeAllModals()}>
           Готово

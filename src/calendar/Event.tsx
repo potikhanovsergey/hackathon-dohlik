@@ -51,8 +51,8 @@ const Event = ({ avatar, name, date, entityId }: EventProps) => {
               Ссылка на встречу
             </Link>
           </Group>
-          <Link target="_blank" href={`/entities/${entityId}`}>
-            Объект
+          <Link target="_blank" href={"/"}>
+            Группа
           </Link>
         </div>
       </Group>
