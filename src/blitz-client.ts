@@ -9,6 +9,8 @@ export const authConfig = {
 export const { withBlitz } = setupBlitzClient({
   plugins: [
     AuthClientPlugin(authConfig),
-    BlitzRpcPlugin({ reactQueryOptions: { queries: { suspense: false } } }),
+    BlitzRpcPlugin({
+      reactQueryOptions: { queries: { suspense: false } },
+    }),
   ],
 })

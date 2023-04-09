@@ -1,6 +1,5 @@
 import { Box, Group, HoverCard, Stack, Table, Text, useMantineTheme } from "@mantine/core"
 import { IconChevronDown, IconInfoCircle } from "@tabler/icons-react"
-import { entitiesTableMock } from "./entitiesTableMock"
 import { useRouter } from "next/router"
 import { Routes } from "@blitzjs/next"
 import ThMenu from "src/core/NavigationTable/ThMenu"

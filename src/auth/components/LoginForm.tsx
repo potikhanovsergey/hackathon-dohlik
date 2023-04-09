@@ -35,8 +35,14 @@ export const LoginForm = (props: LoginFormProps) => {
 
   const [loginMutation] = useMutation(login)
 
-  const handleSubmit = form.onSubmit((values) => {
-    void loginMutation({ email: values.email, password: values.password })
+  const handleSubmit = form.onSubmit(async (values) => {
+    try {
+      const response = await loginMutation({ email: values.email, password: values.password })
+    } catch (err) {
+      if (err?.statusCode === 401) {
+        form.setFieldError("email", "Почта или логин не верны, попробуйте снова")
+      }
+    }
   })
 
   return (
