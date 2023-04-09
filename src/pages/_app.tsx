@@ -9,6 +9,7 @@ import RouterTransition from "src/core/layouts/RouterTransition"
 import { YMaps } from "@pbe/react-yandex-maps"
 import "dayjs/locale/ru"
 import dayjs from "dayjs"
+import { Notifications } from "@mantine/notifications"
 dayjs.locale("ru")
 
 function RootErrorFallback({ error }: ErrorFallbackProps) {
@@ -38,6 +39,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <YMaps>
         <MantineProvider withGlobalStyles withNormalizeCSS theme={theme}>
           <ModalsProvider>
+            <Notifications />
             <RouterTransition />
             {getLayout(<Component {...pageProps} />)}
           </ModalsProvider>

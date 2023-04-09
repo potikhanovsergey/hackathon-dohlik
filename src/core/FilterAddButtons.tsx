@@ -1,15 +1,7 @@
-import { Group, Button, Paper, TextInput } from "@mantine/core"
+import { Group, Button, Paper } from "@mantine/core"
 import { ReactNode, useState } from "react"
 
-const FilterAddButtons = ({
-  children,
-  onAddButtonClick,
-  withAddButton = false,
-}: {
-  children: ReactNode
-  onAddButtonClick?: () => void
-  withAddButton?: boolean
-}) => {
+const FilterAddButtons = ({ children, right }: { children: ReactNode; right: ReactNode }) => {
   const [showFilters, toggleShowFilters] = useState(false)
 
   return (
@@ -23,7 +15,7 @@ const FilterAddButtons = ({
         >
           Фильтры
         </Button>
-        {withAddButton && <Button onClick={onAddButtonClick}>Добавить</Button>}
+        {right && right}
       </Group>
       {showFilters && (
         <Paper my="md" withBorder>
