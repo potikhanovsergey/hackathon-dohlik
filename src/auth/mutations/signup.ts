@@ -1,7 +1,6 @@
 import { SecurePassword } from "@blitzjs/auth/secure-password"
 import { resolver } from "@blitzjs/rpc"
-import db from "db"
-import { Role } from "types"
+import db, { Role } from "db"
 
 export default resolver.pipe(
   async ({ email, password }: { email: string; password: string }, ctx) => {

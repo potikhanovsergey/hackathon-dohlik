@@ -1,7 +1,5 @@
 import { SimpleRolesIsAuthorized } from "@blitzjs/auth"
-import { User } from "db"
-
-export type Role = "ADMIN" | "USER"
+import { Role, User } from "db"
 
 declare module "@blitzjs/auth" {
   export interface Session {

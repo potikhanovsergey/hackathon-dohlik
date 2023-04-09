@@ -24,7 +24,6 @@ model User {
   tokens     Token[]
   sessions   Session[]
   workgroups WorkgroupParticipation[] // Пользователь может быть участником многих рабочих групп
-  Assignment Assignment[]
 }
 
 model Session {
@@ -200,9 +199,8 @@ model Assignment {
   status String
   name   String
 
-  deadline      DateTime
-  responsibleId Int
-  responsible   User     @relation(fields: [responsibleId], references: [id]) // Поручение относится
+  deadline    DateTime
+  responsible String
 
   solution Solution @relation(fields: [solutionId], references: [id]) // Поручение относится к одному решению
   Agenda   Agenda[]

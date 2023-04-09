@@ -2,8 +2,7 @@ import { BlitzCtx } from "@blitzjs/auth"
 import { SecurePassword } from "@blitzjs/auth/secure-password"
 import { resolver } from "@blitzjs/rpc"
 import { AuthenticationError } from "blitz"
-import db from "db"
-import { Role } from "types"
+import db, { Role } from "db"
 
 export const authenticateUser = async (email: string, password: string) => {
   const user = await db.user.findFirst({ where: { email } })
