@@ -134,15 +134,15 @@ model EntityAttribute {
 
 // Аттрибут объекта/решения (администратор сможет добавлять новые поля к сущностям)
 model Attribute {
-  id            Int                 @id @default(autoincrement())
-  attributeType EntityAttributeType
-  name          String // Название поля
-  placeholder   String? // Подсказка к полю (для текста и даты)
-  defaultValue  String[]
-  autoFill      Boolean             @default(false)
-  parent        AttributeParent
+  id           Int      @id @default(autoincrement())
+  name         String // Название поля
+  placeholder  String? // Подсказка к полю (для текста и даты)
+  defaultValue String[] // Значение аттрибута по умолчанию (если значение должно быть одиночным, оно будет в нулевом индексе, в остальных случаях значение по умолчанию это массив из значений, например у чекбоксов)
+  autoFill     Boolean  @default(false) // Заполнять это свойство в существующих и будущих объектах значением по умолчанию, если это свойство у них не заполнено
 
-  entities EntityAttribute[]
+  parent        AttributeParent // В будущем кроме Entity аттрибуты могут добавляться для любых других сущностей
+  attributeType EntityAttributeType // В будущем аттрибуту можно добавлять новые типы полей (например выпадающий список — select)
+  entities      EntityAttribute[]
 }
 
 // Возможные для добавления поля
@@ -156,9 +156,9 @@ enum EntityAttributeType {
 }
 
 // Аттрибуты можно добавлять для разных сущностей (объект/решение/т.д.)
+// В будущем кроме Entity аттрибуты могут добавляться для любых других сущностей
 enum AttributeParent {
   entity
-  solution
 }
 
 // Решение по объекту
@@ -196,33 +196,22 @@ model Assignment {
 
   solutionId Int
 
-  status String
+  status AssignmentStatus
   name   String
 
   deadline    DateTime
   responsible String
 
+  eventId Int?
+  event   Event? @relation(fields: [eventId], references: [id]) // К поручению может быть создано совещание, если оно подохдит под критерии повестки
+
   solution Solution @relation(fields: [solutionId], references: [id]) // Поручение относится к одному решению
-  Agenda   Agenda[]
 }
 
 enum AssignmentStatus {
-  waiting
+  new
   inProgress
   done
-}
-
-// Повестка к совещанию
-model Agenda {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  assignmentId Int
-  meetingId    Int
-
-  assignment Assignment @relation(fields: [assignmentId], references: [id]) // Повестка относится к одному поручению
-  event      Event      @relation(fields: [meetingId], references: [id]) // Повестка может иметь одно событие (встречу)
 }
 
 // Совещание/встреча
@@ -235,5 +224,5 @@ model Event {
   date       DateTime
   meetingUrl String
 
-  agendas Agenda[]
+  assignments Assignment[]
 }

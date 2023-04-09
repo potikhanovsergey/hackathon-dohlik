@@ -1,9 +1,9 @@
 import { BlitzPage } from "@blitzjs/next"
 import Layout from "src/core/layouts/Layout"
 import { Container, Title } from "@mantine/core"
-import DashboardTabs from "src/dashboard/DashboardTabs"
+import DashboardTabs from "src/constructor/DashboardTabs"
 
-const DashboardPage: BlitzPage = () => {
+const ConstructorPage: BlitzPage = () => {
   return (
     <Layout title="Настройка форм">
       <Container size="xl">
@@ -14,4 +14,4 @@ const DashboardPage: BlitzPage = () => {
   )
 }
 
-export default DashboardPage
+export default ConstructorPage

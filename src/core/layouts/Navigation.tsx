@@ -18,7 +18,7 @@ const navigationItems = [
   },
   {
     label: "Настройки",
-    route: Routes.DashboardPage(),
+    route: Routes.ConstructorPage(),
   },
   {
     label: "Протоколы",
