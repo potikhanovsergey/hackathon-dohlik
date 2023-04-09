@@ -24,7 +24,7 @@ model User {
   tokens     Token[]
   sessions   Session[]
   workgroups WorkgroupParticipation[] // Пользователь может быть участником многих рабочих групп
-  leads      WorkgroupLead[] // Пользователь может быть руководителем многих рабочих групп
+  Assignment Assignment[]
 }
 
 model Session {
@@ -83,15 +83,6 @@ model WorkgroupParticipation {
   workgroup Workgroup @relation(fields: [workgroupId], references: [id])
 }
 
-// Руководитель рабочей группы
-model WorkgroupLead {
-  id          Int        @id @default(autoincrement())
-  userId      Int
-  user        User       @relation(fields: [userId], references: [id])
-  workgroupId Int
-  workgroup   Workgroup?
-}
-
 // Рабочая группа
 model Workgroup {
   id        Int      @id @default(autoincrement())
@@ -100,7 +91,151 @@ model Workgroup {
 
   name           String
   participations WorkgroupParticipation[] // У рабочей группы может быть много участников
+  solutions      Solution[] // Рабочая группа может принять много решений
+}
 
-  workgroupLeadId Int           @unique // У рабочей группы есть один руководитель
-  lead            WorkgroupLead @relation(fields: [workgroupLeadId], references: [id])
+// Объект
+model Entity {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  district   String? // Округ
+  region     String? // Район
+  address    String? // Адрес
+  type       String? // Тип объекта, необхдим в определении рабочей группы
+  state      String? // Состояние объекта
+  area       Float? // Площадь объекта
+  owner      String? // Собственник объекта
+  actualUser String? // Фактический пользователь объекта
+
+  files      EntityFile[] // Файлы, фото/видеоматериалы
+  attributes EntityAttribute[]
+  solutions  Solution[] // По одному объекту может быть принято несколько решений
+}
+
+// Файл объекта — документ, видеоматериал, фотоматериал
+model EntityFile {
+  id       Int    @id @default(autoincrement())
+  name     String
+  path     String // Путь к файлу на хостинге
+  entity   Entity @relation(fields: [entityId], references: [id])
+  entityId Int
+}
+
+// Связь между Объектом и Аттрибутом
+model EntityAttribute {
+  id          Int @id @default(autoincrement())
+  entityId    Int
+  attributeId Int
+
+  entity    Entity    @relation(fields: [entityId], references: [id])
+  attribute Attribute @relation(fields: [attributeId], references: [id])
+}
+
+// Аттрибут объекта/решения (администратор сможет добавлять новые поля к сущностям)
+model Attribute {
+  id            Int                 @id @default(autoincrement())
+  attributeType EntityAttributeType
+  name          String // Название поля
+  placeholder   String? // Подсказка к полю (для текста и даты)
+  defaultValue  String[]
+  autoFill      Boolean             @default(false)
+  parent        AttributeParent
+
+  entities EntityAttribute[]
+}
+
+// Возможные для добавления поля
+enum EntityAttributeType {
+  text // Текст
+  checkbox // Флажки/галочки/чекбоксы
+  radio // Радио-кнопки
+  switch // Переключючатель
+  file // Файл (документ, изображение, видеоматериал)
+  date // Дата
+}
+
+// Аттрибуты можно добавлять для разных сущностей (объект/решение/т.д.)
+enum AttributeParent {
+  entity
+  solution
+}
+
+// Решение по объекту
+model Solution {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  name String // Формулировка решения
+
+  workgroupId Int
+  entityId    Int
+  protocolId  Int
+
+  workgroup   Workgroup    @relation(fields: [workgroupId], references: [id]) // Решение принимает одна рабочая группа
+  entity      Entity       @relation(fields: [entityId], references: [id]) // Решение принимается по одному объекту
+  protocol    Protocol     @relation(fields: [protocolId], references: [id]) // Решение относится к одному протоколу
+  assignments Assignment[] // У одного решения может быть много поручений (Пример: Решение - снести дом; Поручениями будет список действий по сносу дома)
+}
+
+// Протокол по совещанию
+model Protocol {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  solutions Solution[] // Внутри одного протокола может приниматься много решений
+}
+
+// Поручения по решениям
+model Assignment {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  solutionId Int
+
+  status String
+  name   String
+
+  deadline      DateTime
+  responsibleId Int
+  responsible   User     @relation(fields: [responsibleId], references: [id]) // Поручение относится
+
+  solution Solution @relation(fields: [solutionId], references: [id]) // Поручение относится к одному решению
+  Agenda   Agenda[]
+}
+
+enum AssignmentStatus {
+  waiting
+  inProgress
+  done
+}
+
+// Повестка к совещанию
+model Agenda {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  assignmentId Int
+  meetingId    Int
+
+  assignment Assignment @relation(fields: [assignmentId], references: [id]) // Повестка относится к одному поручению
+  event      Event      @relation(fields: [meetingId], references: [id]) // Повестка может иметь одно событие (встречу)
+}
+
+// Совещание/встреча
+model Event {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  name       String
+  date       DateTime
+  meetingUrl String
+
+  agendas Agenda[]
 }
