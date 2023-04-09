@@ -16,13 +16,15 @@ model User {
   id             Int      @id @default(autoincrement())
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
-  name           String?
+  name           String   @default("Новый пользователь")
   email          String   @unique
   hashedPassword String?
-  role           String   @default("USER")
+  role           Role     @default(USER)
 
-  tokens   Token[]
-  sessions Session[]
+  tokens     Token[]
+  sessions   Session[]
+  workgroups WorkgroupParticipation[] // Пользователь может быть участником многих рабочих групп
+  leads      WorkgroupLead[] // Пользователь может быть руководителем многих рабочих групп
 }
 
 model Session {
@@ -41,13 +43,13 @@ model Session {
 }
 
 model Token {
-  id          Int      @id @default(autoincrement())
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id          Int       @id @default(autoincrement())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
   hashedToken String
-  type        String
+  // type        String
   // See note below about TokenType enum
-  // type        TokenType
+  type        TokenType
   expiresAt   DateTime
   sentTo      String
 
@@ -60,6 +62,45 @@ model Token {
 // NOTE: It's highly recommended to use an enum for the token type
 //       but enums only work in Postgres.
 //       See: https://blitzjs.com/docs/database-overview#switch-to-postgre-sql
-// enum TokenType {
-//   RESET_PASSWORD
-// }
+enum TokenType {
+  RESET_PASSWORD
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+// Связь между Users и Workgroup
+model WorkgroupParticipation {
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  workgroupId Int // Одно участие — одна группа
+  userId      Int // Одно участие — один пользователь
+
+  user      User      @relation(fields: [userId], references: [id])
+  workgroup Workgroup @relation(fields: [workgroupId], references: [id])
+}
+
+// Руководитель рабочей группы
+model WorkgroupLead {
+  id          Int        @id @default(autoincrement())
+  userId      Int
+  user        User       @relation(fields: [userId], references: [id])
+  workgroupId Int
+  workgroup   Workgroup?
+}
+
+// Рабочая группа
+model Workgroup {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  name           String
+  participations WorkgroupParticipation[] // У рабочей группы может быть много участников
+
+  workgroupLeadId Int           @unique // У рабочей группы есть один руководитель
+  lead            WorkgroupLead @relation(fields: [workgroupLeadId], references: [id])
+}
