@@ -71,6 +71,7 @@ const theme: MantineThemeOverride = {
     DatePicker: {
       defaultProps: {
         locale: "ru",
+        size: "xs",
       },
     },
     DatePickerInput: {
@@ -199,6 +200,9 @@ const theme: MantineThemeOverride = {
       },
     },
     Select: {
+      defaultProps: {
+        size: "xs",
+      },
       styles: () => ({
         item: {
           "&:not(:last-child)": {

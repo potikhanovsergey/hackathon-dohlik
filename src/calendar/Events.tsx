@@ -6,7 +6,7 @@ const Events = ({ events }: { events: ExtendedEvent[] }) => {
   return (
     <Stack>
       {events.map((event) => (
-        <Event key={event.name + event.date.toString()} {...event} />
+        <Event key={event.id} event={event} />
       ))}
     </Stack>
   )

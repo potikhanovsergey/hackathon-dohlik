@@ -6,7 +6,7 @@ import Events from "src/calendar/Events"
 import { useSelector } from "@legendapp/state/react"
 import dayjs from "dayjs"
 import { datesFilter } from "src/calendar/store"
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { openModal } from "@mantine/modals"
 import EventForm from "src/calendar/EventForm"
 import { IconSearch } from "@tabler/icons-react"
@@ -14,6 +14,8 @@ import { useDebouncedValue } from "@mantine/hooks"
 import getEvents from "src/calendar/queries/getEvents"
 import { useQuery } from "@blitzjs/rpc"
 import { Assignment, Solution, Event, Entity } from "db"
+import getEntities from "src/entities/queries/getEntities"
+import getWorkgroups from "src/workgroups/queries/getWorkgroups"
 
 export interface ExtendedEvent extends Event {
   assignments: (Assignment & {
@@ -55,6 +57,22 @@ const CalendarPage: BlitzPage = () => {
     { refetchOnReconnect: false, refetchOnWindowFocus: false }
   )
 
+  const [entities] = useQuery(
+    getEntities,
+    {
+      include: {
+        attributes: true,
+      },
+    },
+    { refetchOnReconnect: false, refetchOnWindowFocus: false }
+  )
+
+  const [workgroups] = useQuery(getWorkgroups, {})
+
+  useEffect(() => {
+    console.log(groupValue)
+  }, [groupValue])
+
   const filteredEvents = useSelector(datesFilter)
   const events = useMemo(() => {
     if (!eventsFromDB) return []
@@ -95,21 +113,13 @@ const CalendarPage: BlitzPage = () => {
           />
           <Select
             label="Рабочая группа"
-            placeholder="Первая..."
-            data={[
-              {
-                label: "Первая",
-                value: "1",
-              },
-              {
-                label: "Вторая",
-                value: "2",
-              },
-              {
-                label: "Третья",
-                value: "3",
-              },
-            ]}
+            placeholder="Первая"
+            data={
+              workgroups?.map((workgroup) => ({
+                label: workgroup.name || `№ ${workgroup.id}`,
+                value: workgroup.id.toString(),
+              })) || []
+            }
             clearable
             value={groupValue}
             onChange={setGroupValue}
@@ -117,20 +127,12 @@ const CalendarPage: BlitzPage = () => {
           <Select
             label="Объект"
             placeholder="Малая Семеновская, 12"
-            data={[
-              {
-                label: "Малая Семеновская, 12",
-                value: "1",
-              },
-              {
-                label: "Большая Семеновская, 12",
-                value: "2",
-              },
-              {
-                label: "Мизерная Семеновская, 12",
-                value: "3",
-              },
-            ]}
+            data={
+              entities?.map((entity) => ({
+                label: entity.address || `№ ${entity.id}`,
+                value: entity.id.toString(),
+              })) || []
+            }
             clearable
             value={entityValue}
             onChange={setEntityValue}

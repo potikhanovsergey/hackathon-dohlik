@@ -9,14 +9,16 @@ import getEvents from "./queries/getEvents"
 import getAssignments from "src/assigments/queries/getAssignments"
 import { notifications } from "@mantine/notifications"
 import dayjs from "dayjs"
+import { ExtendedEvent } from "src/pages/calendar"
+import updateEvent from "./mutations/updateEvent"
 
-const EventForm = () => {
+const EventForm = ({ event }: { event?: ExtendedEvent }) => {
   const form = useForm({
     initialValues: {
-      name: "",
-      date: new Date(),
-      meetingUrl: "",
-      assignments: [],
+      name: event?.name || "",
+      date: event?.date || new Date(),
+      meetingUrl: event?.meetingUrl || "",
+      assignments: event ? event.assignments.map((a) => a.id + "") : [],
     },
   })
 
@@ -24,56 +26,61 @@ const EventForm = () => {
     getAssignments,
     {
       where: {
-        // OR: [
-        //   {
-        //     status: {
-        //       in: ["done", "new"],
-        //     },
-        //     eventId: {
-        //       equals: null,
-        //     },
-        //   },
-        //   {
-        //     status: {
-        //       in: ["inProgress", "new"],
-        //     },
-        //     deadline: {
-        //       lt: new Date(),
-        //     },
-        //   },
-        // ],
         status: {
           in: ["done", "new"],
         },
-        eventId: {
-          equals: null,
-        },
+        ...(event
+          ? {
+              OR: [
+                {
+                  eventId: event.id,
+                },
+                {
+                  eventId: null,
+                },
+              ],
+            }
+          : { eventId: null }),
       },
     },
     { refetchOnMount: false, refetchOnReconnect: false, refetchOnWindowFocus: false, retry: false }
   )
 
   const [createEventMutation] = useMutation(createEvent)
+  const [updateEventMutation] = useMutation(updateEvent)
 
   return (
     <form
       onSubmit={form.onSubmit(async (values) => {
         try {
-          const response = await createEventMutation({
-            data: {
-              date: values.date,
-              meetingUrl: values.meetingUrl,
-              name: values.name,
-              assignments: {
-                connect: values.assignments.map((assignmentId) => ({ id: +assignmentId })),
-              },
-            },
-          })
+          const response = event
+            ? await updateEventMutation({
+                where: { id: event?.id },
+                data: {
+                  date: values.date,
+                  meetingUrl: values.meetingUrl,
+                  name: values.name,
+                  assignments: {
+                    disconnect: event.assignments.map((a) => ({ id: a.id })),
+                    connect: values.assignments.map((assignmentId) => ({ id: +assignmentId })),
+                  },
+                },
+              })
+            : await createEventMutation({
+                data: {
+                  date: values.date,
+                  meetingUrl: values.meetingUrl,
+                  name: values.name,
+                  assignments: {
+                    connect: values.assignments.map((assignmentId) => ({ id: +assignmentId })),
+                  },
+                },
+              })
 
           notifications.show({
             withCloseButton: true,
             autoClose: 5000,
-            title: "Событие запланировано!",
+            title: `Событие ${event ? "перенесено" : "запланировано"}!`,
             message: `${response.name} на дату ${dayjs(response.date).format("D MMMM")}`,
             color: "green",
           })
@@ -84,7 +91,7 @@ const EventForm = () => {
           notifications.show({
             withCloseButton: true,
             autoClose: 5000,
-            title: "Ошибка при создании события",
+            title: `Ошибка при ${event ? "переносе" : "созданиии"}!`,
             message: e?.toString(),
             color: "red",
           })
@@ -113,18 +120,14 @@ const EventForm = () => {
         <MultiSelect
           label="Повестки"
           required
-          disabled={assignments?.length === 0}
+          disabled={!event && assignments?.length === 0}
           placeholder="Снос дома"
           {...form.getInputProps("assignments")}
           data={
-            assignments
-              ? assignments.length > 0
-                ? assignments.map((assignment: Assignment) => ({
-                    label: assignment.name || "Повестка без имени",
-                    value: assignment.id.toString(),
-                  }))
-                : []
-              : []
+            assignments?.map((assignment: Assignment) => ({
+              label: assignment.name || "Повестка без имени",
+              value: assignment.id.toString(),
+            })) || []
           }
           withinPortal
         />

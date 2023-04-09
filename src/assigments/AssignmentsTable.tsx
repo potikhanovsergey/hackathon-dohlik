@@ -1,4 +1,4 @@
-import { Box, Group, Table } from "@mantine/core"
+import { Badge, Box, Group, Table } from "@mantine/core"
 import { IconChevronDown } from "@tabler/icons-react"
 import ThMenu from "src/core/NavigationTable/ThMenu"
 import { useForm } from "@mantine/form"
@@ -12,7 +12,27 @@ const AssignmentsTable = ({ solution }: { solution: ExtendedSolution }) => {
       <td>{assignment.name}</td>
       <td>{dayjs(assignment.deadline).format("D MMMM YYYY")}</td>
       <td>{assignment.responsible}</td>
-      <td>{assignment.status}</td>
+      <td>
+        <Badge
+          color={
+            assignment.status === "doneAndVerified"
+              ? "green"
+              : assignment.status === "new"
+              ? "blue"
+              : assignment.status === "inProgress"
+              ? "yellow"
+              : "violet"
+          }
+        >
+          {assignment.status === "new"
+            ? "Новый"
+            : assignment.status === "done"
+            ? "Завершен"
+            : assignment.status === "inProgress"
+            ? "В работе"
+            : "Завершено и верефицировано"}
+        </Badge>
+      </td>
     </Box>
   ))
 
