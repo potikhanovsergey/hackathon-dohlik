@@ -5,42 +5,55 @@ import { closeAllModals } from "@mantine/modals"
 import createEntity from "./mutations/createEntity"
 import getEntities from "./queries/getEntities"
 import { notifications } from "@mantine/notifications"
+import { Entity } from "@prisma/client"
+import updateEntity from "./mutations/updateEntity"
+import { useRouter } from "next/router"
 
-const EntityForm = () => {
+const EntityForm = ({ entity }: { entity?: Entity }) => {
+  const router = useRouter()
+
   const form = useForm({
     initialValues: {
-      district: "",
-      region: "",
-      address: "",
-      type: "",
-      area: "",
-      state: "",
-      owner: "",
-      actualUser: "",
+      district: entity?.district || "",
+      region: entity?.region || "",
+      address: entity?.address || "",
+      type: entity?.type || "",
+      area: entity?.area || "",
+      state: entity?.state || "",
+      owner: entity?.owner || "",
+      actualUser: entity?.actualUser || "",
     },
   })
 
   const [createEntityMutation] = useMutation(createEntity)
+  const [updateEntityMutation] = useMutation(updateEntity)
 
   return (
     <form
       onSubmit={form.onSubmit(async (values) => {
         try {
-          await createEntityMutation({
-            data: { ...values, area: !isNaN(+values.area) ? +values.area : null },
-          })
+          const response = entity
+            ? await updateEntityMutation({
+                where: { id: entity?.id },
+                data: { ...values, area: !isNaN(+values.area) ? +values.area : null },
+              })
+            : await createEntityMutation({
+                data: { ...values, area: !isNaN(+values.area) ? +values.area : null },
+              })
+
           notifications.show({
             withCloseButton: true,
             autoClose: 5000,
-            message: "Объект успешно добавлен в базу данных",
+            message: entity ? "Объект успешно изменен" : "Объект успешно добавлен в базу данных",
             color: "green",
           })
-          void invalidateQuery(getEntities)
+
+          void router.replace(router.asPath)
         } catch (e) {
           notifications.show({
             withCloseButton: true,
             autoClose: 5000,
-            title: "Ошибка при добавлении объекта",
+            title: `Ошибка при ${entity ? "изменении" : "добавлении"}!`,
             message: e?.toString(),
             color: "red",
           })

@@ -10,7 +10,14 @@ const EntityInfo = ({ entity }: { entity: ExtendedEntityFull }) => {
       </Text>
       <SimpleGrid cols={3}>
         {entity.attributes.length > 0 ? (
-          entity.attributes.map((a) => <Text key={a.attribute.id}>{a.attribute.name}</Text>)
+          entity.attributes.map((a) => (
+            <Text key={a.attribute.id}>
+              {a.attribute.name}:{" "}
+              {a.attribute.defaultValue.map(
+                (value, i) => value + (i < a.attribute.length ? ", " : "")
+              )}
+            </Text>
+          ))
         ) : (
           <Text>Файлов по объекту нет</Text>
         )}

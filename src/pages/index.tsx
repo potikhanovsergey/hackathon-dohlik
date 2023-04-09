@@ -44,7 +44,7 @@ const EntitiesPage: BlitzPage = () => {
     { refetchOnReconnect: false, refetchOnWindowFocus: false }
   )
 
-  const openEditModal = () =>
+  const openAddModal = () =>
     openModal({
       title: "Добавить объект",
       children: <EntityForm />,
@@ -128,7 +128,7 @@ const EntitiesPage: BlitzPage = () => {
                   </Button>
                 )}
               </FileButton>
-              <Button onClick={openEditModal}>Добавить объект</Button>
+              <Button onClick={openAddModal}>Добавить объект</Button>
             </Group>
           }
         >

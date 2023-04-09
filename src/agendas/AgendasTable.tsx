@@ -4,25 +4,42 @@ import Link from "src/core/Link"
 import ThMenu from "src/core/NavigationTable/ThMenu"
 import { useForm } from "@mantine/form"
 import { agendasTableMock } from "./agendasTableMock"
+import { ExtendedAssignments } from "src/pages/agendas"
+import dayjs from "dayjs"
+import { Routes } from "@blitzjs/next"
+import { openModal } from "@mantine/modals"
+import EventForm from "src/calendar/EventForm"
 
-const AgendasTable = () => {
-  const rows = agendasTableMock.map((agenda) => (
-    <Box component="tr" key={agenda.id}>
-      <td>{agenda.date.toLocaleString()}</td>
+const AgendasTable = ({ assignments }: { assignments: ExtendedAssignments[] }) => {
+  const openAddEventModal = () =>
+    openModal({
+      title: "Добавить событие",
+      children: <EventForm />,
+      centered: true,
+    })
+
+  const rows = assignments?.map((assignment) => (
+    <Box component="tr" key={assignment.id}>
+      <td>{dayjs(assignment.createdAt).format("D MMMM YYYY")}</td>
       <td>
-        <Badge size="xs" color={agenda.status === "Истекшее" ? "red" : "green"}>
-          {agenda.status}
+        <Badge
+          size="xs"
+          color={
+            assignment.status === "new" ? "blue" : assignment.status === "done" ? "violet" : ""
+          }
+        >
+          {assignment.status === "new" ? "Новый" : assignment.status === "done" ? "Завершен" : ""}
         </Badge>
       </td>
       <td>
-        <Link target="_blank" href="/">
+        <Link target="_blank" href={Routes.SolutionPage({ id: assignment.solutionId })}>
           Решение
         </Link>
       </td>
       <td>Снести дом</td>
       <td>
-        {agenda.oldProtocolId ? (
-          <Link target="_blank" href="/">
+        {assignment.solution.protocolId ? (
+          <Link target="_blank" href={Routes.ProtocolPage({ id: assignment.solution.protocolId })}>
             34534
           </Link>
         ) : (
@@ -30,7 +47,7 @@ const AgendasTable = () => {
         )}
       </td>
       <td>
-        <Link target="_blank" href="/">
+        <Link target="_blank" href={Routes.EntityPage({ id: assignment.solution.entityId })}>
           Объект
         </Link>
       </td>
@@ -40,7 +57,15 @@ const AgendasTable = () => {
         </Link>
       </td>
       <td>
-        <Button compact>Запланировать встречу</Button>
+        {assignment.eventId ? (
+          <Link target="_blank" href={Routes.CalendarPage()}>
+            Встреча: {assignment.event.name} {dayjs(assignment.event.date).format("D MMMM YYYY")}
+          </Link>
+        ) : (
+          <Button compact onClick={openAddEventModal}>
+            Запланировать встречу
+          </Button>
+        )}
       </td>
     </Box>
   ))

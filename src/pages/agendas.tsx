@@ -1,18 +1,38 @@
 import { BlitzPage } from "@blitzjs/next"
 import Layout from "src/core/layouts/Layout"
-import { Button, Container, Group, Title } from "@mantine/core"
+import { Container, Title } from "@mantine/core"
 import AgendasTable from "src/agendas/AgendasTable"
 import getAssignments from "src/assigments/queries/getAssignments"
 import { useQuery } from "@blitzjs/rpc"
+import { Assignment, Solution, Event, Entity } from "@prisma/client"
+
+export interface ExtendedAssignments extends Assignment {
+  solution: Solution & { entity: Entity }
+  event: Event
+}
 
 const AgendasPage: BlitzPage = () => {
-  const [assignments] = useQuery(getAssignments, {})
+  const [assignments] = useQuery(getAssignments, {
+    include: {
+      solution: {
+        include: {
+          assignments: true,
+        },
+      },
+      event: true,
+    },
+    where: {
+      status: {
+        in: ["done", "new"],
+      },
+    },
+  })
 
   return (
     <Layout title="Повестки">
       <Container size="xl">
         <Title mb="md">Повестки</Title>
-        <AgendasTable />
+        <AgendasTable assignments={assignments as ExtendedAssignments[]} />
       </Container>
     </Layout>
   )

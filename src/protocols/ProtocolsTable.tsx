@@ -1,40 +1,71 @@
-import { Box, Group, Table, useMantineTheme } from "@mantine/core"
+import { Box, Group, Table, useMantineTheme, Text, Stack } from "@mantine/core"
 import { IconChevronDown } from "@tabler/icons-react"
 import { useRouter } from "next/router"
 import { Routes } from "@blitzjs/next"
 import ThMenu from "src/core/NavigationTable/ThMenu"
 import { useForm } from "@mantine/form"
-import { protocolsTableMock } from "./protocolsTableMock"
 import Link from "src/core/Link"
+import dayjs from "dayjs"
+import { ExtendedProtocol } from "src/pages/protocols"
 
-const ProtocolsTable = () => {
+const ProtocolsTable = ({ protocols }: { protocols: ExtendedProtocol[] }) => {
   const theme = useMantineTheme()
   const router = useRouter()
 
-  const rows = protocolsTableMock.map((protocol) => (
+  const rows = protocols?.map((protocol) => (
     <Box
       component="tr"
       key={protocol.id}
       onClick={() => router.push(Routes.ProtocolPage({ id: protocol.id }))}
       sx={{ cursor: "pointer", "&:hover": { background: theme.colors.gray[0] } }}
     >
-      <td>{protocol.creationDate.toLocaleString()}</td>
-      <td>{protocol.address}</td>
-      <td>{protocol.protocolNumber}</td>
+      <td>{dayjs(protocol.createdAt).format("D MMMM YYYY")}</td>
       <td>
-        <Link target="_blank" href="/">
-          Объект
-        </Link>
+        <Stack spacing={0}>
+          {protocol.solutions?.map((solution) => (
+            <Text key={solution.id}>{solution.entity.address}</Text>
+          ))}
+        </Stack>
+      </td>
+      <td>{protocol.id}</td>
+      <td>
+        <Stack spacing={0}>
+          {protocol.solutions?.map((solution) => (
+            <Link
+              key={solution.id}
+              target="_blank"
+              href={Routes.EntityPage({ id: solution.entityId })}
+            >
+              № {solution.entityId}
+            </Link>
+          ))}
+        </Stack>
       </td>
       <td>
-        <Link target="_blank" href="/">
-          Группа
-        </Link>
+        <Stack spacing={0}>
+          {protocol.solutions?.map((solution) => (
+            <Link
+              key={solution.id}
+              target="_blank"
+              href={Routes.EntityPage({ id: solution.entityId })}
+            >
+              Группа № {solution.workgroupId}
+            </Link>
+          ))}
+        </Stack>
       </td>
       <td>
-        <Link target="_blank" href="/">
-          Новое решение
-        </Link>
+        <Stack spacing={0}>
+          {protocol.solutions?.map((solution) => (
+            <Link
+              key={solution.id}
+              target="_blank"
+              href={Routes.EntityPage({ id: solution.entityId })}
+            >
+              Группа № {solution.workgroupId}
+            </Link>
+          ))}
+        </Stack>
       </td>
     </Box>
   ))
