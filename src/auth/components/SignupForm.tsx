@@ -2,8 +2,6 @@ import signup from "src/auth/mutations/signup"
 import { useMutation } from "@blitzjs/rpc"
 import { Button, Container, Paper, PasswordInput, TextInput, Title, Text } from "@mantine/core"
 import { useForm } from "@mantine/form"
-import { Routes } from "@blitzjs/next"
-import Link from "next/link"
 
 const SignupForm = () => {
   const form = useForm({
@@ -19,8 +17,14 @@ const SignupForm = () => {
 
   const [signupMutation] = useMutation(signup)
 
-  const handleSubmit = form.onSubmit((values) => {
-    void signupMutation({ email: values.email, password: values.password })
+  const handleSubmit = form.onSubmit(async (values) => {
+    try {
+      void signupMutation({ email: values.email, password: values.password })
+    } catch (err) {
+      if (err.code === "P2002") {
+        form.setFieldError("email", "Пользователь с такой почтой уже существует")
+      }
+    }
   })
 
   return (

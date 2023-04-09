@@ -1,6 +1,5 @@
 import { Box, Group, HoverCard, Stack, Table, Text, useMantineTheme } from "@mantine/core"
 import { IconChevronDown, IconInfoCircle } from "@tabler/icons-react"
-import { entitiesTableMock } from "./entitiesTableMock"
 import { useRouter } from "next/router"
 import { Routes } from "@blitzjs/next"
 import ThMenu from "src/core/NavigationTable/ThMenu"
@@ -11,7 +10,7 @@ const EntitiesTable = ({ entities }: { entities: ExtendedEntity[] }) => {
   const theme = useMantineTheme()
   const router = useRouter()
 
-  const rows = entities.map((entity) => (
+  const rows = entities?.map((entity) => (
     <Box
       component="tr"
       key={entity.id}

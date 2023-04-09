@@ -45,6 +45,8 @@ const EntitiesPage: BlitzPage = () => {
       centered: true,
     })
 
+  console.log(entities)
+
   return (
     <Layout title="Объекты">
       <Container size="xl">
