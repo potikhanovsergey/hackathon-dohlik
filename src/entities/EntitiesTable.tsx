@@ -11,7 +11,7 @@ const EntitiesTable = ({ entities }: { entities: ExtendedEntity[] }) => {
   const theme = useMantineTheme()
   const router = useRouter()
 
-  const rows = entities.map((entity) => (
+  const rows = entities?.map((entity) => (
     <Box
       component="tr"
       key={entity.id}
