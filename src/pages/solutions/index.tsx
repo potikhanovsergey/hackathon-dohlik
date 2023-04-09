@@ -3,6 +3,8 @@ import Layout from "src/core/layouts/Layout"
 import { Container, Title, Group } from "@mantine/core"
 import SolutionsTable from "src/solutions/SolutionsTable"
 import { useState } from "react"
+import FilterAddButtons from "src/core/FilterAddButtons"
+import { AdditionFiltersMock } from ".."
 
 const SolutionsPage: BlitzPage = () => {
   const [page, setPage] = useState<"решения" | "поручения">("решения")
@@ -28,6 +30,7 @@ const SolutionsPage: BlitzPage = () => {
             Поручения
           </Title>
         </Group>
+        <FilterAddButtons>{AdditionFiltersMock()}</FilterAddButtons>
         {page === "решения" ? <SolutionsTable /> : <SolutionsTable />}
       </Container>
     </Layout>

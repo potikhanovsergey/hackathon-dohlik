@@ -60,7 +60,7 @@ const SolutionsTable = () => {
   ))
 
   const columns = [
-    { label: "Дата создания решения", value: "creationDate", type: ["sort"] },
+    { label: "Дата создания", value: "creationDate", type: ["sort"] },
     { label: "Формулировка", value: "description", type: ["sort", "search"] },
     {
       label: "Срок исполнения",
