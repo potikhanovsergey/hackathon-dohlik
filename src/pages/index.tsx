@@ -2,7 +2,6 @@ import { BlitzPage } from "@blitzjs/next"
 import Layout from "src/core/layouts/Layout"
 import { Button, Container, FileButton, Group, TextInput, Title } from "@mantine/core"
 import EntitiesTable from "src/entities/EntitiesTable"
-import FilterAddButtons from "src/core/FilterAddButtons"
 import EntityForm from "src/entities/EntityForm"
 import { openModal } from "@mantine/modals"
 import { invalidateQuery, useMutation, useQuery } from "@blitzjs/rpc"
@@ -12,6 +11,7 @@ import { useEffect, useState } from "react"
 import { xmlToJson } from "src/helpers/xmlToJson"
 import createEntities from "src/entities/mutations/createEntities"
 import { notifications } from "@mantine/notifications"
+import Overview from "src/core/overview"
 
 export const AdditionFiltersMock = () => {
   return (
@@ -121,6 +121,7 @@ const EntitiesPage: BlitzPage = () => {
   return (
     <Layout title="Объекты">
       <Container size="xl">
+        <Overview />
         <Group position="apart" mb="md">
           <Title mb="xl">Объекты</Title>
           <Group position="right">
