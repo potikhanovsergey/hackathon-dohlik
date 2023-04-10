@@ -77,6 +77,7 @@ const theme: MantineThemeOverride = {
     DatePickerInput: {
       defaultProps: {
         locale: "ru",
+        size: "xs",
       },
     },
     Button: {
