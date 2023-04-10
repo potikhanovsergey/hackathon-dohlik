@@ -1,5 +1,5 @@
 import { invalidateQuery, useMutation, useQuery } from "@blitzjs/rpc"
-import { Stack, TextInput, Select, Button, Text, ActionIcon, Group } from "@mantine/core"
+import { Stack, TextInput, Select, Button, Text, ActionIcon, Group, Tooltip } from "@mantine/core"
 import { DatePicker, DatePickerInput } from "@mantine/dates"
 import { useForm } from "@mantine/form"
 import { closeAllModals } from "@mantine/modals"
@@ -164,32 +164,36 @@ const SolutionForm = () => {
           <Text size="lg" weight="bold">
             Поручения
           </Text>
-          <ActionIcon
-            onClick={() =>
-              form.setFieldValue("assignments", [
-                { ...defaultAssignment },
-                ...form.values.assignments,
-              ])
-            }
-          >
-            <IconPlus size={16} />
-          </ActionIcon>
+          <Tooltip label="Добавить поручение">
+            <ActionIcon
+              onClick={() =>
+                form.setFieldValue("assignments", [
+                  { ...defaultAssignment },
+                  ...form.values.assignments,
+                ])
+              }
+            >
+              <IconPlus size={16} />
+            </ActionIcon>
+          </Tooltip>
         </Group>
         <Stack>
           {form.values.assignments.map((assignment, i) => (
             <Stack key={i} mb="sm">
               <Group position="apart">
                 <Text>Поручение</Text>
-                <ActionIcon
-                  color="red"
-                  onClick={() => {
-                    const newAssignments = [...form.values.assignments]
-                    newAssignments.splice(i, 1)
-                    form.setFieldValue("assignments", newAssignments)
-                  }}
-                >
-                  <IconTrash size={16} />
-                </ActionIcon>
+                <Tooltip label="Удалить поручение">
+                  <ActionIcon
+                    color="red"
+                    onClick={() => {
+                      const newAssignments = [...form.values.assignments]
+                      newAssignments.splice(i, 1)
+                      form.setFieldValue("assignments", newAssignments)
+                    }}
+                  >
+                    <IconTrash size={16} />
+                  </ActionIcon>
+                </Tooltip>
               </Group>
               <DatePickerInput
                 label="Срок исполнения"

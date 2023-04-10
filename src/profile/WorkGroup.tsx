@@ -1,4 +1,4 @@
-import { Group, Text, ActionIcon, Button, Menu, MultiSelect } from "@mantine/core"
+import { Group, Text, ActionIcon, Button, Menu, MultiSelect, Tooltip } from "@mantine/core"
 import { openConfirmModal } from "@mantine/modals"
 import { IconTrash } from "@tabler/icons-react"
 import { useState } from "react"
@@ -39,9 +39,11 @@ const WorkGroup = ({
             Группа №{workgroup.id}
           </Text>
           {withButtons && (
-            <ActionIcon color="red" variant="transparent" onClick={openConfirmDeleteModal}>
-              <IconTrash size={16} />
-            </ActionIcon>
+            <Tooltip label="Удалить рабочую группу">
+              <ActionIcon color="red" variant="transparent" onClick={openConfirmDeleteModal}>
+                <IconTrash size={16} />
+              </ActionIcon>
+            </Tooltip>
           )}
         </Group>
         {withButtons && (

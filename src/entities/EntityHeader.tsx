@@ -1,5 +1,5 @@
 import { useMutation, invalidateQuery } from "@blitzjs/rpc"
-import { Grid, Image, Title, Text, ActionIcon, Group, Paper } from "@mantine/core"
+import { Grid, Image, Title, Text, ActionIcon, Group, Paper, Tooltip } from "@mantine/core"
 import { openConfirmModal, openModal } from "@mantine/modals"
 import { notifications } from "@mantine/notifications"
 import { Entity } from "@prisma/client"
@@ -62,12 +62,16 @@ const EntityHeader = ({ entity }: { entity: Entity }) => {
       <Title order={1} mb="xs">
         {entity.district + " округ, " + entity.region + " р-н, " + entity.address}
         <Group spacing="xs">
-          <ActionIcon onClick={openConfirmDeleteModal} variant="transparent" color="red">
-            <IconTrash />
-          </ActionIcon>
-          <ActionIcon onClick={openEditModal} variant="transparent">
-            <IconEdit />
-          </ActionIcon>
+          <Tooltip label="Удалить объект">
+            <ActionIcon onClick={openConfirmDeleteModal} variant="transparent" color="red">
+              <IconTrash />
+            </ActionIcon>
+          </Tooltip>
+          <Tooltip label="Редактировать объект">
+            <ActionIcon onClick={openEditModal} variant="transparent">
+              <IconEdit />
+            </ActionIcon>
+          </Tooltip>
         </Group>
       </Title>
       <Text>Тип: {entity.type}</Text>
