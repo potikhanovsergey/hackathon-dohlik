@@ -11,6 +11,7 @@ import {
   Checkbox,
   ActionIcon,
   Box,
+  Tooltip,
 } from "@mantine/core"
 import { IconPlus, IconTrash } from "@tabler/icons-react"
 import AttributeControls from "./AttributeControls"
@@ -176,14 +177,16 @@ const Attribute = ({ index, attribute, onDelete, onUpdate }: AttributeProps) => 
                         size="xs"
                         {...form.getInputProps(`data.${i}`)}
                       />
-                      <ActionIcon
-                        onClick={() => deleteValue(i)}
-                        variant="transparent"
-                        color="red"
-                        size="sm"
-                      >
-                        <IconTrash />
-                      </ActionIcon>
+                      <Tooltip label="Удалить свойство">
+                        <ActionIcon
+                          onClick={() => deleteValue(i)}
+                          variant="transparent"
+                          color="red"
+                          size="sm"
+                        >
+                          <IconTrash />
+                        </ActionIcon>
+                      </Tooltip>
                     </Group>
                   ))}
               </Stack>

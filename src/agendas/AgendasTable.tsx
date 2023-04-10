@@ -3,7 +3,6 @@ import { IconChevronDown } from "@tabler/icons-react"
 import Link from "src/core/Link"
 import ThMenu from "src/core/NavigationTable/ThMenu"
 import { useForm } from "@mantine/form"
-import { agendasTableMock } from "./agendasTableMock"
 import { ExtendedAssignments } from "src/pages/agendas"
 import dayjs from "dayjs"
 import { Routes } from "@blitzjs/next"
@@ -76,7 +75,7 @@ const AgendasTable = ({ assignments }: { assignments: ExtendedAssignments[] }) =
         </Link>
       </td>
       <td>
-        <Link target="_blank" href="/">
+        <Link target="_blank" href={Routes.ProfilePage()}>
           Группа
         </Link>
       </td>

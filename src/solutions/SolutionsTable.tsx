@@ -11,8 +11,6 @@ const SolutionsTable = ({ solutions }: { solutions: Solution[] }) => {
   const theme = useMantineTheme()
   const router = useRouter()
 
-  console.log("SOLUTIONS", solutions)
-
   const rows = solutions?.map((solution) => (
     <Box
       component="tr"
@@ -24,7 +22,7 @@ const SolutionsTable = ({ solutions }: { solutions: Solution[] }) => {
       <td>{solution.name}</td>
       <td>{solution.createdAt.toLocaleString()}</td>
       <td>
-        <Link target="_blank" href="/">
+        <Link target="_blank" href={Routes.ProfilePage()}>
           Группа
         </Link>
       </td>

@@ -75,7 +75,7 @@ const Event = ({ event }: { event: ExtendedEvent }) => {
                 </Text>
               </Group>
               <Group>
-                <Link target="_blank" href={"/"}>
+                <Link target="_blank" href={Routes.ProfilePage()}>
                   Рабочая группа
                 </Link>
                 <Link target="_blank" href={event.meetingUrl}>

@@ -43,7 +43,7 @@ const SolutionCard = ({ solution }: { solution: ExtendedSolution }) => {
                 Срок исполнения
               </Text>
               <Text mb="md">23.32.2342</Text>
-              <Link href="lkdsjflsk" w="fit-content" target="_blank">
+              <Link href={Routes.ProfilePage()} w="fit-content" target="_blank">
                 Группа
               </Link>
               <Link

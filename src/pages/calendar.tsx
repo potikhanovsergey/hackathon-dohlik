@@ -69,10 +69,6 @@ const CalendarPage: BlitzPage = () => {
 
   const [workgroups] = useQuery(getWorkgroups, {})
 
-  useEffect(() => {
-    console.log(groupValue)
-  }, [groupValue])
-
   const filteredEvents = useSelector(datesFilter)
   const events = useMemo(() => {
     if (!eventsFromDB) return []

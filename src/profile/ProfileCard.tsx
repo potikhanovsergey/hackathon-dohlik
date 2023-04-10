@@ -1,4 +1,4 @@
-import { Paper, Group, Avatar, Stack, Text, ActionIcon, Menu, Button } from "@mantine/core"
+import { Paper, Group, Avatar, Stack, Text, ActionIcon, Menu, Button, Tooltip } from "@mantine/core"
 import { User } from "@prisma/client"
 import { IconTrash } from "@tabler/icons-react"
 import { useState } from "react"
@@ -17,9 +17,11 @@ const ProfileCard = ({ withDelete = false, user }: { withDelete?: boolean; user:
         {withDelete && (
           <Menu width={200} opened={menuOpened} onChange={setMenuOpened}>
             <Menu.Target>
-              <ActionIcon color="red" variant="transparent">
-                <IconTrash size={16} />
-              </ActionIcon>
+              <Tooltip label="Удалить пользователя из группы">
+                <ActionIcon color="red" variant="transparent">
+                  <IconTrash size={16} />
+                </ActionIcon>
+              </Tooltip>
             </Menu.Target>
 
             <Menu.Dropdown p="sm">

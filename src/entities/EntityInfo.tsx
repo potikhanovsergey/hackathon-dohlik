@@ -1,4 +1,4 @@
-import { Group, Image, SimpleGrid, Stack, Text, TextInput } from "@mantine/core"
+import { Group, Image, SimpleGrid, Stack, Text } from "@mantine/core"
 import Link from "next/link"
 import { ExtendedEntity } from "src/pages"
 
@@ -19,7 +19,7 @@ const EntityInfo = ({ entity }: { entity: ExtendedEntity }) => {
             </Text>
           ))
         ) : (
-          <Text>Файлов по объекту нет</Text>
+          <Text>Свойств по объекту нет</Text>
         )}
       </SimpleGrid>
       <Text weight="bold" size="lg">
@@ -28,7 +28,7 @@ const EntityInfo = ({ entity }: { entity: ExtendedEntity }) => {
       <Group>
         {entity.files.length > 0 ? (
           entity.files.map((file) => (
-            <Link href="sldkflk" key={file.id}>
+            <Link href="" key={file.id}>
               {file.name}
             </Link>
           ))

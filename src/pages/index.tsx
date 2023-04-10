@@ -11,7 +11,7 @@ import { useEffect, useState } from "react"
 import { xmlToJson } from "src/helpers/xmlToJson"
 import createEntities from "src/entities/mutations/createEntities"
 import { notifications } from "@mantine/notifications"
-import Overview from "src/core/overview"
+import Overview from "src/core/Overview"
 
 export const AdditionFiltersMock = () => {
   return (

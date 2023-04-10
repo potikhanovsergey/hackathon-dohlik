@@ -35,6 +35,7 @@ const ProtocolsTable = ({ protocols }: { protocols: ExtendedProtocol[] }) => {
               key={solution.id}
               target="_blank"
               href={Routes.EntityPage({ id: solution.entityId })}
+              w="fit-content"
             >
               № {solution.entityId}
             </Link>
@@ -44,11 +45,7 @@ const ProtocolsTable = ({ protocols }: { protocols: ExtendedProtocol[] }) => {
       <td>
         <Stack spacing={0}>
           {protocol.solutions?.map((solution) => (
-            <Link
-              key={solution.id}
-              target="_blank"
-              href={Routes.EntityPage({ id: solution.entityId })}
-            >
+            <Link key={solution.id} target="_blank" href={Routes.ProfilePage()} w="fit-content">
               Группа № {solution.workgroupId}
             </Link>
           ))}
@@ -60,9 +57,10 @@ const ProtocolsTable = ({ protocols }: { protocols: ExtendedProtocol[] }) => {
             <Link
               key={solution.id}
               target="_blank"
-              href={Routes.EntityPage({ id: solution.entityId })}
+              href={Routes.SolutionPage({ id: solution.id })}
+              w="fit-content"
             >
-              Группа № {solution.workgroupId}
+              Решение № {solution.id}
             </Link>
           ))}
         </Stack>
@@ -93,7 +91,7 @@ const ProtocolsTable = ({ protocols }: { protocols: ExtendedProtocol[] }) => {
       type: ["sort"],
     },
     {
-      label: "Новое поручение",
+      label: "Новые поручения",
       value: "newSolutionId",
       type: ["sort"],
     },
