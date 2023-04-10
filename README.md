@@ -1,8 +1,8 @@
 [![Blitz.js](https://raw.githubusercontent.com/blitz-js/art/master/github-cover-photo.png)](https://blitzjs.com)
 
-This is a [Blitz.js](https://github.com/blitz-js/blitz) app.
+### https://hackathon-dohlik.vercel.app/ - ссылка на проект Optimize & Organize Challenge
 
-### ****https://hackathon-dohlik.vercel.app/ - ссылка на проект Optimize & Organize Challenge****
+This is a [Blitz.js](https://github.com/blitz-js/blitz) app.
 
 ## Getting Started
 
