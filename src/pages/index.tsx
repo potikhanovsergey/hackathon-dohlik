@@ -11,7 +11,7 @@ import { useEffect, useState } from "react"
 import { xmlToJson } from "src/helpers/xmlToJson"
 import createEntities from "src/entities/mutations/createEntities"
 import { notifications } from "@mantine/notifications"
-import Overview from "src/core/Overview"
+import Overview from "src/core/ObjectsDashboard"
 
 export const AdditionFiltersMock = () => {
   return (
@@ -118,6 +118,12 @@ const EntitiesPage: BlitzPage = () => {
     void readFile()
   }, [file])
 
+  const handleExport = async () => {
+    const excelExport = await (await import("src/excelExport")).default
+
+    await excelExport({ fileName: "Объекты", excelData: entities })
+  }
+
   return (
     <Layout title="Объекты">
       <Container size="xl">
@@ -125,7 +131,9 @@ const EntitiesPage: BlitzPage = () => {
         <Group position="apart" mb="md">
           <Title mb="xl">Объекты</Title>
           <Group position="right">
-            <Button color="green">Скачать отчет</Button>
+            <Button color="green" onClick={handleExport}>
+              Скачать отчет
+            </Button>
             <FileButton onChange={setFile} accept="text/xml">
               {(props) => (
                 <Button color="green" {...props}>

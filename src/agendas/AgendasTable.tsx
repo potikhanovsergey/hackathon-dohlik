@@ -1,4 +1,4 @@
-import { Box, Group, Button, Table, Text, Badge } from "@mantine/core"
+import { Box, Group, Button, Table, Text, Badge, Stack } from "@mantine/core"
 import { IconChevronDown } from "@tabler/icons-react"
 import Link from "src/core/Link"
 import ThMenu from "src/core/NavigationTable/ThMenu"
@@ -109,41 +109,54 @@ const AgendasTable = ({ assignments }: { assignments: ExtendedAssignments[] }) =
     },
   })
 
+  const handleExport = async () => {
+    const excelExport = await (await import("src/excelExport")).default
+
+    await excelExport({ fileName: "Решения по объекту", excelData: assignments })
+  }
+
   return (
-    <Table fontSize="xs">
-      <thead>
-        <tr>
-          {columns.map((column) => (
-            <ThMenu
-              key={column.label}
-              sx={{ whiteSpace: "nowrap" }}
-              sort={
-                column.type.includes("sort")
-                  ? { ...form.getInputProps(`sort.${column.value}`) }
-                  : undefined
-              }
-              search={
-                column.type.includes("search")
-                  ? { ...form.getInputProps(`search.${column.value}`) }
-                  : undefined
-              }
-            >
-              <Group noWrap spacing={4} position="apart" sx={{ cursor: "pointer" }}>
-                {column.label}
-                <IconChevronDown size={16} />
-              </Group>
-            </ThMenu>
-          ))}
-          <th>Решение</th>
-          <th>Поручение</th>
-          <th>Протокол</th>
-          <th>Объект</th>
-          <th>Рабочая группа</th>
-          <th>Планирование встречи рабочей группы</th>
-        </tr>
-      </thead>
-      <tbody>{rows}</tbody>
-    </Table>
+    <Stack mt="md">
+      <Group position="right">
+        <Button color="green" onClick={handleExport}>
+          Экспортировать таблицу
+        </Button>
+      </Group>
+      <Table fontSize="xs">
+        <thead>
+          <tr>
+            {columns.map((column) => (
+              <ThMenu
+                key={column.label}
+                sx={{ whiteSpace: "nowrap" }}
+                sort={
+                  column.type.includes("sort")
+                    ? { ...form.getInputProps(`sort.${column.value}`) }
+                    : undefined
+                }
+                search={
+                  column.type.includes("search")
+                    ? { ...form.getInputProps(`search.${column.value}`) }
+                    : undefined
+                }
+              >
+                <Group noWrap spacing={4} position="apart" sx={{ cursor: "pointer" }}>
+                  {column.label}
+                  <IconChevronDown size={16} />
+                </Group>
+              </ThMenu>
+            ))}
+            <th>Решение</th>
+            <th>Поручение</th>
+            <th>Протокол</th>
+            <th>Объект</th>
+            <th>Рабочая группа</th>
+            <th>Планирование встречи рабочей группы</th>
+          </tr>
+        </thead>
+        <tbody>{rows}</tbody>
+      </Table>
+    </Stack>
   )
 }
 

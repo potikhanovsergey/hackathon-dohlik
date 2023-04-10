@@ -12,6 +12,7 @@ import { invalidateQuery, useMutation } from "@blitzjs/rpc"
 import getEvents from "./queries/getEvents"
 import { notifications } from "@mantine/notifications"
 import getAssignments from "src/assigments/queries/getAssignments"
+import { ProtocolFormButton } from "src/pages/protocols"
 
 const Event = ({ event }: { event: ExtendedEvent }) => {
   const [deleteEventMutation] = useMutation(deleteEvent)
@@ -113,11 +114,7 @@ const Event = ({ event }: { event: ExtendedEvent }) => {
             </div>
           </Group>
           <Stack spacing="xs">
-            {dayjs(event.date).isBefore(new Date()) && (
-              <Button size="xs" leftIcon={<IconPlus size={16} />} compact>
-                Создать протокол
-              </Button>
-            )}
+            {dayjs(event.date).isBefore(new Date()) && <ProtocolFormButton />}
             <Button
               size="xs"
               variant="outline"

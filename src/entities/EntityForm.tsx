@@ -1,13 +1,16 @@
 import { invalidateQuery, useMutation } from "@blitzjs/rpc"
-import { Button, NumberInput, Select, Stack, TextInput } from "@mantine/core"
+import { Button, FileInput, NumberInput, Select, Stack, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { closeAllModals } from "@mantine/modals"
 import createEntity from "./mutations/createEntity"
 import getEntities from "./queries/getEntities"
 import { notifications } from "@mantine/notifications"
-import { Entity } from "@prisma/client"
+import { Entity, EntityFile } from "@prisma/client"
 import updateEntity from "./mutations/updateEntity"
 import { useRouter } from "next/router"
+import createFiles from "./mutations/createFiles"
+import deleteFiles from "./mutations/deleteFiles"
+import { supabase } from "lib/supabase"
 
 const EntityForm = ({ entity }: { entity?: Entity }) => {
   const router = useRouter()
@@ -22,24 +25,46 @@ const EntityForm = ({ entity }: { entity?: Entity }) => {
       state: entity?.state || "",
       owner: entity?.owner || "",
       actualUser: entity?.actualUser || "",
+      files: [] as File[],
     },
   })
 
   const [createEntityMutation] = useMutation(createEntity)
   const [updateEntityMutation] = useMutation(updateEntity)
+  const [deleteFilesMutation] = useMutation(deleteFiles)
+  const [createFilesMutation] = useMutation(createFiles)
 
   return (
     <form
-      onSubmit={form.onSubmit(async (values) => {
+      onSubmit={form.onSubmit(async ({ files, ...values }) => {
         try {
           const response = entity
             ? await updateEntityMutation({
                 where: { id: entity?.id },
-                data: { ...values, area: !isNaN(+values.area) ? +values.area : null },
+                data: {
+                  ...values,
+                  area: !isNaN(+values.area) ? +values.area : null,
+                  files: { deleteMany: { entityId: entity?.id } },
+                },
               })
             : await createEntityMutation({
                 data: { ...values, area: !isNaN(+values.area) ? +values.area : null },
               })
+
+          await deleteFilesMutation({ where: { entityId: response.id } })
+          await createFilesMutation({
+            data: files.map((file) => ({
+              entityId: response.id,
+              name: file.name,
+              path: `${response.id}/${file.name}`,
+            })),
+          })
+
+          files.forEach((file) =>
+            supabase.storage
+              .from("bucket")
+              .upload(`${response.id}/${file.name}`, file, { upsert: true, cacheControl: "3600" })
+          )
 
           notifications.show({
             withCloseButton: true,
@@ -53,7 +78,7 @@ const EntityForm = ({ entity }: { entity?: Entity }) => {
           notifications.show({
             withCloseButton: true,
             autoClose: 5000,
-            title: `Ошибка при ${entity ? "изменении" : "добавлении"}!`,
+            title: `Ошибка при ${entity ? "изменении" : "добавлении"} объекта`,
             message: e?.toString(),
             color: "red",
           })
@@ -105,6 +130,13 @@ const EntityForm = ({ entity }: { entity?: Entity }) => {
           placeholder="Мосполитех.."
           {...form.getInputProps("actualUser")}
           mb="md"
+        />
+        <FileInput
+          mb="md"
+          label="Файлы"
+          placeholder="Загрузите файлы"
+          multiple
+          {...form.getInputProps("files")}
         />
         <Button type="submit" onClick={() => closeAllModals()}>
           Готово

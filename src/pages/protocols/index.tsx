@@ -12,7 +12,7 @@ export interface ExtendedProtocol extends Protocol {
   solutions: (Solution & { assignments: Assignment[] } & { entity: Entity })[]
 }
 
-const ProtocolsPage: BlitzPage = () => {
+export const ProtocolFormButton = () => {
   const openAddProtocalModal = () =>
     openModal({
       title: "Добавить протокол",
@@ -20,6 +20,10 @@ const ProtocolsPage: BlitzPage = () => {
       centered: true,
     })
 
+  return <Button onClick={() => openAddProtocalModal()}>Добавить протокол</Button>
+}
+
+const ProtocolsPage: BlitzPage = () => {
   const [protocols] = useQuery(getProtocols, {
     include: {
       solutions: {
@@ -36,7 +40,7 @@ const ProtocolsPage: BlitzPage = () => {
       <Container size="xl">
         <Group position="apart" mb="md" noWrap align="center">
           <Title>Протоколы</Title>
-          <Button onClick={() => openAddProtocalModal()}>Добавить протокол</Button>
+          <ProtocolFormButton />
         </Group>
         <ProtocolsTable protocols={protocols as ExtendedProtocol[]} />
       </Container>
@@ -45,3 +49,6 @@ const ProtocolsPage: BlitzPage = () => {
 }
 
 export default ProtocolsPage
+function openAddProtocalModal(): void {
+  throw new Error("Function not implemented.")
+}
