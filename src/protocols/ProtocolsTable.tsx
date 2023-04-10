@@ -32,6 +32,7 @@ const ProtocolsTable = ({ protocols }: { protocols: ExtendedProtocol[] }) => {
         <Stack spacing={0}>
           {protocol.solutions?.map((solution) => (
             <Link
+              w="fit-content"
               key={solution.id}
               target="_blank"
               href={Routes.EntityPage({ id: solution.entityId })}
@@ -45,6 +46,7 @@ const ProtocolsTable = ({ protocols }: { protocols: ExtendedProtocol[] }) => {
         <Stack spacing={0}>
           {protocol.solutions?.map((solution) => (
             <Link
+              w="fit-content"
               key={solution.id}
               target="_blank"
               href={Routes.EntityPage({ id: solution.entityId })}
@@ -58,6 +60,7 @@ const ProtocolsTable = ({ protocols }: { protocols: ExtendedProtocol[] }) => {
         <Stack spacing={0}>
           {protocol.solutions?.map((solution) => (
             <Link
+              w="fit-content"
               key={solution.id}
               target="_blank"
               href={Routes.EntityPage({ id: solution.entityId })}

@@ -48,6 +48,7 @@ const Link = ({
       component={NextLink}
       className={cx(classes.root, className)}
       {...props}
+      onClick={(e) => e.stopPropagation()}
     >
       {props.children}
       {props.target === "_blank" && (

@@ -1,50 +1,47 @@
-import { Stack, TextInput, Select, Button } from "@mantine/core"
+import { invalidateQuery, useMutation, useQuery } from "@blitzjs/rpc"
+import { Stack, TextInput, Select, Button, MultiSelect } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { closeAllModals } from "@mantine/modals"
+import getSolutions from "src/solutions/queries/getSolutions"
+import createProtocol from "./mutations/createProtocol"
+import getProtocols from "./queries/getProtocols"
 
 const ProtocolForm = () => {
   const form = useForm({
     initialValues: {
-      protocolNumber: "",
-      entityId: "",
-      groupId: "",
+      solutionsIds: [],
     },
   })
 
+  const [solutions] = useQuery(getSolutions, {})
+
+  const [createProtocolMutation] = useMutation(createProtocol)
+
   return (
-    <form onSubmit={form.onSubmit((values) => console.log(values))}>
+    <form
+      onSubmit={form.onSubmit(async (values) => {
+        await createProtocolMutation({
+          data: { solutions: { connect: values.solutionsIds.map((id) => ({ id: +id })) } },
+        })
+
+        await invalidateQuery(getProtocols)
+        closeAllModals()
+      })}
+    >
       <Stack>
-        <TextInput
-          label="Номер протокола"
-          placeholder="3470"
-          {...form.getInputProps("protocolNumber")}
+        <MultiSelect
+          label="Решения"
+          placeholder="Включите решения в протокол"
+          withinPortal
+          {...form.getInputProps("solutionsIds")}
+          data={
+            solutions
+              ? solutions.map((solution) => ({ label: solution.name, value: solution.id + "" }))
+              : []
+          }
           required
         />
-        <Select
-          label="Объект"
-          placeholder="Малая Семеновская.."
-          {...form.getInputProps("entityId")}
-          data={[
-            { label: "Малая Семеновская", value: "1" },
-            { label: "Большая Семеновская", value: "2" },
-            { label: "Крошка Семеновская", value: "3" },
-          ]}
-          required
-        />
-        <Select
-          label="Рабочая группа"
-          placeholder="93823"
-          {...form.getInputProps("groupId")}
-          data={[
-            { label: "2452", value: "1" },
-            { label: "2325", value: "2" },
-            { label: "90980", value: "3" },
-          ]}
-          required
-        />
-        <Button type="submit" onClick={() => closeAllModals()}>
-          Создать протокол
-        </Button>
+        <Button type="submit">Создать протокол</Button>
       </Stack>
     </form>
   )
