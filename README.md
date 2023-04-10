@@ -2,7 +2,7 @@
 
 This is a [Blitz.js](https://github.com/blitz-js/blitz) app.
 
-# ****name****
+### ****https://hackathon-dohlik.vercel.app/ - ссылка на проект Optimize & Organize Challenge****
 
 ## Getting Started
 
