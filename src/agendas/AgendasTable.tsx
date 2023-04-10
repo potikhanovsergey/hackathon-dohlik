@@ -9,6 +9,37 @@ import dayjs from "dayjs"
 import { Routes } from "@blitzjs/next"
 import { openModal } from "@mantine/modals"
 import EventForm from "src/calendar/EventForm"
+import { Assignment } from "@prisma/client"
+
+const now = new Date()
+
+const BadgeStatus = ({ status, deadline }: { status: Assignment["status"]; deadline: Date }) => {
+  const color = {
+    done: "violet",
+    expired: "red",
+  }
+
+  const label = {
+    done: "Завершен",
+    expired: "Истек",
+    new: "Новый",
+    default: "В работе",
+  }
+
+  const badgeStatus =
+    status === "done"
+      ? "done"
+      : deadline.getMilliseconds() < now.getMilliseconds()
+      ? "expired"
+      : status === "new"
+      ? "new"
+      : "default"
+  return (
+    <Badge size="xs" color={color[badgeStatus]}>
+      {label[badgeStatus]}
+    </Badge>
+  )
+}
 
 const AgendasTable = ({ assignments }: { assignments: ExtendedAssignments[] }) => {
   const openAddEventModal = () =>
@@ -22,21 +53,14 @@ const AgendasTable = ({ assignments }: { assignments: ExtendedAssignments[] }) =
     <Box component="tr" key={assignment.id}>
       <td>{dayjs(assignment.createdAt).format("D MMMM YYYY")}</td>
       <td>
-        <Badge
-          size="xs"
-          color={
-            assignment.status === "new" ? "blue" : assignment.status === "done" ? "violet" : ""
-          }
-        >
-          {assignment.status === "new" ? "Новый" : assignment.status === "done" ? "Завершен" : ""}
-        </Badge>
+        <BadgeStatus status={assignment.status} deadline={assignment.deadline} />
       </td>
       <td>
         <Link target="_blank" href={Routes.SolutionPage({ id: assignment.solutionId })}>
           Решение
         </Link>
       </td>
-      <td>Снести дом</td>
+      <td>{assignment.name}</td>
       <td>
         {assignment.solution.protocolId ? (
           <Link target="_blank" href={Routes.ProtocolPage({ id: assignment.solution.protocolId })}>

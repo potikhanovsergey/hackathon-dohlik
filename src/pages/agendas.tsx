@@ -11,6 +11,8 @@ export interface ExtendedAssignments extends Assignment {
   event: Event
 }
 
+const now = new Date()
+
 const AgendasPage: BlitzPage = () => {
   const [assignments] = useQuery(getAssignments, {
     include: {
@@ -21,10 +23,22 @@ const AgendasPage: BlitzPage = () => {
       },
       event: true,
     },
+    orderBy: {
+      updatedAt: "desc",
+    },
     where: {
-      status: {
-        in: ["done", "new"],
-      },
+      OR: [
+        {
+          status: {
+            in: ["done", "new"],
+          },
+        },
+        {
+          deadline: {
+            lt: now,
+          },
+        },
+      ],
     },
   })
 
