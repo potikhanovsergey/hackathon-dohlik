@@ -33,8 +33,8 @@ const AttributeDefaultValue = ({ type, value, data, onChange }: AttributeDefault
             size="xs"
             label={LABEL}
             placeholder={PLACEHOLDER}
-            value={value}
-            onChange={onChange}
+            value={value[0]}
+            onChange={(e) => onChange([e.currentTarget.value])}
           />
         ),
         checkbox: () => (

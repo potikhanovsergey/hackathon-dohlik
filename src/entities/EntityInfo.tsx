@@ -14,7 +14,7 @@ const EntityInfo = ({ entity }: { entity: ExtendedEntity }) => {
             <Text key={a.attribute.id}>
               {a.attribute.name}:{" "}
               {a.attribute.defaultValue.map(
-                (value, i) => value + (i < entity.attributes.length ? ", " : "")
+                (value, i) => value + (i < entity.attributes.length - 1 ? ", " : "")
               )}
             </Text>
           ))

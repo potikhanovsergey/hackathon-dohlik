@@ -54,6 +54,14 @@ const Constructor = () => {
                 setAttributes(newAttributes)
               }
             }}
+            onUpdate={async () => {
+              if (!attribute.id) {
+                const newAttributes = [...attributes]
+                newAttributes.splice(i, 1)
+                setAttributes(newAttributes)
+                void invalidateQuery(getAttributes)
+              }
+            }}
             attribute={attribute}
             index={i}
             key={i}

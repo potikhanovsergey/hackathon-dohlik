@@ -35,12 +35,12 @@ const EntitiesTable = ({ entities }: { entities: ExtendedEntity[] }) => {
                   Дополнительные поля
                 </Text>
                 <Stack spacing={4}>
-                  {Object.keys(entity.attributes).map((key) => (
-                    <Group key={key}>
+                  {entity.attributes?.map((entityAttribute) => (
+                    <Group key={entityAttribute.id}>
                       <Text weight="bold" size="xs">
-                        {entity.attributes![key].label}:{" "}
+                        {entityAttribute.attribute.name}:{" "}
                       </Text>
-                      <Text size="xs">{entity.attributes![key].value}</Text>
+                      <Text size="xs">{entityAttribute.value}</Text>
                     </Group>
                   ))}
                 </Stack>

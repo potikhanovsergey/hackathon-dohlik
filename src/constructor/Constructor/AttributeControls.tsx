@@ -7,12 +7,12 @@ const AttributeControls = ({ onDelete }: { onDelete: () => void }) => {
 
   return (
     <Group spacing="xs">
-      <Button variant="subtle" rightIcon={<IconCopy size={16} />} compact>
+      {/* <Button variant="subtle" rightIcon={<IconCopy size={16} />} compact>
         Дублировать
       </Button>
       <Button variant="subtle" rightIcon={<IconEyeOff size={16} />} compact>
         Выключить
-      </Button>
+      </Button> */}
 
       <Menu width={300} opened={menuOpened} onChange={setMenuOpened}>
         <Menu.Target>

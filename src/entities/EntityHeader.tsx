@@ -1,5 +1,5 @@
 import { useMutation, invalidateQuery } from "@blitzjs/rpc"
-import { Grid, Image, Title, Text, ActionIcon, Group } from "@mantine/core"
+import { Grid, Image, Title, Text, ActionIcon, Group, Paper } from "@mantine/core"
 import { openConfirmModal, openModal } from "@mantine/modals"
 import { notifications } from "@mantine/notifications"
 import { Entity } from "@prisma/client"
@@ -21,7 +21,7 @@ const EntityHeader = ({ entity }: { entity: Entity }) => {
       title: "Пожалуйста, подтвердите свое действие",
       children: (
         <Text size="sm">
-          Пожалуйста, подвтердите, что вы хотите удалить встречу. Это действия необратимо.
+          Пожалуйста, подвтердите, что вы хотите удалить объект. Это действия необратимо.
         </Text>
       ),
       centered: true,
@@ -58,32 +58,24 @@ const EntityHeader = ({ entity }: { entity: Entity }) => {
     })
 
   return (
-    <Grid gutter={64}>
-      <Grid.Col span={4}>
-        <Image
-          alt=""
-          src="https://img.freepik.com/premium-vector/real-estate-house-sign-drawing_753539-160.jpg"
-        />
-      </Grid.Col>
-      <Grid.Col span={8}>
-        <Title order={1} mb="xs">
-          {entity.district + " округ, " + entity.region + " р-н, " + entity.address}
-          <Group spacing="xs">
-            <ActionIcon onClick={openConfirmDeleteModal} variant="transparent" color="red">
-              <IconTrash />
-            </ActionIcon>
-            <ActionIcon onClick={openEditModal} variant="transparent">
-              <IconEdit />
-            </ActionIcon>
-          </Group>
-        </Title>
-        <Text>Тип: {entity.type}</Text>
-        <Text>Состояние: {entity.state}</Text>
-        <Text>Площадь: {entity.area}</Text>
-        <Text>Собственник: {entity.owner}</Text>
-        <Text>Фактический пользователь: {entity.actualUser}</Text>
-      </Grid.Col>
-    </Grid>
+    <Paper withBorder mb="xl">
+      <Title order={1} mb="xs">
+        {entity.district + " округ, " + entity.region + " р-н, " + entity.address}
+        <Group spacing="xs">
+          <ActionIcon onClick={openConfirmDeleteModal} variant="transparent" color="red">
+            <IconTrash />
+          </ActionIcon>
+          <ActionIcon onClick={openEditModal} variant="transparent">
+            <IconEdit />
+          </ActionIcon>
+        </Group>
+      </Title>
+      <Text>Тип: {entity.type}</Text>
+      <Text>Состояние: {entity.state}</Text>
+      <Text>Площадь: {entity.area}</Text>
+      <Text>Собственник: {entity.owner}</Text>
+      <Text>Фактический пользователь: {entity.actualUser}</Text>
+    </Paper>
   )
 }
 

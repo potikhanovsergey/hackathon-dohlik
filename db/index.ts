@@ -8,11 +8,7 @@ const db = new EnhancedPrisma()
 
 // Этот Middleware создает дополнительные поля для каждого объекта при добавлении атрибута
 db.$use(async (params, next) => {
-  if (
-    params.model == "Attribute" &&
-    params.action == "upsert" &&
-    params.args?.data?.parent === "entity"
-  ) {
+  if (params.model == "Attribute" && params.action == "upsert") {
     const attribute = (await next(params)) as Attribute | null
     console.log("PARAMS", params)
 

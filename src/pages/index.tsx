@@ -38,7 +38,11 @@ const EntitiesPage: BlitzPage = () => {
     getEntities,
     {
       include: {
-        attributes: true,
+        attributes: {
+          include: {
+            attribute: true,
+          },
+        },
       },
     },
     { refetchOnReconnect: false, refetchOnWindowFocus: false }
@@ -117,23 +121,20 @@ const EntitiesPage: BlitzPage = () => {
   return (
     <Layout title="Объекты">
       <Container size="xl">
-        <Title mb="xl">Объекты</Title>
-        <FilterAddButtons
-          right={
-            <Group>
-              <FileButton onChange={setFile} accept="text/xml">
-                {(props) => (
-                  <Button color="green" {...props}>
-                    Импорт из XML
-                  </Button>
-                )}
-              </FileButton>
-              <Button onClick={openAddModal}>Добавить объект</Button>
-            </Group>
-          }
-        >
-          <AdditionFiltersMock />
-        </FilterAddButtons>
+        <Group position="apart" mb="md">
+          <Title mb="xl">Объекты</Title>
+          <Group position="right">
+            <Button color="green">Скачать отчет</Button>
+            <FileButton onChange={setFile} accept="text/xml">
+              {(props) => (
+                <Button color="green" {...props}>
+                  Импорт из XML
+                </Button>
+              )}
+            </FileButton>
+            <Button onClick={openAddModal}>Добавить объект</Button>
+          </Group>
+        </Group>
         <EntitiesTable entities={entities as ExtendedEntity[]} />
       </Container>
     </Layout>
