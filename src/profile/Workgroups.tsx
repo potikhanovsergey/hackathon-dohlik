@@ -22,10 +22,6 @@ const Workgroups = () => {
         },
       },
     },
-    where:
-      session.userId && session.role === "USER"
-        ? { participations: { some: { userId: session.userId } } }
-        : {},
   })
 
   return (
