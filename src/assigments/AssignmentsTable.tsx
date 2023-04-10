@@ -1,4 +1,4 @@
-import { Badge, Box, Group, Table } from "@mantine/core"
+import { Badge, Box, Button, Group, Stack, Table } from "@mantine/core"
 import { IconChevronDown } from "@tabler/icons-react"
 import ThMenu from "src/core/NavigationTable/ThMenu"
 import { useForm } from "@mantine/form"
@@ -66,36 +66,49 @@ const AssignmentsTable = ({ solution }: { solution: ExtendedSolution }) => {
     },
   })
 
+  const handleExport = async () => {
+    const excelExport = await (await import("src/excelExport")).default
+
+    await excelExport({ fileName: "Решения по объекту", excelData: solution.assignments })
+  }
+
   return (
-    <Table fontSize="xs">
-      <thead>
-        <tr>
-          {columns.map((column) => (
-            <ThMenu
-              key={column.label}
-              sx={{ whiteSpace: "nowrap" }}
-              sort={
-                column.type.includes("sort")
-                  ? { ...form.getInputProps(`sort.${column.value}`) }
-                  : undefined
-              }
-              search={
-                column.type.includes("search")
-                  ? { ...form.getInputProps(`search.${column.value}`) }
-                  : undefined
-              }
-            >
-              <Group noWrap spacing={4} position="apart" sx={{ cursor: "pointer" }}>
-                {column.label}
-                <IconChevronDown size={16} />
-              </Group>
-            </ThMenu>
-          ))}
-          <th>Статус</th>
-        </tr>
-      </thead>
-      <tbody>{rows}</tbody>
-    </Table>
+    <Stack mt="md">
+      <Group position="right">
+        <Button onClick={handleExport} color="green">
+          Экспортировать таблицу
+        </Button>
+      </Group>
+      <Table fontSize="xs">
+        <thead>
+          <tr>
+            {columns.map((column) => (
+              <ThMenu
+                key={column.label}
+                sx={{ whiteSpace: "nowrap" }}
+                sort={
+                  column.type.includes("sort")
+                    ? { ...form.getInputProps(`sort.${column.value}`) }
+                    : undefined
+                }
+                search={
+                  column.type.includes("search")
+                    ? { ...form.getInputProps(`search.${column.value}`) }
+                    : undefined
+                }
+              >
+                <Group noWrap spacing={4} position="apart" sx={{ cursor: "pointer" }}>
+                  {column.label}
+                  <IconChevronDown size={16} />
+                </Group>
+              </ThMenu>
+            ))}
+            <th>Статус</th>
+          </tr>
+        </thead>
+        <tbody>{rows}</tbody>
+      </Table>
+    </Stack>
   )
 }
 
